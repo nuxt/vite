@@ -26,6 +26,13 @@ export async function buildClient (ctx: ViteBuildContext) {
     }
   } as vite.InlineConfig)
 
+  for (const p of ctx.builder.plugins) {
+    if (!clientConfig.resolve.alias[p.name]) {
+      // Do not load server-side plugins on client-side
+      clientConfig.resolve.alias[p.name] = p.mode === 'server' ? './empty.js' : p.src
+    }
+  }
+
   const viteServer = await vite.createServer(clientConfig)
   const viteMiddleware = (req, res, next) => {
     // Workaround: vite devmiddleware modifies req.url

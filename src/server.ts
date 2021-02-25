@@ -45,6 +45,13 @@ export async function buildServer (ctx: ViteBuildContext) {
     ]
   } as vite.InlineConfig)
 
+  for (const p of ctx.builder.plugins) {
+    if (!serverConfig.resolve.alias[p.name]) {
+      // Do not load server-side plugins on client-side
+      serverConfig.resolve.alias[p.name] = p.mode === 'client' ? './empty.js' : p.src
+    }
+  }
+
   const serverDist = resolve(ctx.nuxt.options.buildDir, 'dist/server')
   await mkdirp(serverDist)
 

@@ -13,12 +13,16 @@ export interface Nuxt {
 
 export interface ViteBuildContext {
   nuxt: Nuxt
+  builder: {
+    plugins: { name: string, mode?: 'client' | 'server', src: string }[]
+  }
   config: vite.InlineConfig
 }
 
-async function bundle (nuxt: Nuxt) {
+async function bundle (nuxt: Nuxt, builder: any) {
   const ctx: ViteBuildContext = {
     nuxt,
+    builder,
     config: {
       root: nuxt.options.buildDir,
       mode: nuxt.options.dev ? 'development' : 'production',
@@ -29,6 +33,7 @@ async function bundle (nuxt: Nuxt) {
       resolve: {
         extensions: ['.ts', '.js', '.json', '.mjs', '.vue'],
         alias: {
+          ...nuxt.options.alias,
           '~': nuxt.options.srcDir,
           '@': nuxt.options.srcDir
         }
@@ -74,6 +79,6 @@ export class ViteBuilder {
   }
 
   build () {
-    return bundle(this.nuxt)
+    return bundle(this.nuxt, this.builder)
   }
 }
