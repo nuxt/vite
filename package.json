@@ -25,6 +25,7 @@
     "eslint": "^7.20.0",
     "mkdist": "^0.1.1",
     "nuxt": "^2.15.2",
-    "siroc": "^0.6.7"
+    "siroc": "^0.6.7",
+    "standard-version": "^9.1.1"
   }
 }
