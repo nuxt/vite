@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "nuxt dev"
+  },
+  "devDependencies": {
+    "nuxt": "^2.15.2",
+    "nuxt-vite": "^0.0.2"
+  }
+}
