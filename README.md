@@ -6,7 +6,7 @@
 <!-- [![d](https://img.shields.io/npm/dm/nuxt-vite.svg?style=flat-square)](https://npmjs.com/package/nuxt-vite) -->
 [![v](https://img.shields.io/npm/v/nuxt-vite/latest.svg?style=flat-square)](https://npmjs.com/package/nuxt-vite)
 [![a](https://img.shields.io/github/workflow/status/pi0/nuxt-vite/ci/main?style=flat-square)](https://github.com/pi0/nuxt-vite/actions)
-<!-- [![c](https://img.shields.io/codecov/c/gh/pi0/nuxt-vite/main?style=flat-square)](https://codecov.io/gh/pi0/nuxt-vite) -->
+[![c](https://img.shields.io/codecov/c/gh/pi0/nuxt-vite/main?style=flat-square)](https://codecov.io/gh/pi0/nuxt-vite)
 
 ## What is working?
 

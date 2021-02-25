@@ -3,6 +3,10 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "Node",
-    "strict": false
+    "strict": false,
+    "types": [
+      "node",
+      "jest"
+    ]
   }
 }
