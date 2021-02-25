@@ -1,14 +1,14 @@
-import * as vite from 'vite'
 import { resolve } from 'path'
+import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import type { ViteBuildContext } from './vite'
 
-export async function buildClient(ctx: ViteBuildContext) {
+export async function buildClient (ctx: ViteBuildContext) {
   const clientConfig: vite.InlineConfig = vite.mergeConfig(ctx.config, {
     define: {
       'process.server': false,
       'process.client': true,
-      'global': 'window',
+      global: 'window',
       'module.hot': false
     },
     build: {

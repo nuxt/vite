@@ -2,15 +2,17 @@
   "name": "nuxt-vite",
   "version": "0.0.0",
   "license": "MIT",
+  "main": "./dist/nuxt-vite.js",
   "files": [
-    "dist",
-    "templates"
+    "dist"
   ],
   "scripts": {
     "build": "siroc build",
     "prepublishOnly": "yarn build",
-    "test": "yarn build",
-    "dev": "nuxt dev demo"
+    "dev": "nuxt dev demo",
+    "lint": "eslint --ext .ts .",
+    "release": "yarn test && standard-version && git push --follow-tags && npm publish",
+    "test": "yarn lint"
   },
   "dependencies": {
     "fs-extra": "^9.1.0",
@@ -18,7 +20,9 @@
     "vite-plugin-vue2": "^1.2.1"
   },
   "devDependencies": {
+    "@nuxtjs/eslint-config-typescript": "^5.0.0",
     "chokidar": "^3.5.1",
+    "eslint": "^7.20.0",
     "mkdist": "^0.1.1",
     "nuxt": "^2.15.2",
     "siroc": "^0.6.7"

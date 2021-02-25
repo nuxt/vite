@@ -24,7 +24,7 @@ async function bundle (nuxt: Nuxt) {
       mode: nuxt.options.dev ? 'development' : 'production',
       logLevel: 'warn',
       define: {
-        '__webpack_public_path__': 'globalThis.__webpack_public_path__',
+        __webpack_public_path__: 'globalThis.__webpack_public_path__'
       },
       resolve: {
         extensions: ['.ts', '.js', '.json', '.mjs', '.vue'],
@@ -68,12 +68,12 @@ export class ViteBuilder {
   builder: any
   nuxt: Nuxt
 
-  constructor(builder: any) {
+  constructor (builder: any) {
     this.builder = builder
     this.nuxt = builder.nuxt
   }
 
-  build() {
+  build () {
     return bundle(this.nuxt)
   }
 }

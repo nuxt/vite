@@ -1,10 +1,10 @@
-import * as vite from 'vite'
-import type { ViteBuildContext } from './vite'
 import { resolve } from 'path'
+import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { watch } from 'chokidar'
-import { wpfs } from './utils/wpfs'
 import { mkdirp, writeFile } from 'fs-extra'
+import type { ViteBuildContext } from './vite'
+import { wpfs } from './utils/wpfs'
 
 const APP_TEMPLATE = `
 <!DOCTYPE html>
@@ -20,7 +20,7 @@ const APP_TEMPLATE = `
 </html>
 `
 
-export async function buildServer(ctx: ViteBuildContext) {
+export async function buildServer (ctx: ViteBuildContext) {
   // Workaround to disable HMR
   const _env = process.env.NODE_ENV
   process.env.NODE_ENV = 'production'
@@ -63,11 +63,10 @@ export async function buildServer(ctx: ViteBuildContext) {
   await writeFile(resolve(serverDist, 'server.manifest.json'), JSON.stringify({
     entry: 'server.js',
     files: {
-      "server.js": "server.js"
+      'server.js': 'server.js'
     },
     maps: {}
   }, null, 2))
-
 
   const onBuild = async () => {
     await ctx.nuxt.callHook('build:resources', wpfs)
@@ -91,8 +90,7 @@ export async function buildServer(ctx: ViteBuildContext) {
     ]
   })
 
-  watcher.on('change', async (path) => {
-    console.log(path)
+  watcher.on('change', async (_path) => {
     await vite.build(serverConfig)
     await onBuild()
   })
