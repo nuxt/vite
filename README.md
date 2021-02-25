@@ -12,7 +12,7 @@
 🧪 Note: This is an experimental package and might be deprecated
 ```
 
-[![See Demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/nuxt/vite/tree/main/demo)
+<!-- [![See Demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/nuxt/vite/tree/main/demo) -->
 
 ## What is working?
 
