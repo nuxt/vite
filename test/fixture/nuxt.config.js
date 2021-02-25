@@ -4,7 +4,7 @@ export default {
     viteModule
   ],
   plugins: [
-    '~/plugins/test.js'
+    '~/plugins/hello.js'
   ],
   hooks: {
     'vue-renderer:context' (ssrContext) {
