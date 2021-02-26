@@ -4,27 +4,35 @@ import { createVuePlugin } from 'vite-plugin-vue2'
 import type { ViteBuildContext } from './vite'
 
 export async function buildClient (ctx: ViteBuildContext) {
-  const clientConfig: vite.InlineConfig = vite.mergeConfig(ctx.config, {
-    define: {
-      'process.server': false,
-      'process.client': true,
-      global: 'window',
-      'module.hot': false
-    },
-    build: {
-      outDir: 'dist/client',
-      assetsDir: '.',
-      rollupOptions: {
-        input: resolve(ctx.nuxt.options.buildDir, 'client.js')
+  const localConfig = await vite.loadConfigFromFile({
+    command: 'serve',
+    mode: process.env.NODE_ENV === 'production' ? 'production' : 'development'
+  })
+
+  const clientConfig: vite.InlineConfig = vite.mergeConfig(
+    localConfig.config,
+    vite.mergeConfig(ctx.config, {
+      define: {
+        'process.server': false,
+        'process.client': true,
+        global: 'window',
+        'module.hot': false
+      },
+      build: {
+        outDir: 'dist/client',
+        assetsDir: '.',
+        rollupOptions: {
+          input: resolve(ctx.nuxt.options.buildDir, 'client.js')
+        }
+      },
+      plugins: [
+        createVuePlugin()
+      ],
+      server: {
+        middlewareMode: true
       }
-    },
-    plugins: [
-      createVuePlugin()
-    ],
-    server: {
-      middlewareMode: true
-    }
-  } as vite.InlineConfig)
+    } as vite.InlineConfig)
+  )
 
   for (const p of ctx.builder.plugins) {
     if (!clientConfig.resolve.alias[p.name]) {

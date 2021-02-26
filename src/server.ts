@@ -27,23 +27,31 @@ export async function buildServer (ctx: ViteBuildContext) {
   const vuePlugin = createVuePlugin()
   process.env.NODE_ENV = _env
 
-  const serverConfig: vite.InlineConfig = vite.mergeConfig(ctx.config, {
-    define: {
-      'process.server': true,
-      'process.client': false,
-      window: undefined
-    },
-    build: {
-      outDir: 'dist/server',
-      ssr: true,
-      rollupOptions: {
-        input: resolve(ctx.nuxt.options.buildDir, 'server.js')
-      }
-    },
-    plugins: [
-      vuePlugin
-    ]
-  } as vite.InlineConfig)
+  const localConfig = await vite.loadConfigFromFile({
+    command: 'serve',
+    mode: process.env.NODE_ENV === 'production' ? 'production' : 'development'
+  })
+
+  const serverConfig: vite.InlineConfig = vite.mergeConfig(
+    localConfig.config,
+    vite.mergeConfig(ctx.config, {
+      define: {
+        'process.server': true,
+        'process.client': false,
+        window: undefined
+      },
+      build: {
+        outDir: 'dist/server',
+        ssr: true,
+        rollupOptions: {
+          input: resolve(ctx.nuxt.options.buildDir, 'server.js')
+        }
+      },
+      plugins: [
+        vuePlugin
+      ]
+    } as vite.InlineConfig)
+  )
 
   for (const p of ctx.builder.plugins) {
     if (!serverConfig.resolve.alias[p.name]) {
