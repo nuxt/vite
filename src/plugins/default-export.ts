@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite'
-
+import { readFile } from 'fs-extra'
 export const PREFIX = 'defaultexport:'
 
 export function defaultExportPlugin () {
@@ -14,6 +14,15 @@ export function defaultExportPlugin () {
         ids.add(resolved.id)
         return resolved
       }
+    },
+    async load (id) {
+      if (ids.has(id)) {
+        const code = await readFile(id)
+        if (!code.includes('export default')) {
+          return code + '\n\n' + 'export default () => {}'
+        }
+      }
+      return null
     },
     transform (code, id) {
       if (ids.has(id)) {
