@@ -30,12 +30,22 @@ async function bundle (nuxt: Nuxt, builder: any) {
         clearScreen: false,
         build: {
           emptyOutDir: false
-        }
+        },
+        plugins: [
+          // TODO: support by vite to customize
+          {
+            name: 'nuxt:update-cachedir',
+            async configResolved (resolvedConfig) {
+              // @ts-ignore
+              resolvedConfig.optimizeCacheDir =
+                resolve(nuxt.options.rootDir, 'node_modules', '.vite')
+              await mkdirp(resolvedConfig.optimizeCacheDir)
+            }
+          }
+        ]
       }
     )
   }
-
-  await mkdirp(resolve(nuxt.options.buildDir, '.vite/temp'))
 
   const callBuild = async (fn, name) => {
     try {
