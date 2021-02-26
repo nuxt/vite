@@ -33,9 +33,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
           emptyOutDir: false
         },
         plugins: [
-          defaultExportPlugin(() => builder.plugins.map(
-            p => resolve(nuxt.options.buildDir, p.src))
-          ),
+          defaultExportPlugin(),
           // TODO: support by vite to customize
           {
             name: 'nuxt:update-cachedir',

@@ -29,7 +29,7 @@ export async function buildClient (ctx: ViteBuildContext) {
   for (const p of ctx.builder.plugins) {
     if (!clientConfig.resolve.alias[p.name]) {
       // Do not load server-side plugins on client-side
-      clientConfig.resolve.alias[p.name] = p.mode === 'server' ? './empty.js' : p.src
+      clientConfig.resolve.alias[p.name] = p.mode === 'server' ? 'defaultexport:./empty.js' : `defaultexport:${p.src}`
     }
   }
 
