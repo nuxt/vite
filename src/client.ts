@@ -1,7 +1,7 @@
 import { resolve } from 'path'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
-import type { ViteBuildContext } from './vite'
+import { ViteBuildContext } from './types'
 
 export async function buildClient (ctx: ViteBuildContext) {
   const clientConfig: vite.InlineConfig = vite.mergeConfig(ctx.config, {

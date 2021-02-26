@@ -5527,10 +5527,10 @@ num2fraction@^1.2.2:
   resolved "https://registry.yarnpkg.com/num2fraction/-/num2fraction-1.2.2.tgz#6f682b6a027a4e9ddfa4564cd2589d1d4e669ede"
   integrity sha1-b2gragJ6Tp3fpFZM0lidHU5mnt4=
 
-nuxt-vite@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/nuxt-vite/-/nuxt-vite-0.0.2.tgz#78ed2abf84688886d341e53741b59530ca825c42"
-  integrity sha512-a0OnwYkK/e98n/9Z7CBvtQg24mHN5C7k9T//42raoCMeJna3IZw6TOLXL4OMfQ3adHMA9aYmUtapoRMzM91jWw==
+nuxt-vite@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/nuxt-vite/-/nuxt-vite-0.0.3.tgz#56df9c312039e723bfe5edf09a5f82d653728512"
+  integrity sha512-PuSy2fMgY8P1KUyULFNemOne4JbS/XE7EHJG5+nhVZdXBTxmPcUc0IfD3tYaemli8K1MZW6QjHtIYUD1Anyzpg==
   dependencies:
     chokidar "^3.5.1"
     fs-extra "^9.1.0"

@@ -3,7 +3,7 @@ import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { watch } from 'chokidar'
 import { mkdirp, writeFile } from 'fs-extra'
-import type { ViteBuildContext } from './vite'
+import { ViteBuildContext } from './types'
 import { wpfs } from './utils/wpfs'
 
 const APP_TEMPLATE = `
