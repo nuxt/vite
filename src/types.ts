@@ -2,6 +2,7 @@ import * as vite from 'vite'
 
 export interface Nuxt {
   options: any;
+  resolver: any;
   hook: Function;
   callHook: Function;
 }

@@ -8,6 +8,10 @@ import { defaultExportPlugin } from './plugins/default-export'
 import { Nuxt, ViteBuildContext } from './types'
 
 async function bundle (nuxt: Nuxt, builder: any) {
+  for (const p of builder.plugins) {
+    p.src = nuxt.resolver.resolvePath(resolve(nuxt.options.buildDir, p.src))
+  }
+
   const ctx: ViteBuildContext = {
     nuxt,
     builder,

@@ -5,7 +5,7 @@ export default {
     viteModule
   ],
   plugins: [
-    '~/plugins/hello.js',
+    '~/plugins/hello',
     '~/plugins/no-export.js'
   ],
   hooks: {

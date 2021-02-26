@@ -31,7 +31,7 @@ export async function buildClient (ctx: ViteBuildContext) {
       // Do not load server-side plugins on client-side
       clientConfig.resolve.alias[p.name] = p.mode === 'server'
         ? `\0defaultexport:${resolve(ctx.nuxt.options.buildDir, 'empty.js')}`
-        : `\0defaultexport:${resolve(ctx.nuxt.options.buildDir, p.src)}`
+        : `\0defaultexport:${p.src}`
     }
   }
 
