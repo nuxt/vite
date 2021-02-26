@@ -1,5 +1,4 @@
 import { resolve } from 'path'
-import { mkdirp } from 'fs-extra'
 import consola from 'consola'
 import * as vite from 'vite'
 import { buildClient } from './client'
@@ -37,17 +36,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
           emptyOutDir: false
         },
         plugins: [
-          defaultExportPlugin(),
-          // TODO: support by vite to customize
-          {
-            name: 'nuxt:update-cachedir',
-            async configResolved (resolvedConfig) {
-              // @ts-ignore
-              resolvedConfig.optimizeCacheDir =
-                resolve(nuxt.options.rootDir, 'node_modules', '.vite')
-              await mkdirp(resolvedConfig.optimizeCacheDir)
-            }
-          }
+          defaultExportPlugin()
         ]
       }
     )

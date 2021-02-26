@@ -5,6 +5,7 @@ import { watch } from 'chokidar'
 import { mkdirp, writeFile } from 'fs-extra'
 import { ViteBuildContext } from './types'
 import { wpfs } from './utils/wpfs'
+import { cacheDirPlugin } from './plugins/cache-dir'
 
 const APP_TEMPLATE = `
 <!DOCTYPE html>
@@ -51,6 +52,7 @@ export async function buildServer (ctx: ViteBuildContext) {
       }
     },
     plugins: [
+      cacheDirPlugin(ctx.nuxt.options.rootDir, 'server'),
       vuePlugin
     ]
   } as vite.InlineConfig)
