@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://github.com/nuxt/vite/compare/v0.0.6...v0.0.7) (2021-02-26)
+
+
+### Bug Fixes
+
+* avoid mutating resolved config ([d9e206e](https://github.com/nuxt/vite/commit/d9e206eee0fac91bb0d54b704ad52c599d4d8f38)), closes [#404](https://github.com/nuxt/vite/issues/404)
+
 ### [0.0.6](https://github.com/nuxt/vite/compare/v0.0.5...v0.0.6) (2021-02-26)
 
 
