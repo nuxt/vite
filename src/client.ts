@@ -4,12 +4,22 @@ import { createVuePlugin } from 'vite-plugin-vue2'
 import { ViteBuildContext } from './types'
 
 export async function buildClient (ctx: ViteBuildContext) {
+  const alias = {}
+  for (const p of ctx.builder.plugins) {
+    alias[p.name] = p.mode === 'server'
+      ? `\0defaultexport:${resolve(ctx.nuxt.options.buildDir, 'empty.js')}`
+      : `\0defaultexport:${p.src}`
+  }
+
   const clientConfig: vite.InlineConfig = vite.mergeConfig(ctx.config, {
     define: {
       'process.server': false,
       'process.client': true,
       global: 'window',
       'module.hot': false
+    },
+    resolve: {
+      alias
     },
     build: {
       outDir: 'dist/client',
@@ -25,15 +35,6 @@ export async function buildClient (ctx: ViteBuildContext) {
       middlewareMode: true
     }
   } as vite.InlineConfig)
-
-  for (const p of ctx.builder.plugins) {
-    if (!clientConfig.resolve.alias[p.name]) {
-      // Do not load server-side plugins on client-side
-      clientConfig.resolve.alias[p.name] = p.mode === 'server'
-        ? `\0defaultexport:${resolve(ctx.nuxt.options.buildDir, 'empty.js')}`
-        : `\0defaultexport:${p.src}`
-    }
-  }
 
   const viteServer = await vite.createServer(clientConfig)
   const viteMiddleware = (req, res, next) => {

@@ -27,11 +27,21 @@ export async function buildServer (ctx: ViteBuildContext) {
   const vuePlugin = createVuePlugin()
   process.env.NODE_ENV = _env
 
+  const alias = {}
+  for (const p of ctx.builder.plugins) {
+    alias[p.name] = p.mode === 'client'
+      ? `\0defaultexport:${resolve(ctx.nuxt.options.buildDir, 'empty.js')}`
+      : `\0defaultexport:${p.src}`
+  }
+
   const serverConfig: vite.InlineConfig = vite.mergeConfig(ctx.config, {
     define: {
       'process.server': true,
       'process.client': false,
       window: undefined
+    },
+    resolve: {
+      alias
     },
     build: {
       outDir: 'dist/server',
@@ -44,15 +54,6 @@ export async function buildServer (ctx: ViteBuildContext) {
       vuePlugin
     ]
   } as vite.InlineConfig)
-
-  for (const p of ctx.builder.plugins) {
-    if (!serverConfig.resolve.alias[p.name]) {
-      // Do not load server-side plugins on client-side
-      serverConfig.resolve.alias[p.name] = p.mode === 'client'
-        ? `\0defaultexport:${resolve(ctx.nuxt.options.buildDir, 'empty.js')}`
-        : `\0defaultexport:${p.src}`
-    }
-  }
 
   const serverDist = resolve(ctx.nuxt.options.buildDir, 'dist/server')
   await mkdirp(serverDist)

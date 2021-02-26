@@ -6,6 +6,8 @@ export default {
   ],
   plugins: [
     '~/plugins/hello',
+    '~/plugins/plugin.client',
+    '~/plugins/plugin.server',
     '~/plugins/no-export.js'
   ],
   hooks: {
