@@ -1,3 +1,6 @@
+import type { } from '@nuxt/types'
+import type { UserConfig } from 'vite'
+
 export default function () {
   const { nuxt } = this
 
@@ -17,4 +20,10 @@ export default function () {
     const { ViteBuilder } = await import('./vite')
     builder.bundleBuilder = new ViteBuilder(builder)
   })
+}
+
+declare module '@nuxt/types/config/index' {
+  interface NuxtOptions {
+    vite?: UserConfig
+  }
 }

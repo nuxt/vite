@@ -5,6 +5,7 @@
   "repository": "nuxt/vite",
   "license": "MIT",
   "main": "./dist/nuxt-vite.js",
+  "types": "./dist/nuxt-vite.d.ts",
   "files": [
     "dist"
   ],
