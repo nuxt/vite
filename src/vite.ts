@@ -24,7 +24,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
           __webpack_public_path__: 'globalThis.__webpack_public_path__'
         },
         resolve: {
-          extensions: ['.ts', '.js', '.json', '.mjs', '.vue'],
+          extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
           alias: {
             ...nuxt.options.alias,
             '~': nuxt.options.srcDir,
