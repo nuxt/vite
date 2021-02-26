@@ -36,6 +36,7 @@
     "nuxt": "^2.15.2",
     "playwright": "^1.9.1",
     "siroc": "^0.6.7",
-    "standard-version": "^9.1.1"
+    "standard-version": "^9.1.1",
+    "vite-plugin-windicss": "^0.5.3"
   }
 }
