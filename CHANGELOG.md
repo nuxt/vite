@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.6](https://github.com/nuxt/vite/compare/v0.0.5...v0.0.6) (2021-02-26)
+
+
+### Bug Fixes
+
+* allow importing plugins without extension ([f00320d](https://github.com/nuxt/vite/commit/f00320db8b888e34c5f7f06ed89ee4193b41d559))
+
 ### [0.0.5](https://github.com/nuxt/vite/compare/v0.0.4...v0.0.5) (2021-02-26)
 
 
