@@ -19,6 +19,10 @@
 
 - [x] Using vite in development
 - [x] Basic server-side rendering
+- [x] Nuxt Plugins
+- [x] Nuxt Components
+- [ ] Nuxt Page Middleware
+- [ ] Content Module
 
 ## Usage
 
