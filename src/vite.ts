@@ -4,7 +4,7 @@ import consola from 'consola'
 import * as vite from 'vite'
 import { buildClient } from './client'
 import { buildServer } from './server'
-
+import { defaultExportPlugin } from './plugins/default-export'
 export interface Nuxt {
   options: any
   hook: Function
@@ -39,6 +39,11 @@ async function bundle (nuxt: Nuxt, builder: any) {
         }
       },
       clearScreen: false,
+      plugins: [
+        defaultExportPlugin(() => builder.plugins.map(
+          p => resolve(nuxt.options.buildDir, p.src))
+        )
+      ],
       build: {
         emptyOutDir: false
       }
