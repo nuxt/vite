@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/nuxt/vite/compare/v0.0.4...v0.0.5) (2021-02-26)
+
+
+### Bug Fixes
+
+* fix issues with default-export plugin ([cbd52d7](https://github.com/nuxt/vite/commit/cbd52d7e934df579c71e19e9f965e91512aca8b7))
+* support plugins without default export ([#20](https://github.com/nuxt/vite/issues/20)) ([fdce8d0](https://github.com/nuxt/vite/commit/fdce8d0b753c819413ed593d83e25c35b597c20b))
+* use additional load for default export (fixes [#20](https://github.com/nuxt/vite/issues/20)) ([98983c8](https://github.com/nuxt/vite/commit/98983c8f357a8d0f4af786c7c5b884189074e2bd))
+
 ### [0.0.4](https://github.com/nuxt/vite/compare/v0.0.3...v0.0.4) (2021-02-26)
 
 
