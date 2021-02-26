@@ -32,7 +32,7 @@ export async function buildServer (ctx: ViteBuildContext) {
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development'
   })
 
-  const serverConfig: vite.InlineConfig = vite.mergeConfig(
+  const inlineConfig: vite.InlineConfig = vite.mergeConfig(
     localConfig.config,
     vite.mergeConfig(ctx.config, {
       define: {
@@ -52,6 +52,10 @@ export async function buildServer (ctx: ViteBuildContext) {
       ]
     } as vite.InlineConfig)
   )
+
+  const serverConfig = localConfig && localConfig.config
+    ? vite.mergeConfig(localConfig.config, inlineConfig)
+    : inlineConfig
 
   for (const p of ctx.builder.plugins) {
     if (!serverConfig.resolve.alias[p.name]) {

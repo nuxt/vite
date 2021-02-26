@@ -9,30 +9,31 @@ export async function buildClient (ctx: ViteBuildContext) {
     mode: process.env.NODE_ENV === 'production' ? 'production' : 'development'
   })
 
-  const clientConfig: vite.InlineConfig = vite.mergeConfig(
-    localConfig.config,
-    vite.mergeConfig(ctx.config, {
-      define: {
-        'process.server': false,
-        'process.client': true,
-        global: 'window',
-        'module.hot': false
-      },
-      build: {
-        outDir: 'dist/client',
-        assetsDir: '.',
-        rollupOptions: {
-          input: resolve(ctx.nuxt.options.buildDir, 'client.js')
-        }
-      },
-      plugins: [
-        createVuePlugin()
-      ],
-      server: {
-        middlewareMode: true
+  const inlineConfig: vite.InlineConfig = vite.mergeConfig(ctx.config, {
+    define: {
+      'process.server': false,
+      'process.client': true,
+      global: 'window',
+      'module.hot': false
+    },
+    build: {
+      outDir: 'dist/client',
+      assetsDir: '.',
+      rollupOptions: {
+        input: resolve(ctx.nuxt.options.buildDir, 'client.js')
       }
-    } as vite.InlineConfig)
-  )
+    },
+    plugins: [
+      createVuePlugin()
+    ],
+    server: {
+      middlewareMode: true
+    }
+  } as vite.InlineConfig)
+
+  const clientConfig = localConfig && localConfig.config
+    ? vite.mergeConfig(localConfig.config, inlineConfig)
+    : inlineConfig
 
   for (const p of ctx.builder.plugins) {
     if (!clientConfig.resolve.alias[p.name]) {
