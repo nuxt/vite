@@ -6,7 +6,7 @@ export function defaultExportPlugin () {
   const ids = new Set()
 
   return <Plugin>{
-    name: 'default-export-plugin',
+    name: 'nuxt:default-export',
     enforce: 'pre',
     async resolveId (id, importer, opts) {
       if (id.startsWith(PREFIX)) {
