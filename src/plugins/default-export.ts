@@ -1,37 +1,34 @@
 import type { Plugin } from 'vite'
 import { readFile } from 'fs-extra'
-export const PREFIX = 'defaultexport:'
+
+const PREFIX = '\0defaultexport:'
+const hasPrefix = (id: string = '') => id.startsWith(PREFIX)
+const removePrefix = (id: string = '') => hasPrefix(id) ? id.substr(PREFIX.length) : id
+
+const hasDefaultExport = (code: string = '') => code.includes('export default')
+const addDefaultExport = (code: string = '') => code + '\n\n' + 'export default () => {}'
 
 export function defaultExportPlugin () {
-  const ids = new Set()
-
   return <Plugin>{
     name: 'nuxt:default-export',
     enforce: 'pre',
-    async resolveId (id, importer, opts) {
-      if (id.startsWith(PREFIX)) {
-        const resolved = await this.resolve(id.substr(PREFIX.length), importer, opts)
-        ids.add(resolved.id)
-        return resolved
+    resolveId (id, importer) {
+      if (hasPrefix(id)) {
+        return id
       }
-    },
-    async load (id) {
-      if (ids.has(id)) {
-        const code = await readFile(id)
-        if (!code.includes('export default')) {
-          return code + '\n\n' + 'export default () => {}'
-        }
+      if (importer && hasPrefix(importer)) {
+        return this.resolve(id, removePrefix(importer))
       }
       return null
     },
-    transform (code, id) {
-      if (ids.has(id)) {
-        if (!code.includes('export default')) {
-          return {
-            map: null,
-            code: code + '\n\n' + 'export default () => {}'
-          }
+
+    async load (id) {
+      if (hasPrefix(id)) {
+        let code = await readFile(removePrefix(id), 'utf8')
+        if (!hasDefaultExport(code)) {
+          code = addDefaultExport(code)
         }
+        return { map: null, code }
       }
       return null
     }

@@ -20,6 +20,7 @@
   "dependencies": {
     "chokidar": "^3.5.1",
     "fs-extra": "^9.1.0",
+    "upath": "^2.0.1",
     "vite": "^2.0.3",
     "vite-plugin-vue2": "^1.2.1"
   },
