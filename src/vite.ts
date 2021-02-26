@@ -4,57 +4,47 @@ import consola from 'consola'
 import * as vite from 'vite'
 import { buildClient } from './client'
 import { buildServer } from './server'
-
-export interface Nuxt {
-  options: any
-  hook: Function
-  callHook: Function
-}
-
-export interface ViteBuildContext {
-  nuxt: Nuxt
-  builder: {
-    plugins: { name: string, mode?: 'client' | 'server', src: string }[]
-  }
-  config: vite.InlineConfig
-}
+import { Nuxt, ViteBuildContext } from './types'
 
 async function bundle (nuxt: Nuxt, builder: any) {
   const ctx: ViteBuildContext = {
     nuxt,
     builder,
-    config: {
-      root: nuxt.options.buildDir,
-      mode: nuxt.options.dev ? 'development' : 'production',
-      logLevel: 'warn',
-      define: {
-        __webpack_public_path__: 'globalThis.__webpack_public_path__'
-      },
-      resolve: {
-        extensions: ['.ts', '.js', '.json', '.mjs', '.vue'],
-        alias: {
-          ...nuxt.options.alias,
-          '~': nuxt.options.srcDir,
-          '@': nuxt.options.srcDir
-        }
-      },
-      plugins: [
-        // TODO: support by vite to customize
-        {
-          name: 'nuxt:update-cachedir',
-          async configResolved (resolvedConfig) {
-            // @ts-ignore
-            resolvedConfig.optimizeCacheDir =
-              resolve(nuxt.options.rootDir, 'node_modules', '.vite')
-            await mkdirp(resolvedConfig.optimizeCacheDir)
+    config: vite.mergeConfig(
+      nuxt.options.vite || {},
+      {
+        root: nuxt.options.buildDir,
+        mode: nuxt.options.dev ? 'development' : 'production',
+        logLevel: 'warn',
+        define: {
+          __webpack_public_path__: 'globalThis.__webpack_public_path__'
+        },
+        resolve: {
+          extensions: ['.ts', '.js', '.json', '.mjs', '.vue'],
+          alias: {
+            ...nuxt.options.alias,
+            '~': nuxt.options.srcDir,
+            '@': nuxt.options.srcDir
           }
-        }
-      ],
-      clearScreen: false,
-      build: {
-        emptyOutDir: false
+        },
+        clearScreen: false,
+        build: {
+          emptyOutDir: false
+        },
+        plugins: [
+          // TODO: support by vite to customize
+          {
+            name: 'nuxt:update-cachedir',
+            async configResolved (resolvedConfig) {
+              // @ts-ignore
+              resolvedConfig.optimizeCacheDir =
+                resolve(nuxt.options.rootDir, 'node_modules', '.vite')
+              await mkdirp(resolvedConfig.optimizeCacheDir)
+            }
+          }
+        ]
       }
-    }
+    )
   }
 
   const callBuild = async (fn, name) => {
