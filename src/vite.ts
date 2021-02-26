@@ -4,6 +4,7 @@ import consola from 'consola'
 import * as vite from 'vite'
 import { buildClient } from './client'
 import { buildServer } from './server'
+import { defaultExportPlugin } from './plugins/default-export'
 import { Nuxt, ViteBuildContext } from './types'
 
 async function bundle (nuxt: Nuxt, builder: any) {
@@ -32,6 +33,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
           emptyOutDir: false
         },
         plugins: [
+          defaultExportPlugin(),
           // TODO: support by vite to customize
           {
             name: 'nuxt:update-cachedir',

@@ -1,10 +1,12 @@
 import viteModule from '../../src'
 export default {
+  components: true,
   buildModules: [
     viteModule
   ],
   plugins: [
-    '~/plugins/hello.js'
+    '~/plugins/hello.js',
+    '~/plugins/no-export.js'
   ],
   hooks: {
     'vue-renderer:context' (ssrContext) {
