@@ -4,12 +4,7 @@ import { createVuePlugin } from 'vite-plugin-vue2'
 import type { ViteBuildContext } from './vite'
 
 export async function buildClient (ctx: ViteBuildContext) {
-  const localConfig = await vite.loadConfigFromFile({
-    command: 'serve',
-    mode: process.env.NODE_ENV === 'production' ? 'production' : 'development'
-  })
-
-  const inlineConfig: vite.InlineConfig = vite.mergeConfig(ctx.config, {
+  const clientConfig: vite.InlineConfig = vite.mergeConfig(ctx.config, {
     define: {
       'process.server': false,
       'process.client': true,
@@ -30,10 +25,6 @@ export async function buildClient (ctx: ViteBuildContext) {
       middlewareMode: true
     }
   } as vite.InlineConfig)
-
-  const clientConfig = localConfig && localConfig.config
-    ? vite.mergeConfig(localConfig.config, inlineConfig)
-    : inlineConfig
 
   for (const p of ctx.builder.plugins) {
     if (!clientConfig.resolve.alias[p.name]) {

@@ -23,26 +23,29 @@ async function bundle (nuxt: Nuxt, builder: any) {
   const ctx: ViteBuildContext = {
     nuxt,
     builder,
-    config: {
-      root: nuxt.options.buildDir,
-      mode: nuxt.options.dev ? 'development' : 'production',
-      logLevel: 'warn',
-      define: {
-        __webpack_public_path__: 'globalThis.__webpack_public_path__'
-      },
-      resolve: {
-        extensions: ['.ts', '.js', '.json', '.mjs', '.vue'],
-        alias: {
-          ...nuxt.options.alias,
-          '~': nuxt.options.srcDir,
-          '@': nuxt.options.srcDir
+    config: vite.mergeConfig(
+      nuxt.options.vite || {},
+      {
+        root: nuxt.options.buildDir,
+        mode: nuxt.options.dev ? 'development' : 'production',
+        logLevel: 'warn',
+        define: {
+          __webpack_public_path__: 'globalThis.__webpack_public_path__'
+        },
+        resolve: {
+          extensions: ['.ts', '.js', '.json', '.mjs', '.vue'],
+          alias: {
+            ...nuxt.options.alias,
+            '~': nuxt.options.srcDir,
+            '@': nuxt.options.srcDir
+          }
+        },
+        clearScreen: false,
+        build: {
+          emptyOutDir: false
         }
-      },
-      clearScreen: false,
-      build: {
-        emptyOutDir: false
       }
-    }
+    )
   }
 
   await mkdirp(resolve(nuxt.options.buildDir, '.vite/temp'))

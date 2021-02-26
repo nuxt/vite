@@ -27,12 +27,7 @@ export async function buildServer (ctx: ViteBuildContext) {
   const vuePlugin = createVuePlugin()
   process.env.NODE_ENV = _env
 
-  const localConfig = await vite.loadConfigFromFile({
-    command: 'serve',
-    mode: process.env.NODE_ENV === 'production' ? 'production' : 'development'
-  })
-
-  const inlineConfig: vite.InlineConfig = vite.mergeConfig(ctx.config, {
+  const serverConfig: vite.InlineConfig = vite.mergeConfig(ctx.config, {
     define: {
       'process.server': true,
       'process.client': false,
@@ -49,10 +44,6 @@ export async function buildServer (ctx: ViteBuildContext) {
       vuePlugin
     ]
   } as vite.InlineConfig)
-
-  const serverConfig = localConfig && localConfig.config
-    ? vite.mergeConfig(localConfig.config, inlineConfig)
-    : inlineConfig
 
   for (const p of ctx.builder.plugins) {
     if (!serverConfig.resolve.alias[p.name]) {
