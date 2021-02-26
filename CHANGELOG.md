@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.4](https://github.com/nuxt/vite/compare/v0.0.3...v0.0.4) (2021-02-26)
+
+
+### Features
+
+* support vite option ([#19](https://github.com/nuxt/vite/issues/19)) ([e0b2a86](https://github.com/nuxt/vite/commit/e0b2a86baab62eeca0e2bd1962a2e3b57a7923f8))
+
+
+### Bug Fixes
+
+* use rootDir for vite cache directory (fixes [#2](https://github.com/nuxt/vite/issues/2)) ([2f2cd4c](https://github.com/nuxt/vite/commit/2f2cd4c3b3e0bbf804af8b3da72da65bf0d59de4))
+
 ### [0.0.3](https://github.com/nuxt/vite/compare/v0.0.2...v0.0.3) (2021-02-25)
 
 
