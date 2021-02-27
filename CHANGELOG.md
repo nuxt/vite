@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.12](https://github.com/nuxt/vite/compare/v0.0.11...v0.0.12) (2021-02-27)
+
+
+### Bug Fixes
+
+* conditionally add store template ([e6a5272](https://github.com/nuxt/vite/commit/e6a52723b379a63379226a9a85491823fc9cf44b))
+
 ### [0.0.11](https://github.com/nuxt/vite/compare/v0.0.10...v0.0.11) (2021-02-27)
 
 
