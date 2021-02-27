@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.13](https://github.com/nuxt/vite/compare/v0.0.12...v0.0.13) (2021-02-27)
+
+
+### Bug Fixes
+
+* change vite cache dir ([fbd7ed0](https://github.com/nuxt/vite/commit/fbd7ed0f2708cb3f9ab67ff83d7e5ca0057f6984))
+* hash imports (fixes [#36](https://github.com/nuxt/vite/issues/36)) ([993498a](https://github.com/nuxt/vite/commit/993498ae3842bd255feac53236dcdecb7698eb9d))
+
 ### [0.0.12](https://github.com/nuxt/vite/compare/v0.0.11...v0.0.12) (2021-02-27)
 
 
