@@ -14,6 +14,9 @@ describe('browser', () => {
     const html = await page.innerHTML('body')
     expect(html).toContain('Hello Vite from Nuxt2!')
     expect(html).toContain('/@vite/client')
+    expect(html).toContain('st: 1')
+    expect(html).toContain('st: 2')
+    expect(html).toContain('st: 3')
   })
 
   it('SPA works', async () => {

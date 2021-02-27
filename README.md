@@ -16,12 +16,15 @@
 
 ## What is working?
 
-
 - [x] Using vite in development
 - [x] Basic server-side rendering
+- [x] Basic Hot-Module-Replacement
 - [x] Nuxt Plugins
 - [x] Nuxt Components
-- [ ] Nuxt Page Middleware
+- [X] Store
+- [ ] Composition API
+- [ ] HMR for Store
+- [ ] Nuxt Middleware
 - [ ] Content Module
 
 ## Usage
