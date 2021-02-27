@@ -1,4 +1,5 @@
-import * as vite from 'vite'
+import type { InlineConfig } from 'vite'
+import type { VueViteOptions } from 'vite-plugin-vue2'
 
 export interface Nuxt {
   options: any;
@@ -7,10 +8,14 @@ export interface Nuxt {
   callHook: Function;
 }
 
+export interface ViteInlineConfig extends InlineConfig {
+  vue?: VueViteOptions
+}
+
 export interface ViteBuildContext {
   nuxt: Nuxt;
   builder: {
     plugins: { name: string; mode?: 'client' | 'server'; src: string; }[];
   };
-  config: vite.InlineConfig;
+  config: ViteInlineConfig;
 }
