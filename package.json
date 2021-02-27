@@ -25,7 +25,7 @@
     "semver": "^7.3.4",
     "ufo": "^0.6.7",
     "upath": "^2.0.1",
-    "vite": "npm:@pi0/vite-fix@2.0.4-2",
+    "vite": "npm:@pi0/vite-fix@2.0.4-3",
     "vite-plugin-vue2": "^1.2.2"
   },
   "devDependencies": {
