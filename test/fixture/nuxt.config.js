@@ -1,9 +1,14 @@
 import viteModule from '../../src'
+
 export default {
   components: true,
   buildModules: [
-    viteModule
+    viteModule,
+    '@nuxt/http'
   ],
+  serverMiddleware: {
+    '/api/test': '~/serverMiddleware/test'
+  },
   plugins: [
     '~/plugins/hello',
     '~/plugins/plugin.client',

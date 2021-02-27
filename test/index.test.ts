@@ -24,6 +24,8 @@ describe('browser', () => {
 function testIndex (html: string) {
   expect(html).toContain('Hello Vite from Nuxt2!')
   expect(html).toContain('/@vite/client')
+  // expect(html).toContain('API Response')
+  // expect(html).toContain('FooBar Component')
   expect(html).toContain('st: 1')
   expect(html).toContain('st: 2')
   expect(html).toContain('st: 3')
