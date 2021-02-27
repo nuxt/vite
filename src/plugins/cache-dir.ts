@@ -8,7 +8,7 @@ export function cacheDirPlugin (rootDir, name: string) {
     async configResolved (resolvedConfig) {
       // @ts-ignore
       resolvedConfig.optimizeCacheDir =
-        resolve(rootDir, 'node_modules', '.vite', name)
+        resolve(rootDir, 'node_modules', '.vite', name, 'temp')
       await mkdirp(resolvedConfig.optimizeCacheDir)
     }
   }
