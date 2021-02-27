@@ -5532,10 +5532,10 @@ num2fraction@^1.2.2:
   resolved "https://registry.yarnpkg.com/num2fraction/-/num2fraction-1.2.2.tgz#6f682b6a027a4e9ddfa4564cd2589d1d4e669ede"
   integrity sha1-b2gragJ6Tp3fpFZM0lidHU5mnt4=
 
-nuxt-vite@^0.0.12:
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/nuxt-vite/-/nuxt-vite-0.0.12.tgz#df4344dd138bb8ced79a84e51062ece16f1abc52"
-  integrity sha512-45iQHJhZ+n3ehg3YMc4wTplIp1hiQRDBIBq4Ysb79WSVfOCY30qlQ+azJqFOWasImaco71e3foNgR06mJd19sg==
+nuxt-vite@^0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/nuxt-vite/-/nuxt-vite-0.0.14.tgz#c8cb075b1ca8bf8fc50068feae4ca2c9192cfcce"
+  integrity sha512-7GMhSr1omSfA3W30q/I2NpYVRz+chbQvj9HfpuISFR9QNF2llRuzlQ7OO6rdJ55fmTfNBcC6PByR0YzDp9l1gA==
   dependencies:
     chokidar "^3.5.1"
     debounce "^1.2.0"
@@ -5543,8 +5543,8 @@ nuxt-vite@^0.0.12:
     semver "^7.3.4"
     ufo "^0.6.7"
     upath "^2.0.1"
-    vite "^2.0.4"
-    vite-plugin-vue2 "^1.2.1"
+    vite "npm:@pi0/vite-fix@2.0.4-1"
+    vite-plugin-vue2 "^1.2.2"
 
 nuxt@^2.15.2:
   version "2.15.2"
@@ -8109,10 +8109,10 @@ vendors@^1.0.0:
   resolved "https://registry.yarnpkg.com/vendors/-/vendors-1.0.4.tgz#e2b800a53e7a29b93506c3cf41100d16c4c4ad8e"
   integrity sha512-/juG65kTL4Cy2su4P8HjtkTxk6VmJDiOPBufWniqQ6wknac6jNiXS9vU+hO3wgusiyqWlzTbVHi0dyJqRONg3w==
 
-vite-plugin-vue2@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/vite-plugin-vue2/-/vite-plugin-vue2-1.2.1.tgz#4a62e42b5a62828803c9788917c8060e60265a32"
-  integrity sha512-j8p8O7kVXB8dvSr/sqHnmOFIi2EJWIxJ1b7VqF+5XNOX8OwRkZbgUKs2Q8UK5qgsmdd7LfJmD5ytfSqieYhKDg==
+vite-plugin-vue2@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/vite-plugin-vue2/-/vite-plugin-vue2-1.2.2.tgz#0940b9afbb954bb817050c8ed452e4db8d1e94eb"
+  integrity sha512-3uLmmS+pM4nwHzaRWyfp030PBxTKFJWzrFjvFl9cKhULaZV4MQh8MW7YtShhyeCsjvwGmFGqVATuKroyHyYW9Q==
   dependencies:
     "@babel/core" "^7.11.6"
     "@rollup/pluginutils" "^4.1.0"
@@ -8133,10 +8133,10 @@ vite-plugin-vue2@^1.2.1:
     vue "^2.6.11"
     vue-template-compiler "^2.6.11"
 
-vite@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-2.0.4.tgz#063532a4139b59a067297d8ebb5960d450907a09"
-  integrity sha512-+PP89D7AKXFE4gps8c5+4eP5yXTh5qCogjdYX7iSsIxbLZAa26JoGSq6OLk0qdb/fqDh7gtJqGiLbG2V6NvkKQ==
+"vite@npm:@pi0/vite-fix@2.0.4-1":
+  version "2.0.4-1"
+  resolved "https://registry.yarnpkg.com/@pi0/vite-fix/-/vite-fix-2.0.4-1.tgz#5de7eb564f67b4beb7705538df78418ddfa98787"
+  integrity sha512-CENoxmrfcNMogzCaprqqLvrj4kEFVZiTptM04W5QUePtyGqVfXBEOkL6WbCz85PSXMzaw5ajSYHCZesc4LzZfw==
   dependencies:
     esbuild "^0.8.52"
     postcss "^8.2.1"
