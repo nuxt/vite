@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/nuxt/vite/compare/v0.0.7...v0.0.8) (2021-02-27)
+
+
+### Bug Fixes
+
+* fix cacheDir overriding issue ([#2](https://github.com/nuxt/vite/issues/2)) ([ff92525](https://github.com/nuxt/vite/commit/ff92525f41f59a72979f28580c67741a3d841fc8))
+* workaround for mjs cache ([a99df37](https://github.com/nuxt/vite/commit/a99df3797979ac49a2a012e9836aa851f1a80d2e))
+
 ### [0.0.7](https://github.com/nuxt/vite/compare/v0.0.6...v0.0.7) (2021-02-26)
 
 
