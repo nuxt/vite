@@ -12168,10 +12168,10 @@ vite-plugin-vue2@^1.2.2:
     vue "^2.6.11"
     vue-template-compiler "^2.6.11"
 
-vite@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-2.0.4.tgz#063532a4139b59a067297d8ebb5960d450907a09"
-  integrity sha512-+PP89D7AKXFE4gps8c5+4eP5yXTh5qCogjdYX7iSsIxbLZAa26JoGSq6OLk0qdb/fqDh7gtJqGiLbG2V6NvkKQ==
+"vite@npm:@pi0/vite-fix@2.0.4-1":
+  version "2.0.4-1"
+  resolved "https://registry.yarnpkg.com/@pi0/vite-fix/-/vite-fix-2.0.4-1.tgz#5de7eb564f67b4beb7705538df78418ddfa98787"
+  integrity sha512-CENoxmrfcNMogzCaprqqLvrj4kEFVZiTptM04W5QUePtyGqVfXBEOkL6WbCz85PSXMzaw5ajSYHCZesc4LzZfw==
   dependencies:
     esbuild "^0.8.52"
     postcss "^8.2.1"

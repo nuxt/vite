@@ -64,9 +64,9 @@ While we added a workaround to mitigate this, vite recommands explicitly definin
 
 ### `no such file or directory, rmdir node_modules/.vite/temp`
 
-While mitigated ([#2](https://github.com/nuxt/vite/issues/2)) This is a race condition that might still happen with vite cache.
+This is a race condition that server cache dir removes when reloading ([vitejs/vite/pull/2299](https://github.com/vitejs/vite/pull/2299))
 
-You can simply restart nuxt to make it gone
+Currently using a fork of vite to address this issue. If still having, please add version and error in [#2](https://github.com/nuxt/vite/issues/2)
 
 ### `.gql` support
 
