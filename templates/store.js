@@ -7,18 +7,18 @@ const _storeModules = ((typeof storeModules !== 'undefined' && storeModules) || 
   filePath: relativeToBuild(srcDir, dir.store, s.src),
   id: (s.src
     .replace(/\.(js|ts)$/, '')
-    .replace(/[\.\\/]/g, '_')
+    .replace(/[\\/]/g, '/')
     .replace(/index/, '')
-    .replace(/_$/, '')) || 'root'
+  ) || 'root'
 }))
-%><%= _storeModules.map(s => `import * as $${s.id} from '${s.filePath}'`).join('\n') %>
+%><%= _storeModules.map(s => `import * as $${hash(s.id)} from '${s.filePath}'`).join('\n') %>
 
 Vue.use(Vuex)
 
 const VUEX_PROPERTIES = ['state', 'getters', 'actions', 'mutations']
 
 const storeModules = {
-<%= _storeModules.map(m => `  ${m.id}: $${m.id}`).join(',\n') %>
+<%= _storeModules.map(m => `  ['${m.id}']: $${hash(m.id)}`).join(',\n') %>
 }
 
 export function createStore() {
@@ -51,7 +51,7 @@ function normalizeRoot (moduleData, id) {
 function resolveStoreModules (store, moduleData, id) {
   moduleData = moduleData.default || moduleData
 
-  const namespaces = id.split('_').filter(Boolean)
+  const namespaces = id.split('/').filter(Boolean)
   let moduleName = namespaces[namespaces.length - 1]
 
   // If src is a known Vuex property
