@@ -3,6 +3,7 @@ import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { watch } from 'chokidar'
 import { mkdirp, writeFile } from 'fs-extra'
+import debounce from 'debounce'
 import { ViteBuildContext } from './types'
 import { wpfs } from './utils/wpfs'
 import { cacheDirPlugin } from './plugins/cache-dir'
@@ -57,7 +58,7 @@ export async function buildServer (ctx: ViteBuildContext) {
       }
     },
     plugins: [
-      cacheDirPlugin(ctx.nuxt.options.rootDir, 'server'),
+      cacheDirPlugin(ctx.nuxt.options.rootDir, 'servyer'),
       vuePlugin
     ]
   } as vite.InlineConfig)
@@ -85,9 +86,9 @@ export async function buildServer (ctx: ViteBuildContext) {
     maps: {}
   }, null, 2))
 
-  const onBuild = async () => {
+  const onBuild = debounce(async () => {
     await ctx.nuxt.callHook('build:resources', wpfs)
-  }
+  }, 200)
 
   if (!ctx.nuxt.options.ssr) {
     await onBuild()
