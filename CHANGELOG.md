@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.17](https://github.com/nuxt/vite/compare/v0.0.16...v0.0.17) (2021-02-27)
+
+
+### Bug Fixes
+
+* **pkg:** copy runtime deps ([fb2fdf2](https://github.com/nuxt/vite/commit/fb2fdf20c90717e872f027d32e3bcc53b136b18b))
+
 ### [0.0.16](https://github.com/nuxt/vite/compare/v0.0.15...v0.0.16) (2021-02-27)
 
 
