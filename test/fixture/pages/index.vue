@@ -1,5 +1,7 @@
 <template>
   <div>
+    <img src="~/assets/vite.svg">
+    <br>
     Hello Vite from Nuxt2!
     <Foobar />
     <br>
