@@ -32,8 +32,8 @@ export async function buildServer (ctx: ViteBuildContext) {
   const alias = {}
   for (const p of ctx.builder.plugins) {
     alias[p.name] = p.mode === 'client'
-      ? `\0defaultexport:${resolve(ctx.nuxt.options.buildDir, 'empty.js')}`
-      : `\0defaultexport:${p.src}`
+      ? `defaultexport:${resolve(ctx.nuxt.options.buildDir, 'empty.js')}`
+      : `defaultexport:${p.src}`
   }
 
   const serverConfig: vite.InlineConfig = vite.mergeConfig(ctx.config, {

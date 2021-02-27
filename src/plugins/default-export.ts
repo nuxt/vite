@@ -1,7 +1,8 @@
 import type { Plugin } from 'vite'
 import { readFile } from 'fs-extra'
 
-const PREFIX = '\0defaultexport:'
+// const PREFIX = 'defaultexport:'
+const PREFIX = 'defaultexport:'
 const hasPrefix = (id: string = '') => id.startsWith(PREFIX)
 const removePrefix = (id: string = '') => hasPrefix(id) ? id.substr(PREFIX.length) : id
 
