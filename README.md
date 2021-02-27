@@ -23,8 +23,11 @@
 - [x] Nuxt components
 - [X] Vuex store
 - [x] Page middleware
+- [X] HTTP module
+- [ ] Axios module (works with `--spa`)
 - [ ] Composition API
 - [ ] Content module
+- [ ] Tailwindcss module
 
 ## ⚡ Usage
 
