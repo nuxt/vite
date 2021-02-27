@@ -3,8 +3,9 @@ import type { VueViteOptions } from 'vite-plugin-vue2'
 import type { UserConfig } from 'vite'
 import { resolve } from 'upath'
 import semver from 'semver'
+import { name, version } from '../package.json'
 
-export default function () {
+function nuxtVite () {
   const { nuxt } = this
 
   if (!nuxt.options.dev) {
@@ -20,7 +21,7 @@ export default function () {
     return
   }
 
-  nuxt.options.cli.badgeMessages.push('⚡ Vite Mode Enabled')
+  nuxt.options.cli.badgeMessages.push(`⚡  Vite Mode Enabled (v${version})`)
   // eslint-disable-next-line no-console
   console.log(
     '🧪  Vite mode is experimental and many nuxt modules are still incompatible\n',
@@ -51,6 +52,9 @@ export default function () {
     builder.bundleBuilder = new ViteBuilder(builder)
   })
 }
+
+nuxtVite.meta = { name, version }
+export default nuxtVite
 
 declare module '@nuxt/types/config/index' {
   interface NuxtOptions {

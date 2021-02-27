@@ -12,7 +12,7 @@
 
 **If found a bug, please report via [issues](https://github.com/nuxt/vite/issues) with a minimal reproduction**
 
-<!-- [![See Demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/nuxt/vite/tree/main/demo) -->
+[![See Demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/nuxt/vite/tree/main/demo)
 
 ## ✔️ What is working?
 
