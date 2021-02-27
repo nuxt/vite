@@ -1,4 +1,5 @@
 import viteModule from '../../src'
+
 export default {
   components: true,
   buildModules: [
