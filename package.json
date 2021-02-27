@@ -21,7 +21,7 @@
     "chokidar": "^3.5.1",
     "fs-extra": "^9.1.0",
     "upath": "^2.0.1",
-    "vite": "^2.0.3",
+    "vite": "^2.0.4",
     "vite-plugin-vue2": "^1.2.1"
   },
   "devDependencies": {
@@ -35,7 +35,7 @@
     "mkdist": "^0.1.1",
     "nuxt": "^2.15.2",
     "playwright": "^1.9.1",
-    "siroc": "^0.6.7",
+    "siroc": "^0.7.0",
     "standard-version": "^9.1.1"
   }
 }
