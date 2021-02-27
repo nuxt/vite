@@ -1,6 +1,7 @@
 import type { } from '@nuxt/types'
 import type { UserConfig } from 'vite'
 import { resolve } from 'upath'
+import semver from 'semver'
 
 export default function () {
   const { nuxt } = this
@@ -8,6 +9,22 @@ export default function () {
   if (!nuxt.options.dev) {
     return
   }
+
+  // Check nuxt version
+  const minVersion = '2.15.2'
+  const currentVersion = nuxt.constructor.version || '0.0.0'
+  if (semver.lt(nuxt.constructor.version, minVersion)) {
+    // eslint-disable-next-line no-console
+    console.warn(`disabling nuxt-vite since nuxt >= ${minVersion} is required (curret version: ${currentVersion})`)
+    return
+  }
+
+  nuxt.options.cli.badgeMessages.push('⚡ Vite Mode Enabled')
+  // eslint-disable-next-line no-console
+  console.log(
+    '🧪  Vite mode is experimental and many nuxt modules are still incompatible\n',
+    '   If found a bug, please report via https://github.com/nuxt/vite/issues with a minimal reproduction'
+  )
 
   // Disable loading-screen because why have it!
   nuxt.options.build.loadingScreen = false

@@ -8,9 +8,9 @@
 [![c](https://img.shields.io/codecov/c/gh/nuxt/vite/main?style=flat-square)](https://codecov.io/gh/nuxt/vite)
 
 
-```
-🧪 Note: This is an experimental package and might be deprecated
-```
+**🧪 Vite mode is experimental and many nuxt modules are still incompatible**
+
+**If found a bug, please report via [issues](https://github.com/nuxt/vite/issues) with a minimal reproduction**
 
 <!-- [![See Demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/nuxt/vite/tree/main/demo) -->
 
@@ -47,6 +47,8 @@ export default {
   ]
 }
 ```
+
+**Note:** Nuxt >= 2.15.0 is required
 
 ## How it works
 

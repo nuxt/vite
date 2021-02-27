@@ -7,25 +7,22 @@ assignees: ''
 
 ---
 
-<!-- **IMPORTANT!**
+<!--
+🧪 Vite mode is experimental and many nuxt modules are still incompatible
 Before reporting a bug, please make sure you checked other open issues
  -->
 
-### Version
+### Versions
+
 nuxt-vite: <!-- ex: v0.0.7 -->
 nuxt: <!-- ex: v2.15.0 -->
 
-### Configuration
-
-```js
-// please consider sharing nuxt.config for better undrestanding of project
-```
 
 ### Reproduction
 
 <!--
-A minimal test case to reproduct issue: ()
-- a GitHub repository that can reproduce the bug
+Please provide a minimal reproduction (a github repository that only includes problematic code) to help us resolving it faster
+Issues without reproduction will be closed
 -->
 
 ### Description
