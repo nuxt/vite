@@ -32,10 +32,12 @@ export default function () {
   nuxt.options._modules = nuxt.options._modules
     .filter(m => !(Array.isArray(m) && m[0] === '@nuxt/loading-screen'))
 
-  this.addTemplate({
-    src: resolve(__dirname, '../templates', 'store.js'),
-    fileName: 'store.js'
-  })
+  if (nuxt.options.store) {
+    this.addTemplate({
+      src: resolve(__dirname, '../templates', 'store.js'),
+      fileName: 'store.js'
+    })
+  }
   this.addTemplate({
     src: resolve(__dirname, '../templates', 'middleware.js'),
     fileName: 'middleware.js'
