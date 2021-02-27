@@ -26,7 +26,7 @@ export async function buildServer (ctx: ViteBuildContext) {
   // Workaround to disable HMR
   const _env = process.env.NODE_ENV
   process.env.NODE_ENV = 'production'
-  const vuePlugin = createVuePlugin(ctx.nuxt.options.vite.vue)
+  const vuePlugin = createVuePlugin(ctx.config.vue)
   process.env.NODE_ENV = _env
 
   const alias = {}
