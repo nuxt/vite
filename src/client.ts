@@ -31,7 +31,7 @@ export async function buildClient (ctx: ViteBuildContext) {
     },
     plugins: [
       cacheDirPlugin(ctx.nuxt.options.rootDir, 'client'),
-      createVuePlugin()
+      createVuePlugin(ctx.nuxt.options.vite.vue)
     ],
     server: {
       middlewareMode: true
