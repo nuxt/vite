@@ -1,11 +1,9 @@
 <template>
   <div>
     <h2>Hello Vite from Nuxt2!</h2>
+    <p><Foobar /></p>
+    <pre v-text="stateText" />
     <p>{{ res }}</p>
-    <Foobar />
-    <p>
-      Store: <pre v-text="stateText" />
-    </p>
   </div>
 </template>
 

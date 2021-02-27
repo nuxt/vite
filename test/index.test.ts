@@ -16,6 +16,7 @@ describe('browser', () => {
 
   it('SPA works', async () => {
     const page = await createPage('/?spa')
+    await new Promise(resolve => setTimeout(resolve, 1000))
     const html = await page.innerHTML('body')
     testIndex(html)
   })
