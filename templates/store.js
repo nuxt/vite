@@ -22,8 +22,8 @@ const storeModules = {
 }
 
 export function createStore() {
-  let store = normalizeRoot(storeModules.$root || {})
-  delete storeModules.$root
+  let store = normalizeRoot(storeModules.root || {})
+  delete storeModules.root
   for (const id in storeModules) {
     resolveStoreModules(store, storeModules[id], id)
   }
