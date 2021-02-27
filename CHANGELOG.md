@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.16](https://github.com/nuxt/vite/compare/v0.0.15...v0.0.16) (2021-02-27)
+
+
+### Features
+
+* add version to banner ([4ac19d6](https://github.com/nuxt/vite/commit/4ac19d6d69ca261dbc5216d8f2b2b5ea02b34032))
+
 ### [0.0.15](https://github.com/nuxt/vite/compare/v0.0.14...v0.0.15) (2021-02-27)
 
 
