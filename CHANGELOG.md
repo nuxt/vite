@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.14](https://github.com/nuxt/vite/compare/v0.0.13...v0.0.14) (2021-02-27)
+
+
+### Bug Fixes
+
+* another attempt to fix temp dir error ([ee6bb27](https://github.com/nuxt/vite/commit/ee6bb274bbe6842da5d369804a4a67b50c51b8b2))
+* use vite fork to addreess [#2](https://github.com/nuxt/vite/issues/2) vitejs/vite[#2299](https://github.com/nuxt/vite/issues/2299) ([d9d86d7](https://github.com/nuxt/vite/commit/d9d86d7b241ff23fcf22559c6f900fcd8d2a5d9a))
+
 ### [0.0.13](https://github.com/nuxt/vite/compare/v0.0.12...v0.0.13) (2021-02-27)
 
 
