@@ -28,7 +28,9 @@ async function bundle (nuxt: Nuxt, builder: any) {
           alias: {
             ...nuxt.options.alias,
             '~': nuxt.options.srcDir,
-            '@': nuxt.options.srcDir
+            '@': nuxt.options.srcDir,
+            // TODO: fix client cache issue with mjs build
+            ufo: require.resolve('ufo/dist/index.js')
           }
         },
         clearScreen: false,
