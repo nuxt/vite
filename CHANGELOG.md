@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.10](https://github.com/nuxt/vite/compare/v0.0.9...v0.0.10) (2021-02-27)
+
+
+### Bug Fixes
+
+*  avoid using \0 for virtual deps (fixes [#33](https://github.com/nuxt/vite/issues/33)) ([3220069](https://github.com/nuxt/vite/commit/3220069acf2249ef5b9cc3ca3b4245dc57caabc0))
+
 ### [0.0.9](https://github.com/nuxt/vite/compare/v0.0.8...v0.0.9) (2021-02-27)
 
 
