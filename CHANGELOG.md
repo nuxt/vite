@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.15](https://github.com/nuxt/vite/compare/v0.0.14...v0.0.15) (2021-02-27)
+
+
+### Features
+
+* support http module ([#42](https://github.com/nuxt/vite/issues/42)) ([a75ff05](https://github.com/nuxt/vite/commit/a75ff0538e3fa09b7fd1ce3bf573d3c6233d4e28))
+* support vite.vue options, close [#43](https://github.com/nuxt/vite/issues/43) ([#44](https://github.com/nuxt/vite/issues/44)) ([687f778](https://github.com/nuxt/vite/commit/687f778f25f2e3d5db8e65b5e17eefacc7a6ef77))
+
+
+### Bug Fixes
+
+* store root state (fixes [#45](https://github.com/nuxt/vite/issues/45)) ([b73a90e](https://github.com/nuxt/vite/commit/b73a90e7383b80c138b940fc1bdfbf7e244f4d3a))
+
 ### [0.0.14](https://github.com/nuxt/vite/compare/v0.0.13...v0.0.14) (2021-02-27)
 
 
