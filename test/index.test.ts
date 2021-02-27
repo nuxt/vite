@@ -1,4 +1,4 @@
-import { createPage, setupTest } from '@nuxt/test-utils'
+import { createPage, setupTest, get } from '@nuxt/test-utils'
 
 describe('browser', () => {
   setupTest({
@@ -10,19 +10,21 @@ describe('browser', () => {
   })
 
   it('SSR works', async () => {
-    const page = await createPage('/')
-    const html = await page.innerHTML('body')
-    expect(html).toContain('Hello Vite from Nuxt2!')
-    expect(html).toContain('/@vite/client')
-    expect(html).toContain('st: 1')
-    expect(html).toContain('st: 2')
-    expect(html).toContain('st: 3')
+    const html = (await get('/')).body as string
+    testIndex(html)
   })
 
   it('SPA works', async () => {
     const page = await createPage('/?spa')
     const html = await page.innerHTML('body')
-    expect(html).toContain('Hello Vite from Nuxt2!')
-    expect(html).toContain('/@vite/client')
+    testIndex(html)
   })
 })
+
+function testIndex (html: string) {
+  expect(html).toContain('Hello Vite from Nuxt2!')
+  expect(html).toContain('/@vite/client')
+  expect(html).toContain('st: 1')
+  expect(html).toContain('st: 2')
+  expect(html).toContain('st: 3')
+}
