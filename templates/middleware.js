@@ -1,5 +1,5 @@
 <%
-const _middleware = middleware.map(m => ({
+const _middleware = ((typeof middleware !== 'undefined' && middleware) || []).map(m => ({
   filePath: relativeToBuild(srcDir, dir.middleware, m.src),
   id: m.name || m.src.replace(/\.(js|ts)$/, '').replace(/[\.\\/]/g, '_')
  }))

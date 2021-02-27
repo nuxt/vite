@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 <%
-const _storeModules = storeModules.map(s => ({
+const _storeModules = ((typeof storeModules !== 'undefined' && storeModules) || []).map(s => ({
   filePath: relativeToBuild(srcDir, dir.store, s.src),
   id: (s.src
     .replace(/\.(js|ts)$/, '')
