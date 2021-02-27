@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.11](https://github.com/nuxt/vite/compare/v0.0.10...v0.0.11) (2021-02-27)
+
+
+### Bug Fixes
+
+* handle empty store/middleware ([0e7c3ae](https://github.com/nuxt/vite/commit/0e7c3ae0994b8b80c29d3e005687c9d643f6f62e))
+
 ### [0.0.10](https://github.com/nuxt/vite/compare/v0.0.9...v0.0.10) (2021-02-27)
 
 
