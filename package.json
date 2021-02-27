@@ -19,6 +19,7 @@
     "test": "yarn lint && yarn jest"
   },
   "dependencies": {
+    "@nuxt/http": "^0.6.4",
     "chokidar": "^3.5.1",
     "debounce": "^1.2.0",
     "fs-extra": "^9.1.0",
