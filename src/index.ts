@@ -36,6 +36,10 @@ export default function () {
     src: resolve(__dirname, '../templates', 'store.js'),
     fileName: 'store.js'
   })
+  this.addTemplate({
+    src: resolve(__dirname, '../templates', 'middleware.js'),
+    fileName: 'middleware.js'
+  })
 
   nuxt.hook('builder:prepared', async (builder) => {
     builder.bundleBuilder.close()

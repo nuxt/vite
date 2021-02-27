@@ -10,6 +10,7 @@
 
 <script>
 export default {
+  middleware: 'test',
   computed: {
     stateText () {
       return JSON.stringify(this.$store.state, null, 2).replace(/"/g, '')

@@ -19,13 +19,12 @@
 - [x] Using vite in development
 - [x] Basic server-side rendering
 - [x] Basic Hot-Module-Replacement
-- [x] Nuxt Plugins
-- [x] Nuxt Components
-- [X] Store
+- [x] Nuxt plugins
+- [x] Nuxt components
+- [X] Vuex store
+- [x] Page middleware
 - [ ] Composition API
-- [ ] HMR for Store
-- [ ] Nuxt Middleware
-- [ ] Content Module
+- [ ] Content module
 
 ## Usage
 
