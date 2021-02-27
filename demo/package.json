@@ -5,6 +5,6 @@
   },
   "devDependencies": {
     "nuxt": "^2.15.2",
-    "nuxt-vite": "^0.0.8"
+    "nuxt-vite": "^0.0.12"
   }
 }

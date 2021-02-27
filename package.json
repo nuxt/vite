@@ -26,7 +26,7 @@
     "ufo": "^0.6.7",
     "upath": "^2.0.1",
     "vite": "^2.0.4",
-    "vite-plugin-vue2": "^1.2.1"
+    "vite-plugin-vue2": "^1.2.2"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.13.0",

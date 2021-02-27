@@ -3307,6 +3307,11 @@ de-indent@^1.0.2:
   resolved "https://registry.yarnpkg.com/de-indent/-/de-indent-1.0.2.tgz#b2038e846dc33baa5796128d0804b455b8c1e21d"
   integrity sha1-sgOOhG3DO6pXlhKNCAS0VbjB4h0=
 
+debounce@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.0.tgz#44a540abc0ea9943018dc0eaa95cce87f65cd131"
+  integrity sha512-mYtLl1xfZLi1m4RtQYlZgJUNQjl4ZxVnHzIR8nLLgi4q1YT8o/WM+MK/f8yfcc9s5Ir5zRaPZyZU6xs1Syoocg==
+
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
@@ -3635,10 +3640,10 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
-esbuild@^0.8.47:
-  version "0.8.52"
-  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.8.52.tgz#6dabf11c517af449a96d66da20dfc204ee7b5294"
-  integrity sha512-b5KzFweLLXoXQwdC/e2+Z80c8uo2M5MgP7yQEEebkFw6In4T9CvYcNoM2ElvJt8ByO04zAZUV0fZkXmXoi2s9A==
+esbuild@^0.8.52:
+  version "0.8.53"
+  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.8.53.tgz#b408bb0ca1b29dab13d8bbf7d59f59afe6776e86"
+  integrity sha512-GIaYGdMukH58hu+lf07XWAeESBYFAsz8fXnrylHDCbBXKOSNtFmoYA8PhSeSF+3/qzeJ0VjzV9AkLURo5yfu3g==
 
 escalade@^3.1.1:
   version "3.1.1"
@@ -5527,15 +5532,18 @@ num2fraction@^1.2.2:
   resolved "https://registry.yarnpkg.com/num2fraction/-/num2fraction-1.2.2.tgz#6f682b6a027a4e9ddfa4564cd2589d1d4e669ede"
   integrity sha1-b2gragJ6Tp3fpFZM0lidHU5mnt4=
 
-nuxt-vite@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/nuxt-vite/-/nuxt-vite-0.0.8.tgz#e744e69006dc97e9302c4a9406e58c6ac32b81d7"
-  integrity sha512-zFL+s233xIuVagrpS0BJ6GP34JMb4rEfwOSEPTFWxwR0y809O9izwA/aQUP209zzAQhtRIimn0RkTPCDpw4FmA==
+nuxt-vite@^0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/nuxt-vite/-/nuxt-vite-0.0.12.tgz#df4344dd138bb8ced79a84e51062ece16f1abc52"
+  integrity sha512-45iQHJhZ+n3ehg3YMc4wTplIp1hiQRDBIBq4Ysb79WSVfOCY30qlQ+azJqFOWasImaco71e3foNgR06mJd19sg==
   dependencies:
     chokidar "^3.5.1"
+    debounce "^1.2.0"
     fs-extra "^9.1.0"
+    semver "^7.3.4"
+    ufo "^0.6.7"
     upath "^2.0.1"
-    vite "^2.0.3"
+    vite "^2.0.4"
     vite-plugin-vue2 "^1.2.1"
 
 nuxt@^2.15.2:
@@ -8125,12 +8133,12 @@ vite-plugin-vue2@^1.2.1:
     vue "^2.6.11"
     vue-template-compiler "^2.6.11"
 
-vite@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-2.0.3.tgz#ea0329295d4da9341e670036e5e7f0bfa30ae2cf"
-  integrity sha512-4CUm3FVUHyTSSSK6vHWkj3SVkP+GGNNzwYcFsHOjjc8xQ3BPjJa1JDDmFlYxpxR29ANa+7RWptYPoyHyJ29Nhw==
+vite@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-2.0.4.tgz#063532a4139b59a067297d8ebb5960d450907a09"
+  integrity sha512-+PP89D7AKXFE4gps8c5+4eP5yXTh5qCogjdYX7iSsIxbLZAa26JoGSq6OLk0qdb/fqDh7gtJqGiLbG2V6NvkKQ==
   dependencies:
-    esbuild "^0.8.47"
+    esbuild "^0.8.52"
     postcss "^8.2.1"
     resolve "^1.19.0"
     rollup "^2.38.5"

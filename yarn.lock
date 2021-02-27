@@ -12154,10 +12154,10 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vite-plugin-vue2@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/vite-plugin-vue2/-/vite-plugin-vue2-1.2.1.tgz#4a62e42b5a62828803c9788917c8060e60265a32"
-  integrity sha512-j8p8O7kVXB8dvSr/sqHnmOFIi2EJWIxJ1b7VqF+5XNOX8OwRkZbgUKs2Q8UK5qgsmdd7LfJmD5ytfSqieYhKDg==
+vite-plugin-vue2@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/vite-plugin-vue2/-/vite-plugin-vue2-1.2.2.tgz#0940b9afbb954bb817050c8ed452e4db8d1e94eb"
+  integrity sha512-3uLmmS+pM4nwHzaRWyfp030PBxTKFJWzrFjvFl9cKhULaZV4MQh8MW7YtShhyeCsjvwGmFGqVATuKroyHyYW9Q==
   dependencies:
     "@babel/core" "^7.11.6"
     "@rollup/pluginutils" "^4.1.0"
