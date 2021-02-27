@@ -7,11 +7,10 @@
   "main": "./dist/nuxt-vite.js",
   "types": "./dist/nuxt-vite.d.ts",
   "files": [
-    "dist",
-    "templates"
+    "dist"
   ],
   "scripts": {
-    "build": "siroc build",
+    "build": "siroc build && mkdist --src src/runtime --dist dist/runtime",
     "prepublishOnly": "yarn build",
     "dev": "nuxt dev test/fixture",
     "lint": "eslint --ext .ts .",

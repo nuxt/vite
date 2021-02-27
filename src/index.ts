@@ -36,12 +36,12 @@ function nuxtVite () {
 
   if (nuxt.options.store) {
     this.addTemplate({
-      src: resolve(__dirname, '../templates', 'store.js'),
+      src: resolve(__dirname, './runtime/templates', 'store.js'),
       fileName: 'store.js'
     })
   }
   this.addTemplate({
-    src: resolve(__dirname, '../templates', 'middleware.js'),
+    src: resolve(__dirname, './runtime/templates', 'middleware.js'),
     fileName: 'middleware.js'
   })
 
