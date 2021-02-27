@@ -60,6 +60,39 @@ Yet much faster than webpack builds. You can opt-out SSR build using `nuxt dev -
 
 This module could not be possible without [vite-plugin-vue2](https://github.com/underfin/vite-plugin-vue2) by [@underfin](https://github.com/underfin)
 
+### Graphql - workaround for importing .gql files
+
+There is a known bug when loading .gql files ([#31](https://github.com/nuxt/vite/issues/31)). Best solution for now is to wrap gql files with .js extension along with importing [graphql-tag](https://www.npmjs.com/package/graphql-tag) or using raw GraphQL queries. Remember to add `loc.source.body`.
+
+*Example path: /apollo/queries/products.js*
+```
+import gql from 'graphql-tag'
+
+export default gql`
+  query Products {
+    products {
+      id
+      name
+    }
+  }
+`
+```
+
+*Example path: /pages/index.vue*
+```
+import products  from '~/queries/products'
+
+export default {
+    async asyncData({ $strapi }) {
+        const response = await $strapi.graphql({
+            query: products.loc.source.body,
+        })
+        return {
+            response
+        }
+    }
+}
+```
 ## License
 
 MIT - Nuxt Team
