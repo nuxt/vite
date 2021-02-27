@@ -5,20 +5,20 @@ import Vuex from 'vuex'
 <%
 const _storeModules = storeModules.map(s => ({
   filePath: relativeToBuild(srcDir, dir.store, s.src),
-  id: '$' + ((s.src
+  id: (s.src
     .replace(/\.(js|ts)$/, '')
     .replace(/[\.\\/]/g, '_')
     .replace(/index/, '')
-    .replace(/_$/, '')) || 'root')
+    .replace(/_$/, '')) || 'root'
 }))
-%><%= _storeModules.map(s => `import * as ${s.id} from '${s.filePath}'`).join('\n') %>
+%><%= _storeModules.map(s => `import * as $${s.id} from '${s.filePath}'`).join('\n') %>
 
 Vue.use(Vuex)
 
 const VUEX_PROPERTIES = ['state', 'getters', 'actions', 'mutations']
 
 const storeModules = {
-<%= _storeModules.map(m => `  ${m.id.substr(1)}: ${m.id}`).join(',\n') %>
+<%= _storeModules.map(m => `  ${m.id}: $${m.id}`).join(',\n') %>
 }
 
 export function createStore() {
