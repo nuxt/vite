@@ -58,7 +58,7 @@ export async function buildServer (ctx: ViteBuildContext) {
       }
     },
     plugins: [
-      cacheDirPlugin(ctx.nuxt.options.rootDir, 'servyer'),
+      cacheDirPlugin(ctx.nuxt.options.rootDir, 'server'),
       vuePlugin
     ]
   } as vite.InlineConfig)
