@@ -1,4 +1,5 @@
 import type { } from '@nuxt/types'
+import type { VueViteOptions } from 'vite-plugin-vue2'
 import type { UserConfig } from 'vite'
 import { resolve } from 'upath'
 import semver from 'semver'
@@ -53,6 +54,6 @@ export default function () {
 
 declare module '@nuxt/types/config/index' {
   interface NuxtOptions {
-    vite?: UserConfig
+    vite?: UserConfig & { vue?: VueViteOptions }
   }
 }
