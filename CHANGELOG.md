@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.9](https://github.com/nuxt/vite/compare/v0.0.8...v0.0.9) (2021-02-27)
+
+
+### Features
+
+* add version and experimental warnings ([d80c7fc](https://github.com/nuxt/vite/commit/d80c7fc45b557c07c2e2c866b225363c64f96301))
+* support page middleware ([9e50817](https://github.com/nuxt/vite/commit/9e508175c3b79706ea487259c11139434de97d5c))
+* support store ([69e6148](https://github.com/nuxt/vite/commit/69e61489a72f673f9197d72aafdf89d876b7ea83))
+
+
+### Bug Fixes
+
+* debounce server rebuilds ([c8b5e04](https://github.com/nuxt/vite/commit/c8b5e04d48a7d2789b04c97ef22d3420a1d88c5f))
+* **pkg:** add ufo dependency (closes [#32](https://github.com/nuxt/vite/issues/32)) ([0da46ae](https://github.com/nuxt/vite/commit/0da46aeded5fe7b5251f152313ad5eba6aa54581))
+* create extra temp directory in cache ([b8bc156](https://github.com/nuxt/vite/commit/b8bc1564e004645abc202a12da34a11d93f33e46))
+* hide unused external warning (closes [#22](https://github.com/nuxt/vite/issues/22)) ([b039e77](https://github.com/nuxt/vite/commit/b039e777be5369c8898bb75655292ac5cb06ac5a))
+
 ### [0.0.8](https://github.com/nuxt/vite/compare/v0.0.7...v0.0.8) (2021-02-27)
 
 
