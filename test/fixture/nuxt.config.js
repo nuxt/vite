@@ -3,8 +3,8 @@ import viteModule from '../../src'
 export default {
   components: true,
   buildModules: [
-    viteModule,
-    '@nuxt/http'
+    viteModule
+    // '@nuxt/http'
   ],
   serverMiddleware: {
     '/api/test': '~/serverMiddleware/test'
