@@ -9,6 +9,11 @@ export interface Nuxt {
 }
 
 export interface ViteInlineConfig extends InlineConfig {
+  /**
+   * Options for vite-plugin-vue2
+   *
+   * @link https://github.com/underfin/vite-plugin-vue2
+   */
   vue?: VueViteOptions
 }
 

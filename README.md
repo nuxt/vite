@@ -52,6 +52,27 @@ export default {
 
 **Note:** Nuxt >= 2.15.0 is required
 
+## 💡 Vite Config
+
+You can pass Vite configurations and plugins into the `vite` entry of `nuxt.config`
+
+```js
+// nuxt.config
+export default {
+  buildModules: [
+    'nuxt-vite'
+  ],
+  vite: {
+    /* options for vite */
+    vue: {
+      /* options for vite-plugin-vue2 */
+    },
+  }
+}
+```
+
+More details refer to [Vite's documentations](https://vitejs.dev/config/) and [`vite-plugin-vue2`](https://github.com/underfin/vite-plugin-vue2).
+
 ## 🐛 Common Issues
 
 **💡 Take a look at [issues](https://github.com/nuxt/vite/issues) for known issues and workarounds**

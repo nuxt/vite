@@ -1,9 +1,8 @@
 import type { } from '@nuxt/types'
-import type { VueViteOptions } from 'vite-plugin-vue2'
-import type { UserConfig } from 'vite'
 import { resolve } from 'upath'
 import semver from 'semver'
 import { name, version } from '../package.json'
+import type { ViteInlineConfig } from './types'
 
 function nuxtVite () {
   const { nuxt } = this
@@ -58,6 +57,13 @@ export default nuxtVite
 
 declare module '@nuxt/types/config/index' {
   interface NuxtOptions {
-    vite?: UserConfig & { vue?: VueViteOptions }
+    /**
+     * Configuration for Vite.
+     * Severe the same functionality as Vite's `vite.config.ts`.
+     * It will merges with Nuxt specify configurations and plugins.
+     *
+     * @link https://vitejs.dev/config/
+     */
+    vite?: ViteInlineConfig
   }
 }
