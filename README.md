@@ -68,12 +68,17 @@ export default {
     plugins: [
       ViteWindiCSS()
     ],
+    /* options for vite-plugin-vue2 */
+    vue: {
+      vueTemplateOptions: { /* ... */ },
+      jsx: true,
+    },
     /* ... */
   }
 }
 ```
 
-More details refer to [Vite's documentations](https://vitejs.dev/config/).
+More details refer to [Vite's documentations](https://vitejs.dev/config/) and [`vite-plugin-vue2`](https://github.com/underfin/vite-plugin-vue2).
 
 ## 🐛 Common Issues
 
