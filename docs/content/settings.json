@@ -1,0 +1,15 @@
+{
+  "title": "⚡ Nuxt Vite",
+  "url": "https://vite.nuxtjs.org",
+  "twitter": "@nuxt_js",
+  "github": {
+    "repo": "nuxt/vite",
+    "branch": "main",
+    "dir": "docs",
+    "releases": false
+  },
+  "logo_disabled": {
+    "light": "/logo.svg",
+    "dark": "/logo.svg"
+  }
+}
