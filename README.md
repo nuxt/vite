@@ -52,13 +52,36 @@ export default {
 
 **Note:** Nuxt >= 2.15.0 is required
 
+## 💡 Vite Config
+
+You can pass Vite configurations and plugins into the `vite` entry of `nuxt.config`
+
+```js
+import ViteWindiCSS from 'vite-plugin-windicss'
+
+// nuxt.config
+export default {
+  buildModules: [
+    'nuxt-vite'
+  ],
+  vite: {
+    plugins: [
+      ViteWindiCSS()
+    ],
+    /* ... */
+  }
+}
+```
+
+More details refer to [Vite's documentations](https://vitejs.dev/config/).
+
 ## 🐛 Common Issues
 
 **💡 Take a look at [issues](https://github.com/nuxt/vite/issues) for known issues and workarounds**
 
 ### `Can't find loader handling '.vue' files`
 
-While we added a workaround to mitigate this, vite recommands explicitly defining extensions for non javascript assets.
+While we added a workaround to mitigate this, vite recommends explicitly defining extensions for non javascript assets.
 
 ```diff
 - import MyComponent from '~/components/MyComponent'
