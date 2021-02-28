@@ -29,12 +29,16 @@ async function bundle (nuxt: Nuxt, builder: any) {
             ...nuxt.options.alias,
             '~': nuxt.options.srcDir,
             '@': nuxt.options.srcDir,
-            // TODO: fix client cache issue with mjs build
-            ufo: require.resolve('ufo/dist/index.js'),
             'web-streams-polyfill/ponyfill/es2018': require.resolve('./runtime/mock/web-streams-polyfill'),
             // Cannot destructure property 'AbortController' of ..
             'abort-controller': require.resolve('./runtime/mock/abort-controller')
           }
+        },
+        optimizeDeps: {
+          exclude: [
+            'ufo',
+            'date-fns'
+          ]
         },
         clearScreen: false,
         build: {
@@ -43,7 +47,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
         plugins: [
           defaultExportPlugin()
         ]
-      }
+      } as vite.InlineConfig
     )
   }
 
