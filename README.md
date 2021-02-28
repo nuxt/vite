@@ -147,6 +147,30 @@ export default {
 }
 ```
 
+## Tips for module authors
+
+You can start adding experimental vite support to your modules, considering there are known issues and potential breaking changes.
+
+Here are some tips:
+
+- Avoid depending on webpack features (like loaders) as much as possible
+- Avoid depending on vite plugins that do not have webpack alternative since we still use webpack for proudction build
+  - ~> Avoid directly depending either webpack or vite, but if had to, consider supporting both
+- Use nuxt build options like `build.alias` and `build.transpile` in your modules. This way nuxt can do bundler-level config based on generic options
+
+### Hooks
+
+You can either extend vite config by extending `nuxt.options.vite` in module or using hooks
+
+#### `vite:extend ({ config, nuxt, builder })`
+
+Called one time with vite context and default shared config merged with user config
+
+#### `vite:extendConfig (config, { isClient, isServer })`
+
+Called two times. Once with resolved client config and once with resolved server config.
+Use it to apply client/server specific extension.
+
 ## 🤔 How it works
 
 Nuxt has a powerful hooking system to extend internals.
