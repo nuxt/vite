@@ -75,9 +75,9 @@ More details refer to [Vite's documentations](https://vitejs.dev/config/) and [`
 
 ## 🐛 Common Issues
 
-**💡 Take a look at [issues](https://github.com/nuxt/vite/issues) for known issues and workarounds**
+💡 Take a look at [issues](https://github.com/nuxt/vite/issues) for known issues and workarounds
 
-### `Can't find loader handling '.vue' files`
+#### Can't find loader handling '.vue' files
 
 While we added a workaround to mitigate this, vite recommends explicitly defining extensions for non javascript assets.
 
@@ -86,13 +86,32 @@ While we added a workaround to mitigate this, vite recommends explicitly definin
 + import MyComponent from '~/components/MyComponent.vue'
 ```
 
-### `no such file or directory, rmdir node_modules/.vite/temp`
+#### Uncaught SyntaxError: The requested module ... does not provide an export named 'default'
+
+Vite has an issue for pre-bundling dependencies with named exports (#56). Workaround is to exlude them from `optimizeDeps`
+
+```js
+// nuxt.config
+export default {
+  vite: {
+    optimizeDeps: {
+      exclude: [
+        'date-fns'
+      ]
+    }
+  }
+}
+```
+
+By default some known packages are excluded. Please reply to #56 to add more known problematic packages.
+
+#### no such file or directory, rmdir node_modules/.vite/temp
 
 This is a race condition that server cache dir removes when reloading ([vitejs/vite/pull/2299](https://github.com/vitejs/vite/pull/2299))
 
 Currently using a fork of vite to address this issue. If you still have the issue, please add version and error in [#2](https://github.com/nuxt/vite/issues/2)
 
-### `.gql` support
+#### graphql support
 
 Currently there is no module support for handling gql files ([#31](https://github.com/nuxt/vite/issues/31)).
 
