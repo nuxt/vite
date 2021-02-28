@@ -1,5 +1,5 @@
 <p style="text-align: center">
-  <img src="./docs/static/banner.svg">
+  <img src="./docs/static/preview.svg">
 </p>
 
 [![d](https://img.shields.io/npm/dm/nuxt-vite.svg?style=flat-square)](https://npmjs.com/package/nuxt-vite)

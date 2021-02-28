@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt dev --spa",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
