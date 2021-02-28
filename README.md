@@ -10,7 +10,7 @@
 
 **🧪 Vite mode is experimental and many nuxt modules are still incompatible**
 
-**If found a bug, please report via [issues](https://github.com/nuxt/vite/issues) with a minimal reproduction**
+**If you find a bug, please report via [issues](https://github.com/nuxt/vite/issues) with a minimal reproduction**
 
 <!-- [![See Demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/nuxt/vite/tree/main/demo) -->
 
@@ -58,7 +58,7 @@ export default {
 
 ### `Can't find loader handling '.vue' files`
 
-While we added a workaround to mitigate this, vite recommands explicitly defining extensions for non javascript assets.
+While we added a workaround to mitigate this, vite recommends explicitly defining extensions for non javascript assets.
 
 ```diff
 - import MyComponent from '~/components/MyComponent'
@@ -69,11 +69,11 @@ While we added a workaround to mitigate this, vite recommands explicitly definin
 
 This is a race condition that server cache dir removes when reloading ([vitejs/vite/pull/2299](https://github.com/vitejs/vite/pull/2299))
 
-Currently using a fork of vite to address this issue. If still having, please add version and error in [#2](https://github.com/nuxt/vite/issues/2)
+Currently using a fork of vite to address this issue. If you still have the issue, please add version and error in [#2](https://github.com/nuxt/vite/issues/2)
 
 ### `.gql` support
 
-Curretnly there is no module support for handling gql files ([#31](https://github.com/nuxt/vite/issues/31)).
+Currently there is no module support for handling gql files ([#31](https://github.com/nuxt/vite/issues/31)).
 
 Best solution for now is to wrap gql code into `js` or `ts` and using [graphql-tag](https://www.npmjs.com/package/graphql-tag) or using raw GraphQL queries. Remember to add `loc.source.body`.
 
@@ -109,15 +109,15 @@ export default {
 
 ## 🤔 How it works
 
-Nuxt uses has a powerful hooking system to extend internals.
+Nuxt has a powerful hooking system to extend internals.
 
 Default bundler ([@nuxt/webpack](https://github.com/nuxt/nuxt.js/tree/dev/packages/webpack)) can be replaced by a nuxt module. `nuxt-vite` replaces webpack by a similar interface to use vite instead of webpack. (see [src/index.ts](./src/index.ts) and [src/vite.ts](./src/vite.ts))
 
-Client-side modules are loaded on demand using vite middleware
+Client-side modules are loaded on demand using vite middleware.
 
 Server-side bundle is being created by another vite instance and written to filesystem and passed using hooks to nuxt server-renderer.
-Current approach is not most efficient due to usage of filesystem, extra build and lack of lazy loading.
-Yet much faster than webpack builds. You can opt-out SSR build using `nuxt dev --spa`.
+Current approach is not the most efficient way due to usage of filesystem, extra build and lack of lazy loading,
+yet much faster than webpack builds. You can opt-out of SSR build using `nuxt dev --spa`.
 
 ## ❤️ Credits
 
