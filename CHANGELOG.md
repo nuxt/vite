@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.20](https://github.com/nuxt/vite/compare/v0.0.19...v0.0.20) (2021-02-28)
+
+
+### Features
+
+* support vite:extend and vite:extendConfig hooks (closes [#4](https://github.com/nuxt/vite/issues/4)) ([8f81d17](https://github.com/nuxt/vite/commit/8f81d17167602cf43bacec5791f14a273fb5e4d3))
+
 ### [0.0.19](https://github.com/nuxt/vite/compare/v0.0.18...v0.0.19) (2021-02-28)
 
 
