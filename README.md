@@ -57,23 +57,16 @@ export default {
 You can pass Vite configurations and plugins into the `vite` entry of `nuxt.config`
 
 ```js
-import ViteWindiCSS from 'vite-plugin-windicss'
-
 // nuxt.config
 export default {
   buildModules: [
     'nuxt-vite'
   ],
   vite: {
-    plugins: [
-      ViteWindiCSS()
-    ],
-    /* options for vite-plugin-vue2 */
+    /* options for vite */
     vue: {
-      vueTemplateOptions: { /* ... */ },
-      jsx: true,
+      /* options for vite-plugin-vue2 */
     },
-    /* ... */
   }
 }
 ```
@@ -101,7 +94,7 @@ Currently using a fork of vite to address this issue. If still having, please ad
 
 ### `.gql` support
 
-Curretnly there is no module support for handling gql files ([#31](https://github.com/nuxt/vite/issues/31)).
+Currently there is no module support for handling gql files ([#31](https://github.com/nuxt/vite/issues/31)).
 
 Best solution for now is to wrap gql code into `js` or `ts` and using [graphql-tag](https://www.npmjs.com/package/graphql-tag) or using raw GraphQL queries. Remember to add `loc.source.body`.
 
