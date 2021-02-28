@@ -63,6 +63,8 @@ export async function buildServer (ctx: ViteBuildContext) {
     ]
   } as vite.InlineConfig)
 
+  await ctx.nuxt.callHook('vite:extendConfig', serverConfig, { isClient: false, isServer: true })
+
   const serverDist = resolve(ctx.nuxt.options.buildDir, 'dist/server')
   await mkdirp(serverDist)
 

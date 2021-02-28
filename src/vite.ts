@@ -51,6 +51,8 @@ async function bundle (nuxt: Nuxt, builder: any) {
     )
   }
 
+  await ctx.nuxt.callHook('vite:extend', ctx)
+
   const callBuild = async (fn, name) => {
     try {
       const start = Date.now()
