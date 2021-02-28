@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.19](https://github.com/nuxt/vite/compare/v0.0.18...v0.0.19) (2021-02-28)
+
+
+### Bug Fixes
+
+* exclude ufo and date-fns from optimize deps (fixes [#51](https://github.com/nuxt/vite/issues/51)) ([3fa8059](https://github.com/nuxt/vite/commit/3fa805948338a559e47640fa465d5884e51518ea))
+
 ### [0.0.18](https://github.com/nuxt/vite/compare/v0.0.17...v0.0.18) (2021-02-27)
 
 ### [0.0.17](https://github.com/nuxt/vite/compare/v0.0.16...v0.0.17) (2021-02-27)
