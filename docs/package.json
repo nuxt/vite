@@ -10,6 +10,6 @@
   "devDependencies": {
     "docus": "^0.0.9",
     "nuxt": "^2.15.2",
-    "vue-plausible": "^1.1.2"
+    "vue-plausible": "^1.1.3"
   }
 }
