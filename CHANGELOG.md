@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.21](https://github.com/nuxt/vite/compare/v0.0.20...v0.0.21) (2021-03-01)
+
+
+### Bug Fixes
+
+* add hotix for i18n module (resolves [#58](https://github.com/nuxt/vite/issues/58)) ([434c7c2](https://github.com/nuxt/vite/commit/434c7c2080fc4bb78750fe47d4704a20da7f019c))
+
 ### [0.0.20](https://github.com/nuxt/vite/compare/v0.0.19...v0.0.20) (2021-02-28)
 
 
