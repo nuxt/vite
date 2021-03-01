@@ -37,7 +37,8 @@ async function bundle (nuxt: Nuxt, builder: any) {
         optimizeDeps: {
           exclude: [
             'ufo',
-            'date-fns'
+            'date-fns',
+            'nanoid'
           ]
         },
         clearScreen: false,
