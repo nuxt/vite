@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.22](https://github.com/nuxt/vite/compare/v0.0.21...v0.0.22) (2021-03-01)
+
+
+### Bug Fixes
+
+* exclude nanoid from cache ([e8f14b8](https://github.com/nuxt/vite/commit/e8f14b8a562d7947c4df90f5a9ad30d690cf644f))
+
 ### [0.0.21](https://github.com/nuxt/vite/compare/v0.0.20...v0.0.21) (2021-03-01)
 
 
