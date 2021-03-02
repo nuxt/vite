@@ -20,6 +20,7 @@
   "dependencies": {
     "@nuxt/http": "^0.6.4",
     "chokidar": "^3.5.1",
+    "consola": "^2.15.3",
     "debounce": "^1.2.0",
     "fs-extra": "^9.1.0",
     "semver": "^7.3.4",
