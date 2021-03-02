@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.23](https://github.com/nuxt/vite/compare/v0.0.22...v0.0.23) (2021-03-02)
+
+
+### Features
+
+* basic jsx support (closes [#63](https://github.com/nuxt/vite/issues/63)) ([c689879](https://github.com/nuxt/vite/commit/c68987922f9e0a9191ced0b95371c9afce7cb77d))
+
 ### [0.0.22](https://github.com/nuxt/vite/compare/v0.0.21...v0.0.22) (2021-03-01)
 
 
