@@ -4,6 +4,7 @@
     <p><NormalComponent /></p>
     <p><JSXComponent /></p>
     <pre v-text="stateText" />
+    {{ ip }}
   </div>
 </template>
 
@@ -15,6 +16,11 @@ export default {
     JSXComponent
   },
   middleware: 'test-middleware',
+  async asyncData ({ $axios }) {
+    return {
+      ip: await $axios.$get('http://icanhazip.com')
+    }
+  },
   computed: {
     stateText () {
       return JSON.stringify(this.$store.state, null, 2).replace(/"/g, '')

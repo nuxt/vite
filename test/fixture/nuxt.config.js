@@ -3,7 +3,8 @@ import viteModule from '../../src'
 export default {
   components: true,
   buildModules: [
-    viteModule
+    viteModule,
+    '@nuxtjs/axios'
   ],
   serverMiddleware: {
     '/api/test': '~/serverMiddleware/test'
