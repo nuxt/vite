@@ -40,7 +40,11 @@ export async function buildServer (ctx: ViteBuildContext) {
     define: {
       'process.server': true,
       'process.client': false,
-      window: undefined
+      window: 'undefined',
+      document: 'undefined',
+      navigator: 'undefined',
+      location: 'undefined',
+      XMLHttpRequest: 'undefined'
     },
     resolve: {
       alias
