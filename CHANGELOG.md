@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.26](https://github.com/nuxt/vite/compare/v0.0.25...v0.0.26) (2021-03-02)
+
+
+### Bug Fixes
+
+* add missing ssr type for vite ([0fddc94](https://github.com/nuxt/vite/commit/0fddc9479999d35521d9d5a46aa0ee2752b1dda5))
+* force externalize axios for server ([61aa83b](https://github.com/nuxt/vite/commit/61aa83bb744978146cbe1caf9b31ad82d645c55a))
+
 ### [0.0.25](https://github.com/nuxt/vite/compare/v0.0.24...v0.0.25) (2021-03-02)
 
 
