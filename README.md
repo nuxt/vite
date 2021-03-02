@@ -36,28 +36,36 @@ export default {
 
 That's it! Now you can enjoy super fast `nuxt dev` experience with Vite!
 
-<br>
-<h2 style="text-align: center;">
-  <a href="https://vite.nuxtjs.org" target="_blank">
-📖 Read Documentation</a>
-</h2>
-<br>
+
+**[📖 Read documentation for more](https://vite.nuxtjs.org)**
 
 ## ✔️ What is working?
+
+This is list of known working features:
+
+Features:
 
 - [x] Using vite in development
 - [x] Basic server-side rendering
 - [x] Basic Hot-Module-Replacement
-- [x] Nuxt plugins
-- [x] Nuxt components
+- [x] Nuxt [plugins](https://nuxtjs.org/docs/2.x/directory-structure/plugins/)
+- [x] Nuxt [components](https://github.com/nuxt/components/)
 - [X] Vuex store
-- [x] Page middleware
-- [X] HTTP module
-- [X] i18n module
-- [ ] Axios module (works with `--spa`)
+- [x] Page [middleware](https://nuxtjs.org/docs/2.x/directory-structure/middleware/)
+
+Modules:
+
+- [X] [http](https://http.nuxtjs.org/)
+- [X] [i18n](https://i18n.nuxtjs.org/)
+- [x] [content](https://content.nuxtjs.org/)
+- [ ] [axios](https://axios.nuxtjs.org/) (works with `--spa`)
 - [ ] Composition API
-- [ ] Content module
-- [ ] Tailwindcss module
+- [ ] Tailwindcss
+
+We are trying to make most of modules and options working out-of-the-box. If you are a module maintainer,
+ please see [this section](https://vite.nuxtjs.org/advanced/modules) for supporting vite.
+
+If a module or feature is missing, feel free openining an issue.
 
 ## ❤️ Credits
 
