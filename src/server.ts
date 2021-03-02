@@ -4,7 +4,7 @@ import { createVuePlugin } from 'vite-plugin-vue2'
 import { watch } from 'chokidar'
 import { mkdirp, writeFile } from 'fs-extra'
 import debounce from 'debounce'
-import { ViteBuildContext } from './types'
+import { ViteBuildContext, ViteInlineConfig } from './types'
 import { wpfs } from './utils/wpfs'
 import { cacheDirPlugin } from './plugins/cache-dir'
 
@@ -70,7 +70,7 @@ export async function buildServer (ctx: ViteBuildContext) {
       cacheDirPlugin(ctx.nuxt.options.rootDir, 'server'),
       vuePlugin
     ]
-  } as vite.InlineConfig)
+  } as ViteInlineConfig)
 
   await ctx.nuxt.callHook('vite:extendConfig', serverConfig, { isClient: false, isServer: true })
 

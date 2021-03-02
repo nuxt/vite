@@ -1,4 +1,4 @@
-import type { InlineConfig } from 'vite'
+import type { InlineConfig, SSROptions } from 'vite'
 import type { VueViteOptions } from 'vite-plugin-vue2'
 
 export interface Nuxt {
@@ -15,6 +15,8 @@ export interface ViteInlineConfig extends InlineConfig {
    * @link https://github.com/underfin/vite-plugin-vue2
    */
   vue?: VueViteOptions
+
+  ssr?: SSROptions
 }
 
 export interface ViteBuildContext {
