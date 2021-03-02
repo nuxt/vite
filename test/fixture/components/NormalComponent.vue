@@ -1,5 +1,5 @@
 <template>
   <div>
-    FooBar Component
+    NormalComponent
   </div>
 </template>

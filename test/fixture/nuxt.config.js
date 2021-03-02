@@ -4,7 +4,6 @@ export default {
   components: true,
   buildModules: [
     viteModule
-    // '@nuxt/http'
   ],
   serverMiddleware: {
     '/api/test': '~/serverMiddleware/test'

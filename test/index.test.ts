@@ -16,6 +16,7 @@ describe('browser', () => {
 
   it('SPA works', async () => {
     const page = await createPage('/?spa')
+    await page.waitForLoadState('networkidle')
     const html = await page.innerHTML('body')
     testIndex(html)
   })
@@ -24,8 +25,8 @@ describe('browser', () => {
 function testIndex (html: string) {
   expect(html).toContain('Hello Vite from Nuxt2!')
   expect(html).toContain('/@vite/client')
-  // expect(html).toContain('API Response')
-  // expect(html).toContain('FooBar Component')
+  expect(html).toContain('NormalComponent')
+  expect(html).toContain('JSXComponent')
   expect(html).toContain('st: 1')
   expect(html).toContain('st: 2')
   expect(html).toContain('st: 3')

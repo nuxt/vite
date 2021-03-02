@@ -42,6 +42,10 @@ async function bundle (nuxt: Nuxt, builder: any) {
             'nanoid'
           ]
         },
+        esbuild: {
+          jsxFactory: 'h',
+          jsxFragment: 'Fragment'
+        },
         clearScreen: false,
         build: {
           emptyOutDir: false

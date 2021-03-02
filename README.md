@@ -50,7 +50,7 @@ Features:
 - [x] Nuxt [components](https://github.com/nuxt/components/)
 - [X] Vuex store
 - [x] Page [middleware](https://nuxtjs.org/docs/2.x/directory-structure/middleware/)
-- [ ] JSX
+- [x] Basic [jsx](https://vuejs.org/v2/guide/render-function.html#JSX) (pass `h` as first argument)
 
 Modules:
 
