@@ -8,7 +8,7 @@ export interface Nuxt {
   callHook: Function;
 }
 
-export interface ViteInlineConfig extends InlineConfig {
+export interface ViteOptions extends InlineConfig {
   /**
    * Options for vite-plugin-vue2
    *
@@ -24,5 +24,5 @@ export interface ViteBuildContext {
   builder: {
     plugins: { name: string; mode?: 'client' | 'server'; src: string; }[];
   };
-  config: ViteInlineConfig;
+  config: ViteOptions;
 }

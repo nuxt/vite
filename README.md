@@ -51,6 +51,7 @@ Features:
 - [X] Vuex store
 - [x] Page [middleware](https://nuxtjs.org/docs/2.x/directory-structure/middleware/)
 - [x] Basic [jsx](https://vuejs.org/v2/guide/render-function.html#JSX) (pass `h` as first argument)
+- [x] [Postcss](https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-build#postcss)
 
 Official Modules:
 
@@ -58,9 +59,9 @@ Official Modules:
 - [x] [axios](https://axios.nuxtjs.org/)
 - [X] [i18n](https://i18n.nuxtjs.org/)
 - [x] [content](https://content.nuxtjs.org/)
-- [ ] [auth-next](https://auth.nuxtjs.org/)
+- [x] [Tailwind](https://tailwindcss.nuxtjs.org/)
+- [ ] [auth](https://auth.nuxtjs.org/)
 - [ ] Composition API
-- [ ] Tailwindcss
 
 <!--
 Community Modules:
