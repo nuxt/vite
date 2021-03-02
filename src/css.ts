@@ -1,11 +1,11 @@
 import createResolver from 'postcss-import-resolver'
 import defu from 'defu'
-import type { Nuxt, ViteInlineConfig } from './types'
+import type { Nuxt, ViteOptions } from './types'
 
 // Ref: https://github.com/nuxt/nuxt.js/blob/dev/packages/webpack/src/utils/postcss.js
 
-export function resolveCSSOptions (nuxt: Nuxt): ViteInlineConfig['css'] {
-  const css: ViteInlineConfig['css'] = {
+export function resolveCSSOptions (nuxt: Nuxt): ViteOptions['css'] {
+  const css: ViteOptions['css'] = {
     postcss: {
       plugins: []
     }

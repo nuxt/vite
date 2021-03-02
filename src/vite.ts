@@ -5,7 +5,7 @@ import { buildClient } from './client'
 import { buildServer } from './server'
 import { defaultExportPlugin } from './plugins/default-export'
 import { resolveCSSOptions } from './css'
-import type { Nuxt, ViteBuildContext, ViteInlineConfig } from './types'
+import type { Nuxt, ViteBuildContext, ViteOptions } from './types'
 
 async function bundle (nuxt: Nuxt, builder: any) {
   for (const p of builder.plugins) {
@@ -55,7 +55,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
         plugins: [
           defaultExportPlugin()
         ]
-      } as ViteInlineConfig
+      } as ViteOptions
     )
   }
 

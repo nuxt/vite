@@ -2,7 +2,7 @@ import { resolve } from 'path'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { cacheDirPlugin } from './plugins/cache-dir'
-import { ViteBuildContext, ViteInlineConfig } from './types'
+import { ViteBuildContext, ViteOptions } from './types'
 
 export async function buildClient (ctx: ViteBuildContext) {
   const alias = {}
@@ -37,7 +37,7 @@ export async function buildClient (ctx: ViteBuildContext) {
     server: {
       middlewareMode: true
     }
-  } as ViteInlineConfig)
+  } as ViteOptions)
 
   await ctx.nuxt.callHook('vite:extendConfig', clientConfig, { isClient: true, isServer: false })
 

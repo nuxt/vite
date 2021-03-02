@@ -2,7 +2,7 @@ import type { } from '@nuxt/types'
 import { resolve } from 'upath'
 import { lt } from 'semver'
 import { name, version } from '../package.json'
-import type { ViteInlineConfig } from './types'
+import type { ViteOptions } from './types'
 
 function nuxtVite () {
   const { nuxt } = this
@@ -64,6 +64,6 @@ declare module '@nuxt/types/config/index' {
      *
      * @link https://vitejs.dev/config/
      */
-    vite?: ViteInlineConfig
+    vite?: ViteOptions
   }
 }
