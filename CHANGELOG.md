@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.24](https://github.com/nuxt/vite/compare/v0.0.23...v0.0.24) (2021-03-02)
+
+
+### Bug Fixes
+
+* use named import for semver ([6253565](https://github.com/nuxt/vite/commit/62535654e52cbbc445bdffc2e02726f8ad0e1c28))
+* **pkg:** add missing consola dependency ([913a83b](https://github.com/nuxt/vite/commit/913a83babc1ddd85c4a80e290f0e3d177a376823))
+
 ### [0.0.23](https://github.com/nuxt/vite/compare/v0.0.22...v0.0.23) (2021-03-02)
 
 
