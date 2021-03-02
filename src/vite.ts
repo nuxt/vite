@@ -4,7 +4,8 @@ import * as vite from 'vite'
 import { buildClient } from './client'
 import { buildServer } from './server'
 import { defaultExportPlugin } from './plugins/default-export'
-import { Nuxt, ViteBuildContext, ViteInlineConfig } from './types'
+import { resolveCSSOptions } from './css'
+import type { Nuxt, ViteBuildContext, ViteInlineConfig } from './types'
 
 async function bundle (nuxt: Nuxt, builder: any) {
   for (const p of builder.plugins) {
@@ -35,6 +36,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
           }
         },
         vue: {},
+        css: resolveCSSOptions(nuxt),
         optimizeDeps: {
           exclude: [
             'ufo',

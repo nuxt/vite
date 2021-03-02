@@ -51,6 +51,7 @@ Features:
 - [X] Vuex store
 - [x] Page [middleware](https://nuxtjs.org/docs/2.x/directory-structure/middleware/)
 - [x] Basic [jsx](https://vuejs.org/v2/guide/render-function.html#JSX) (pass `h` as first argument)
+- [x] [Postcss](https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-build#postcss)
 
 Modules:
 
@@ -58,8 +59,8 @@ Modules:
 - [x] [axios](https://axios.nuxtjs.org/)
 - [X] [i18n](https://i18n.nuxtjs.org/)
 - [x] [content](https://content.nuxtjs.org/)
+- [x] [Tailwind](https://tailwindcss.nuxtjs.org/)
 - [ ] Composition API
-- [ ] Tailwindcss
 
 We are trying to make most of modules and options working out-of-the-box. If you are a module maintainer,
  please see [this section](https://vite.nuxtjs.org/advanced/modules) for supporting vite. If a module or feature is missing, feel free openining an issue.
