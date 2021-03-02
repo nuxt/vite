@@ -4,7 +4,7 @@ import * as vite from 'vite'
 import { buildClient } from './client'
 import { buildServer } from './server'
 import { defaultExportPlugin } from './plugins/default-export'
-import { Nuxt, ViteBuildContext } from './types'
+import { Nuxt, ViteBuildContext, ViteInlineConfig } from './types'
 
 async function bundle (nuxt: Nuxt, builder: any) {
   for (const p of builder.plugins) {
@@ -34,6 +34,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
             'abort-controller': require.resolve('./runtime/mock/abort-controller')
           }
         },
+        vue: {},
         optimizeDeps: {
           exclude: [
             'ufo',
@@ -48,7 +49,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
         plugins: [
           defaultExportPlugin()
         ]
-      } as vite.InlineConfig
+      } as ViteInlineConfig
     )
   }
 
