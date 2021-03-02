@@ -1,6 +1,6 @@
 import type { } from '@nuxt/types'
 import { resolve } from 'upath'
-import semver from 'semver'
+import { lt } from 'semver'
 import { name, version } from '../package.json'
 import type { ViteInlineConfig } from './types'
 
@@ -14,7 +14,7 @@ function nuxtVite () {
   // Check nuxt version
   const minVersion = '2.15.2'
   const currentVersion = nuxt.constructor.version || '0.0.0'
-  if (semver.lt(nuxt.constructor.version, minVersion)) {
+  if (lt(nuxt.constructor.version, minVersion)) {
     // eslint-disable-next-line no-console
     console.warn(`disabling nuxt-vite since nuxt >= ${minVersion} is required (curret version: ${currentVersion})`)
     return
