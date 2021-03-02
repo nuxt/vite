@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.28](https://github.com/nuxt/vite/compare/v0.0.27...v0.0.28) (2021-03-02)
+
+
+### Features
+
+* support postcss and tailwindcss ([5298c6b](https://github.com/nuxt/vite/commit/5298c6b05aec27dc527db69f203bb2510d4b4073))
+
 ### [0.0.27](https://github.com/nuxt/vite/compare/v0.0.26...v0.0.27) (2021-03-02)
 
 
