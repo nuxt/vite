@@ -53,6 +53,7 @@ That's it! Now you can enjoy super fast `nuxt dev` experience with Vite!
 - [X] Vuex store
 - [x] Page middleware
 - [X] HTTP module
+- [X] i18n module
 - [ ] Axios module (works with `--spa`)
 - [ ] Composition API
 - [ ] Content module
