@@ -55,9 +55,9 @@ Features:
 Modules:
 
 - [X] [http](https://http.nuxtjs.org/)
+- [x] [axios](https://axios.nuxtjs.org/)
 - [X] [i18n](https://i18n.nuxtjs.org/)
 - [x] [content](https://content.nuxtjs.org/)
-- [ ] [axios](https://axios.nuxtjs.org/) (works with `--spa`)
 - [ ] Composition API
 - [ ] Tailwindcss
 

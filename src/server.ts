@@ -49,6 +49,11 @@ export async function buildServer (ctx: ViteBuildContext) {
     resolve: {
       alias
     },
+    ssr: {
+      external: [
+        'axios'
+      ]
+    },
     build: {
       outDir: 'dist/server',
       ssr: true,
