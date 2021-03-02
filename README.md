@@ -41,8 +41,6 @@ That's it! Now you can enjoy super fast `nuxt dev` experience with Vite!
 
 ## ✔️ What is working?
 
-This is list of known working features:
-
 Features:
 
 - [x] Using vite in development
@@ -52,6 +50,7 @@ Features:
 - [x] Nuxt [components](https://github.com/nuxt/components/)
 - [X] Vuex store
 - [x] Page [middleware](https://nuxtjs.org/docs/2.x/directory-structure/middleware/)
+- [ ] JSX
 
 Modules:
 
@@ -63,9 +62,7 @@ Modules:
 - [ ] Tailwindcss
 
 We are trying to make most of modules and options working out-of-the-box. If you are a module maintainer,
- please see [this section](https://vite.nuxtjs.org/advanced/modules) for supporting vite.
-
-If a module or feature is missing, feel free openining an issue.
+ please see [this section](https://vite.nuxtjs.org/advanced/modules) for supporting vite. If a module or feature is missing, feel free openining an issue.
 
 ## ❤️ Credits
 
