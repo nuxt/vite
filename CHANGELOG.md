@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.25](https://github.com/nuxt/vite/compare/v0.0.24...v0.0.25) (2021-03-02)
+
+
+### Bug Fixes
+
+* set common browser globals to undefined for server ([43a19e3](https://github.com/nuxt/vite/commit/43a19e3dd706453183be64d95fd5f0c56fe3aefd))
+
 ### [0.0.24](https://github.com/nuxt/vite/compare/v0.0.23...v0.0.24) (2021-03-02)
 
 
