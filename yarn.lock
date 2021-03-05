@@ -1524,6 +1524,18 @@
     webpack-node-externals "^2.5.2"
     webpackbar "^4.0.0"
 
+"@nuxtjs/composition-api@0.22.0":
+  version "0.22.0"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/composition-api/-/composition-api-0.22.0.tgz#4ce65673dd08ef3d864ff35556e311224f16ffa2"
+  integrity sha512-FnrnYkCog3/N5T13vFcKKn0wu0Ifsh64OgS4e0PFESe+ON0AheXBYfPhpR7jxAAGBaFmz/8OMD4+LKYaQhxT9w==
+  dependencies:
+    "@vue/composition-api" "1.0.0-rc.3"
+    defu "^3.2.2"
+    estree-walker "^2.0.2"
+    magic-string "^0.25.7"
+    ufo "^0.6.9"
+    upath "^2.0.1"
+
 "@nuxtjs/eslint-config-typescript@^5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@nuxtjs/eslint-config-typescript/-/eslint-config-typescript-5.0.0.tgz#060c1402e559b1df78c8c19b2f5a873eac53cab2"
@@ -2292,6 +2304,13 @@
     vue-template-es2015-compiler "^1.9.0"
   optionalDependencies:
     prettier "^1.18.2"
+
+"@vue/composition-api@1.0.0-rc.3":
+  version "1.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.0.0-rc.3.tgz#5174632fdda888f4f04bbaa5263cf01e34ba3fc2"
+  integrity sha512-/N/yCgIeFwAdsChML1RAke7YT5v/LYnPOyrz2zU+fE6xx2MpZfWn+DD2wCf3Vre659AvuXA8zzKLlRaFzW75XQ==
+  dependencies:
+    tslib "^2.1.0"
 
 "@vue/shared@3.0.7":
   version "3.0.7"
@@ -5502,7 +5521,7 @@ estree-walker@^1.0.1:
   resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-1.0.1.tgz#31bc5d612c96b704106b477e6dd5d8aa138cb700"
   integrity sha512-1fMXF3YP4pZZVozF8j/ZLfvnR8NSIljt56UhbZ5PeeDmmGHpgpdwQt7ITlGvYaQukCvuBRMLEiKiYC+oeIg4cg==
 
-estree-walker@^2.0.1:
+estree-walker@^2.0.1, estree-walker@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-2.0.2.tgz#52f010178c2a4c117a7757cfe942adb7d2da4cac"
   integrity sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==
@@ -11936,7 +11955,7 @@ tslib@^1.8.1, tslib@^1.9.0:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
 
-tslib@^2.0.3:
+tslib@^2.0.3, tslib@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.1.0.tgz#da60860f1c2ecaa5703ab7d39bc05b6bf988b97a"
   integrity sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==
@@ -12035,6 +12054,11 @@ ufo@^0.6.7:
   version "0.6.7"
   resolved "https://registry.yarnpkg.com/ufo/-/ufo-0.6.7.tgz#e39995c2208ac66f23fc1dfbc090e307ab0ab92b"
   integrity sha512-pSaIXMAb5RTmuGEzSwqxvIt9x6qgsSXh3/dJXAaLGedT9oz2xqWCXvliFTCSUQxwHlG2fL3tseCFKoNEWpo31w==
+
+ufo@^0.6.9:
+  version "0.6.9"
+  resolved "https://registry.yarnpkg.com/ufo/-/ufo-0.6.9.tgz#9f1f830d11ec059e957149002cbd1d34b3ddeab0"
+  integrity sha512-+Yr0CwPqrug7Svt6zZRhx+WcxGZaOws0JlWB+NHKCp+BOnds9jHFFyTYeigpRWGRDZDf1LiBKl2x5WbWhGhBVQ==
 
 uglify-js@^3.1.4, uglify-js@^3.5.1:
   version "3.13.0"

@@ -3,6 +3,7 @@ import viteModule from '../../src'
 export default {
   components: true,
   buildModules: [
+    '@nuxtjs/composition-api',
     viteModule
   ],
   serverMiddleware: {
@@ -10,6 +11,7 @@ export default {
   },
   plugins: [
     '~/plugins/hello',
+    '~/plugins/capi',
     '~/plugins/plugin.client',
     '~/plugins/plugin.server',
     '~/plugins/no-export.js'
