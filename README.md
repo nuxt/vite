@@ -60,7 +60,8 @@ Modules:
 - [X] [i18n](https://i18n.nuxtjs.org/)
 - [x] [content](https://content.nuxtjs.org/)
 - [x] [Tailwind](https://tailwindcss.nuxtjs.org/)
-- [ ] Composition API
+- [x] [Composition API](https://composition-api.nuxtjs.org/)
+- [ ] [styl-resources](https://github.com/nuxt-community/style-resources-module) ([workaround](https://vite.nuxtjs.org/misc/common-issues#styleresources))
 
 We are trying to make most of modules and options working out-of-the-box. If you are a module maintainer,
  please see [this section](https://vite.nuxtjs.org/advanced/modules) for supporting vite. If a module or feature is missing, feel free openining an issue.
