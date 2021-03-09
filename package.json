@@ -38,7 +38,7 @@
     "@nuxt/test-utils": "^0.2.0",
     "@nuxt/types": "^2.15.2",
     "@nuxtjs/composition-api": "0.22.0",
-    "@nuxtjs/eslint-config-typescript": "^5.0.0",
+    "@nuxtjs/eslint-config-typescript": "^6.0.0",
     "@types/jest": "^26.0.20",
     "@vue/composition-api": "1.0.0-rc.3",
     "eslint": "^7.21.0",
