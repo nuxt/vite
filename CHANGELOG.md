@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.29](https://github.com/nuxt/vite/compare/v0.0.28...v0.0.29) (2021-03-09)
+
+
+### Bug Fixes
+
+* **server:** safe replacement for client globals (resolves [#73](https://github.com/nuxt/vite/issues/73)) ([37c41af](https://github.com/nuxt/vite/commit/37c41af66a9489dc4b4f275657fcb55cf1cf7cb3))
+
 ### [0.0.28](https://github.com/nuxt/vite/compare/v0.0.27...v0.0.28) (2021-03-02)
 
 
