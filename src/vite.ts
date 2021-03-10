@@ -1,5 +1,4 @@
 import { resolve } from 'path'
-import consola from 'consola'
 import * as vite from 'vite'
 import { buildClient } from './client'
 import { buildServer } from './server'
@@ -67,26 +66,8 @@ async function bundle (nuxt: Nuxt, builder: any) {
 
   await ctx.nuxt.callHook('vite:extend', ctx)
 
-  const callBuild = async (fn, name) => {
-    try {
-      const start = Date.now()
-      await fn(ctx)
-      const time = (Date.now() - start) / 1000
-      consola.success(`${name} compiled successfully in ${time}s`)
-    } catch (err) {
-      consola.error(`${name} compiled with errors:`, err)
-    }
-  }
-
-  if (nuxt.options.dev) {
-    await Promise.all([
-      callBuild(buildClient, 'Client'),
-      callBuild(buildServer, 'Server')
-    ])
-  } else {
-    await callBuild(buildClient, 'Client')
-    await callBuild(buildServer, 'Server')
-  }
+  await buildClient(ctx)
+  await buildServer(ctx)
 }
 
 export class ViteBuilder {
