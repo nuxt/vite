@@ -7,12 +7,12 @@ export function jsxPlugin () {
   return <Plugin>{
     name: 'nuxt:jsx',
     transform (code, id) {
-      if (code && needsJsxProcessing(id)) {
-        code = code.replace(/render\s*\(\s*\)\s*\{/g, 'render(h){')
+      if (!needsJsxProcessing(id)) {
+        return null
       }
 
       return {
-        code,
+        code: code.replace(/render\s*\(\s*\)\s*\{/g, 'render(h){'),
         map: null
       }
     }
