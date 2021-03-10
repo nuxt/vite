@@ -53,7 +53,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
           emptyOutDir: false
         },
         plugins: [
-          jsxPlugin,
+          jsxPlugin(),
           defaultExportPlugin()
         ]
       } as ViteOptions
