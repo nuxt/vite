@@ -3,6 +3,7 @@ import * as vite from 'vite'
 import { buildClient } from './client'
 import { buildServer } from './server'
 import { defaultExportPlugin } from './plugins/default-export'
+import { jsxPlugin } from './plugins/jsx'
 import { resolveCSSOptions } from './css'
 import type { Nuxt, ViteBuildContext, ViteOptions } from './types'
 
@@ -52,6 +53,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
           emptyOutDir: false
         },
         plugins: [
+          jsxPlugin(),
           defaultExportPlugin()
         ]
       } as ViteOptions

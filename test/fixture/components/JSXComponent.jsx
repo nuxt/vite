@@ -1,5 +1,5 @@
 export default {
-  render (h) {
+  render () {
     return <div>JSXComponent</div>
   }
 }

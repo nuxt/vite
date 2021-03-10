@@ -8,6 +8,7 @@ import consola from 'consola'
 import { ViteBuildContext, ViteOptions } from './types'
 import { wpfs } from './utils/wpfs'
 import { cacheDirPlugin } from './plugins/cache-dir'
+import { jsxPlugin } from './plugins/jsx'
 
 const APP_TEMPLATE = `
 <!DOCTYPE html>
@@ -69,6 +70,7 @@ export async function buildServer (ctx: ViteBuildContext) {
     },
     plugins: [
       cacheDirPlugin(ctx.nuxt.options.rootDir, 'server'),
+      jsxPlugin(),
       vuePlugin
     ]
   } as ViteOptions)
