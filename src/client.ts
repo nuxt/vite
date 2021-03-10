@@ -2,6 +2,7 @@ import { resolve } from 'path'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { cacheDirPlugin } from './plugins/cache-dir'
+import { jsxPlugin } from './plugins/jsx'
 import { ViteBuildContext, ViteOptions } from './types'
 
 export async function buildClient (ctx: ViteBuildContext) {
@@ -32,6 +33,7 @@ export async function buildClient (ctx: ViteBuildContext) {
     },
     plugins: [
       cacheDirPlugin(ctx.nuxt.options.rootDir, 'client'),
+      jsxPlugin,
       createVuePlugin(ctx.config.vue)
     ],
     server: {
