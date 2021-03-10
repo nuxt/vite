@@ -37,7 +37,7 @@ function nuxtVite () {
   // TODO: Move to kit
   const getModuleName = (m) => {
     if (Array.isArray(m)) { m = m[0] }
-    return m.meta ? m.meta.name : 'm'
+    return m.meta ? m.meta.name : m
   }
   const filterModule = modules => modules.filter(m => getModuleName(m) !== 'nuxt-vite')
   nuxt.options.modules = filterModule(nuxt.options.modules)
