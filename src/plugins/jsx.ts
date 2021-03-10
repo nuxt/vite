@@ -7,7 +7,7 @@ export const jsxPlugin: Plugin = {
   name: 'nuxt:jsx',
   transform (code, id) {
     if (needsJsxProcessing(id)) {
-      code = code.replace(/render\s*\(\s*\)/g, 'render(h)')
+      code = code.replace(/render\s*\(\s*\)\s*\{/g, 'render(h){')
     }
 
     return {
