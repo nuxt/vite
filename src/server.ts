@@ -4,6 +4,7 @@ import { createVuePlugin } from 'vite-plugin-vue2'
 import { watch } from 'chokidar'
 import { mkdirp, writeFile } from 'fs-extra'
 import debounce from 'debounce'
+import consola from 'consola'
 import { ViteBuildContext, ViteOptions } from './types'
 import { wpfs } from './utils/wpfs'
 import { cacheDirPlugin } from './plugins/cache-dir'
@@ -99,17 +100,21 @@ export async function buildServer (ctx: ViteBuildContext) {
     maps: {}
   }, null, 2))
 
-  const onBuild = debounce(async () => {
-    await ctx.nuxt.callHook('build:resources', wpfs)
-  }, 200)
+  const onBuild = () => ctx.nuxt.callHook('build:resources', wpfs)
 
   if (!ctx.nuxt.options.ssr) {
     await onBuild()
     return
   }
 
-  await vite.build(serverConfig)
-  await onBuild()
+  const build = debounce(async () => {
+    const start = Date.now()
+    await vite.build(serverConfig)
+    await onBuild()
+    consola.info(`Server built in ${Date.now() - start}ms`)
+  }, 300)
+
+  await build()
 
   const watcher = watch([
     ctx.nuxt.options.buildDir,
@@ -121,10 +126,7 @@ export async function buildServer (ctx: ViteBuildContext) {
     ]
   })
 
-  watcher.on('change', async (_path) => {
-    await vite.build(serverConfig)
-    await onBuild()
-  })
+  watcher.on('change', () => build())
 
   ctx.nuxt.hook('close', async () => {
     await watcher.close()
