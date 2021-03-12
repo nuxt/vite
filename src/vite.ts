@@ -23,6 +23,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
         mode: nuxt.options.dev ? 'development' : 'production',
         logLevel: 'warn',
         define: {
+          'process.dev': nuxt.options.dev,
           __webpack_public_path__: 'globalThis.__webpack_public_path__'
         },
         resolve: {

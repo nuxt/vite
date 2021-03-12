@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.34](https://github.com/nuxt/vite/compare/v0.0.33...v0.0.34) (2021-03-12)
+
+
+### Bug Fixes
+
+* set process.dev ([#100](https://github.com/nuxt/vite/issues/100)) ([ea12663](https://github.com/nuxt/vite/commit/ea12663a8de4470fdb407338a23f6ff97006b0cc))
+
 ### [0.0.33](https://github.com/nuxt/vite/compare/v0.0.32...v0.0.33) (2021-03-12)
 
 
