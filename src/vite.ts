@@ -75,7 +75,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
       const results = html.matchAll(/(from ['"]|import\(['"])(?<import>.*)['"]/mg)
       for await (const result of results) {
         const url = result.groups?.import
-        if (warmedUrls.includes(url)) {
+        if (!url || warmedUrls.includes(url)) {
           continue
         }
         warmedUrls.push(url)
