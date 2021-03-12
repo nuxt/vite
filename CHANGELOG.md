@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.33](https://github.com/nuxt/vite/compare/v0.0.32...v0.0.33) (2021-03-12)
+
+
+### Features
+
+* jsx transform support (without h) ([#94](https://github.com/nuxt/vite/issues/94)) ([819ba23](https://github.com/nuxt/vite/commit/819ba23741e9b2d4ebcee0f24552ad18ed7072c5))
+
+
+### Bug Fixes
+
+* support custom `app.html` ([#97](https://github.com/nuxt/vite/issues/97)) ([d5aa6b6](https://github.com/nuxt/vite/commit/d5aa6b61fd9fe83ac9d2fa5a79d91f37c8654d41)), closes [#96](https://github.com/nuxt/vite/issues/96)
+
 ### [0.0.32](https://github.com/nuxt/vite/compare/v0.0.31...v0.0.32) (2021-03-10)
 
 ### [0.0.31](https://github.com/nuxt/vite/compare/v0.0.30...v0.0.31) (2021-03-10)

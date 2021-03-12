@@ -5,7 +5,7 @@
     "post-update": "yarn upgrade --latest"
   },
   "devDependencies": {
-    "nuxt": "^2.15.2",
+    "nuxt": "^2.15.3",
     "nuxt-vite": "latest"
   }
 }
