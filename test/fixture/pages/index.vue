@@ -3,16 +3,19 @@
     <h2>Hello Vite from Nuxt2!</h2>
     <p><NormalComponent /></p>
     <p><JSXComponent /></p>
+    <p><JSXHybrid /></p>
     <pre v-text="stateText" />
   </div>
 </template>
 
 <script>
 import JSXComponent from '~/components/JSXComponent'
+import JSXHybrid from '~/components/JSXHybrid'
 
 export default {
   components: {
-    JSXComponent
+    JSXComponent,
+    JSXHybrid
   },
   middleware: 'test-middleware',
   computed: {
