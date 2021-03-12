@@ -70,7 +70,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
 
   await ctx.nuxt.callHook('vite:extend', ctx)
 
-  ctx.nuxt.hook('vite:serverCreated', async ({ server }: { server: vite.ViteDevServer }) => {
+  ctx.nuxt.hook('vite:serverCreated', ({ server }: { server: vite.ViteDevServer }) => {
     const warmedUrls: string[] = []
     async function processScript (url: string): Promise<any> {
       const script: TransformResult & { deps?: string[] } = await server.transformRequest(url, { html: false, ssr: true })
