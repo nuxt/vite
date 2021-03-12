@@ -72,23 +72,20 @@ async function bundle (nuxt: Nuxt, builder: any) {
 
   ctx.nuxt.hook('vite:serverCreated', async ({ server }: { server: vite.ViteDevServer }) => {
     const warmedUrls: string[] = []
-    function normalizeResult (url: string): Promise<TransformResult & { deps?: string[] }> {
-      return server.transformRequest(url, { html: false, ssr: true })
-    }
-    function processScript (script: TransformResult & { deps?: string[] }): Promise<any> {
-      if (!script || typeof script === 'string') {
-        return
+    async function processScript (url: string): Promise<any> {
+      const script: TransformResult & { deps?: string[] } = await server.transformRequest(url, { html: false, ssr: true })
+      if (!script || typeof script === 'string' || !script.deps) {
+        return Promise.resolve()
       }
-      return Promise.all((script.deps || []).map(async (url) => {
+      return Promise.all((script.deps).map((url) => {
         if (warmedUrls.includes(url)) {
-          return
+          return Promise.resolve()
         }
         warmedUrls.push(url)
-        const result = await normalizeResult(url)
-        return processScript(result)
+        return processScript(url)
       }))
     }
-    processScript(await normalizeResult('/client.js'))
+    processScript('/client.js')
   })
 
   await buildClient(ctx)
