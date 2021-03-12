@@ -46,6 +46,7 @@ function testIndex (html: string) {
   expect(html).toContain('/@vite/client')
   expect(html).toContain('NormalComponent')
   expect(html).toContain('JSXComponent')
+  expect(html).toContain('Custom template')
   expect(html).toContain('st: 1')
   expect(html).toContain('st: 2')
   expect(html).toContain('st: 3')

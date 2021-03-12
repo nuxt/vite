@@ -2,7 +2,7 @@ import { resolve } from 'path'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { watch } from 'chokidar'
-import { mkdirp, writeFile } from 'fs-extra'
+import { exists, readFile, mkdirp, writeFile } from 'fs-extra'
 import debounce from 'debounce'
 import consola from 'consola'
 import { ViteBuildContext, ViteOptions } from './types'
@@ -10,7 +10,7 @@ import { wpfs } from './utils/wpfs'
 import { cacheDirPlugin } from './plugins/cache-dir'
 import { jsxPlugin } from './plugins/jsx'
 
-const APP_TEMPLATE = `
+const DEFAULT_APP_TEMPLATE = `
 <!DOCTYPE html>
 <html {{ HTML_ATTRS }}>
 <head {{ HEAD_ATTRS }}>
@@ -79,6 +79,16 @@ export async function buildServer (ctx: ViteBuildContext) {
 
   const serverDist = resolve(ctx.nuxt.options.buildDir, 'dist/server')
   await mkdirp(serverDist)
+
+  const customAppTemplateFile = resolve(ctx.nuxt.options.srcDir, 'app.html')
+  const APP_TEMPLATE = await exists(customAppTemplateFile)
+    ? (await readFile(customAppTemplateFile, 'utf-8'))
+        .replace('{{ APP }}', '<div id="__nuxt">{{ APP }}</div>')
+        .replace(
+          '</body>',
+          '<script type="module" src="/@vite/client"></script><script type="module" src="/client.js"></script></body>'
+        )
+    : DEFAULT_APP_TEMPLATE
 
   await writeFile(resolve(serverDist, 'index.ssr.html'), APP_TEMPLATE)
   await writeFile(resolve(serverDist, 'index.spa.html'), APP_TEMPLATE)
