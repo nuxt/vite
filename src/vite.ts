@@ -1,5 +1,6 @@
 import { resolve } from 'path'
 import * as vite from 'vite'
+import type { TransformResult } from 'rollup'
 import { buildClient } from './client'
 import { buildServer } from './server'
 import { defaultExportPlugin } from './plugins/default-export'
@@ -70,19 +71,23 @@ async function bundle (nuxt: Nuxt, builder: any) {
 
   ctx.nuxt.hook('vite:serverCreated', async ({ server }: { server: vite.ViteDevServer }) => {
     const warmedUrls: string[] = []
-    const normalizeResult = (url: string) => server.transformRequest(url).then(r => typeof r === 'string' ? r : r?.code || '')
-    const processScript = (html: string) => {
-      const results = html.matchAll(/(from ['"]|import\(['"])(?<import>[^'"]*)['"]/mg)
-      for (const result of results) {
-        const url = result.groups?.import
-        if (!url || !url.startsWith('/') || warmedUrls.includes(url)) {
-          continue
+    function normalizeResult (url: string): Promise<TransformResult & { deps?: string[] }> {
+      return server.transformRequest(url, { html: false, ssr: true })
+    }
+    function processScript (script: TransformResult & { deps?: string[] }): Promise<any> {
+      if (!script || typeof script === 'string') {
+        return
+      }
+      return Promise.all((script.deps || []).map(async (url) => {
+        if (warmedUrls.includes(url)) {
+          return
         }
         warmedUrls.push(url)
-        normalizeResult(url).then(processScript)
-      }
+        const result = await normalizeResult(url)
+        return processScript(result)
+      }))
     }
-    processScript(await normalizeResult('/'))
+    processScript(await normalizeResult('/client.js'))
   })
 
   await buildClient(ctx)
