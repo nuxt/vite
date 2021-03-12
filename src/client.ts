@@ -15,7 +15,6 @@ export async function buildClient (ctx: ViteBuildContext) {
 
   const clientConfig: vite.InlineConfig = vite.mergeConfig(ctx.config, {
     define: {
-      'process.dev': ctx.nuxt.options.dev,
       'process.server': false,
       'process.client': true,
       global: 'window',
