@@ -6,6 +6,7 @@ import { defaultExportPlugin } from './plugins/default-export'
 import { jsxPlugin } from './plugins/jsx'
 import { resolveCSSOptions } from './css'
 import type { Nuxt, ViteBuildContext, ViteOptions } from './types'
+import { warmCache } from './utils/cache'
 
 async function bundle (nuxt: Nuxt, builder: any) {
   for (const p of builder.plugins) {
@@ -67,6 +68,24 @@ async function bundle (nuxt: Nuxt, builder: any) {
   }
 
   await ctx.nuxt.callHook('vite:extend', ctx)
+
+  ctx.nuxt.hook('vite:serverCreated', async (server: vite.ViteDevServer) => {
+    const warmedUrls: string[] = []
+    const normalizeResult = (url: string) => server.transformRequest(url).then(r => typeof r === 'string' ? r : r.code)
+    const processScript = async (html: string) => {
+      const results = html.matchAll(/^import.*'(.*)'$/mg)
+      for await (const result of results) {
+        const url = result[1]
+        if (warmedUrls.includes(url)) {
+          continue
+        }
+        warmedUrls.push(url)
+        const html = await normalizeResult(result[1])
+        processScript(html)
+      }
+    }
+    processScript(await normalizeResult('/'))
+  })
 
   await buildClient(ctx)
   await buildServer(ctx)
