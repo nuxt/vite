@@ -71,16 +71,15 @@ async function bundle (nuxt: Nuxt, builder: any) {
   ctx.nuxt.hook('vite:serverCreated', async ({ server }: { server: vite.ViteDevServer }) => {
     const warmedUrls: string[] = []
     const normalizeResult = (url: string) => server.transformRequest(url).then(r => typeof r === 'string' ? r : r?.code || '')
-    const processScript = async (html: string) => {
-      const results = html.matchAll(/(from ['"]|import\(['"])(?<import>.*)['"]/mg)
-      for await (const result of results) {
+    const processScript = (html: string) => {
+      const results = html.matchAll(/(from ['"]|import\(['"])(?<import>[^'"]*)['"]/mg)
+      for (const result of results) {
         const url = result.groups?.import
-        if (!url || warmedUrls.includes(url)) {
+        if (!url || !url.startsWith('/') || warmedUrls.includes(url)) {
           continue
         }
         warmedUrls.push(url)
-        const html = await normalizeResult(url)
-        processScript(html)
+        normalizeResult(url).then(processScript)
       }
     }
     processScript(await normalizeResult('/'))
