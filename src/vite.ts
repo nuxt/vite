@@ -6,7 +6,6 @@ import { defaultExportPlugin } from './plugins/default-export'
 import { jsxPlugin } from './plugins/jsx'
 import { resolveCSSOptions } from './css'
 import type { Nuxt, ViteBuildContext, ViteOptions } from './types'
-import { warmCache } from './utils/cache'
 
 async function bundle (nuxt: Nuxt, builder: any) {
   for (const p of builder.plugins) {
