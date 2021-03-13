@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.35](https://github.com/nuxt/vite/compare/v0.0.34...v0.0.35) (2021-03-13)
+
+
+### Features
+
+* eagerly warm up cache for client entry ([#99](https://github.com/nuxt/vite/issues/99)) ([8070240](https://github.com/nuxt/vite/commit/807024091b9acaedda92fa55a628ce229824c963))
+
 ### [0.0.34](https://github.com/nuxt/vite/compare/v0.0.33...v0.0.34) (2021-03-12)
 
 
