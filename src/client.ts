@@ -44,6 +44,8 @@ export async function buildClient (ctx: ViteBuildContext) {
   await ctx.nuxt.callHook('vite:extendConfig', clientConfig, { isClient: true, isServer: false })
 
   const viteServer = await vite.createServer(clientConfig)
+  await ctx.nuxt.callHook('vite:serverCreated', viteServer)
+
   const viteMiddleware = (req, res, next) => {
     // Workaround: vite devmiddleware modifies req.url
     const originalURL = req.url
@@ -56,6 +58,7 @@ export async function buildClient (ctx: ViteBuildContext) {
     })
   }
   await ctx.nuxt.callHook('server:devMiddleware', viteMiddleware)
+
   ctx.nuxt.hook('close', async () => {
     await viteServer.close()
   })
