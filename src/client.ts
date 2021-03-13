@@ -58,6 +58,7 @@ export async function buildClient (ctx: ViteBuildContext) {
     })
   }
   await ctx.nuxt.callHook('server:devMiddleware', viteMiddleware)
+
   ctx.nuxt.hook('close', async () => {
     await viteServer.close()
   })
