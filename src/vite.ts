@@ -1,10 +1,12 @@
 import { resolve } from 'path'
 import * as vite from 'vite'
+import consola from 'consola'
 import { buildClient } from './client'
 import { buildServer } from './server'
 import { defaultExportPlugin } from './plugins/default-export'
 import { jsxPlugin } from './plugins/jsx'
 import { resolveCSSOptions } from './css'
+import { warmupViteServer } from './utils/warmup'
 import type { Nuxt, ViteBuildContext, ViteOptions } from './types'
 
 async function bundle (nuxt: Nuxt, builder: any) {
@@ -66,8 +68,14 @@ async function bundle (nuxt: Nuxt, builder: any) {
   if (i18nAlias) {
     ctx.config.resolve.alias['~i18n-klona'] = i18nAlias.replace('.js', '.mjs')
   }
-
   await ctx.nuxt.callHook('vite:extend', ctx)
+
+  ctx.nuxt.hook('vite:serverCreated', (server: vite.ViteDevServer) => {
+    const start = Date.now()
+    warmupViteServer(server, ['/client.js']).then(() => {
+      consola.info(`Vite warmed up in ${Date.now() - start}ms`)
+    }).catch(consola.error)
+  })
 
   await buildClient(ctx)
   await buildServer(ctx)
