@@ -5,7 +5,8 @@ export function replace (replacements: Record<string, string>) {
     name: 'nuxt:replace',
     transform (code) {
       Object.entries(replacements).forEach(([key, value]) => {
-        code = code.replace(new RegExp(key, 'g'), value)
+        const escapedKey = key.replace(/\./g, '\\.')
+        code = code.replace(new RegExp(escapedKey, 'g'), value)
       })
       return {
         code,
