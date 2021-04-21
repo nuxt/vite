@@ -5,6 +5,7 @@ import { buildClient } from './client'
 import { buildServer } from './server'
 import { defaultExportPlugin } from './plugins/default-export'
 import { jsxPlugin } from './plugins/jsx'
+import { replace } from './plugins/replace'
 import { resolveCSSOptions } from './css'
 import { warmupViteServer } from './utils/warmup'
 import type { Nuxt, ViteBuildContext, ViteOptions } from './types'
@@ -24,8 +25,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
         mode: nuxt.options.dev ? 'development' : 'production',
         logLevel: 'warn',
         define: {
-          'process.dev': nuxt.options.dev,
-          __webpack_public_path__: 'globalThis.__webpack_public_path__'
+          'process.dev': nuxt.options.dev
         },
         resolve: {
           extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
@@ -56,6 +56,9 @@ async function bundle (nuxt: Nuxt, builder: any) {
           emptyOutDir: false
         },
         plugins: [
+          replace({
+            __webpack_public_path__: 'globalThis.__webpack_public_path__'
+          }),
           jsxPlugin(),
           defaultExportPlugin()
         ]
