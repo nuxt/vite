@@ -14,7 +14,7 @@ describe('browser', () => {
     testIndex(html)
   })
 
-  it('Composition API works (SSR)', async () => {
+  it.skip('Composition API works (SSR)', async () => {
     const html = (await get('/capi')).body as string
     testCompositionAPI(html)
   })
@@ -26,14 +26,14 @@ describe('browser', () => {
     testIndex(html)
   }, 15000)
 
-  it('Composition API works (SPA)', async () => {
+  it.skip('Composition API works (SPA)', async () => {
     const page = await createPage('/capi?spa')
     await page.waitForLoadState('networkidle')
     const html = await page.innerHTML('body')
     testCompositionAPI(html, 'client')
   }, 15000)
 
-  it('Composition API works (SSR client-load)', async () => {
+  it.skip('Composition API works (SSR client-load)', async () => {
     const page = await createPage('/capi')
     await page.waitForLoadState('networkidle')
     const html = await page.innerHTML('body')
