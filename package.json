@@ -1,6 +1,6 @@
 {
   "name": "nuxt-vite",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "description": "Vite Experience with Nuxt 2",
   "repository": "nuxt/vite",
   "license": "MIT",
@@ -42,7 +42,7 @@
     "@types/jest": "^26.0.22",
     "eslint": "^7.24.0",
     "jest": "^26.6.3",
-    "mkdist": "^0.1.7",
+    "mkdist": "^0.2.0",
     "nuxt": "^2.15.4",
     "playwright": "^1.10.0",
     "siroc": "^0.9.2",
