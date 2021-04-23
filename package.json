@@ -40,7 +40,6 @@
     "@nuxtjs/composition-api": "^0.23.2",
     "@nuxtjs/eslint-config-typescript": "^6.0.0",
     "@types/jest": "^26.0.22",
-    "@vue/composition-api": "1.0.0-rc.7",
     "eslint": "^7.24.0",
     "jest": "^26.6.3",
     "mkdist": "^0.1.7",
