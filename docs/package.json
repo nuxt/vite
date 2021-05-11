@@ -8,7 +8,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "docus": "^0.3.0",
+    "docus": "~0.1.5",
     "nuxt": "^2.15.5",
     "vue-plausible": "^1.1.4"
   }
