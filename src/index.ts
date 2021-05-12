@@ -1,5 +1,6 @@
 import type { } from '@nuxt/types'
 import { resolve } from 'upath'
+import consola from 'consola'
 import { lt } from 'semver'
 import { name, version } from '../package.json'
 import type { ViteOptions } from './types'
@@ -16,16 +17,31 @@ function nuxtVite () {
   const currentVersion = nuxt.constructor.version || '0.0.0'
   if (lt(nuxt.constructor.version, minVersion)) {
     // eslint-disable-next-line no-console
-    console.warn(`disabling nuxt-vite since nuxt >= ${minVersion} is required (curret version: ${currentVersion})`)
+    consola.warn(`disabling nuxt-vite since nuxt >= ${minVersion} is required (curret version: ${currentVersion})`)
     return
+  }
+
+  // Disable SSR by default
+  const ssrEnabled = Boolean(nuxt.options.vite?.ssr)
+  if (!ssrEnabled) {
+    nuxt.options.ssr = false
+    nuxt.options.render.ssr = false
+    nuxt.options.build.ssr = false
+    nuxt.options.mode = 'spa'
   }
 
   nuxt.options.cli.badgeMessages.push(`⚡  Vite Mode Enabled (v${version})`)
   // eslint-disable-next-line no-console
-  console.log(
-    '🧪  Vite mode is experimental and many nuxt modules are still incompatible\n',
-    '   If found a bug, please report via https://github.com/nuxt/vite/issues with a minimal reproduction'
-  )
+  if (nuxt.options.vite?.experimentWarning !== false && !nuxt.options.test) {
+    consola.log(
+      '🧪  Vite mode is experimental and some nuxt modules might be incompatible\n',
+      '   If found a bug, please report via https://github.com/nuxt/vite/issues with a minimal reproduction.' + (
+        ssrEnabled
+          ? '\n    Unstable server-side rendering is enabled'
+          : '\n    You can enable unstable server-side rendering using `vite: { ssr: true }` in `nuxt.config`'
+      )
+    )
+  }
 
   // Disable loading-screen because why have it!
   nuxt.options.build.loadingScreen = false
@@ -74,6 +90,9 @@ declare module '@nuxt/types/config/index' {
      *
      * @link https://vitejs.dev/config/
      */
-    vite?: ViteOptions
+    vite?: ViteOptions & {
+      ssr: false | ViteOptions['ssr'],
+      experimentWarning: boolean
+    }
   }
 }
