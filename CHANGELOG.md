@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/nuxt/vite/compare/v0.0.39...v0.1.0) (2021-05-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* disable ssr by default (#139)
+
+### Features
+
+* disable ssr by default ([#139](https://github.com/nuxt/vite/issues/139)) ([5de0470](https://github.com/nuxt/vite/commit/5de04702997ea82da889bea8185891a0ce177466))
+
+
+### Bug Fixes
+
+* **server:** add `build.transpile` to `ssr.noExternal` ([441cf6c](https://github.com/nuxt/vite/commit/441cf6cadd7ae97fcdabd0d9318a23b280505eb5))
+
 ### [0.0.39](https://github.com/nuxt/vite/compare/v0.0.38...v0.0.39) (2021-05-12)
 
 
