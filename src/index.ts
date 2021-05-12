@@ -22,7 +22,7 @@ function nuxtVite () {
   }
 
   // Disable SSR by default
-  const ssrEnabled = Boolean(nuxt.options.vite?.ssr)
+  const ssrEnabled = nuxt.options.ssr && nuxt.options.vite?.ssr
   if (!ssrEnabled) {
     nuxt.options.ssr = false
     nuxt.options.render.ssr = false
