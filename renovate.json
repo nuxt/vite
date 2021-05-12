@@ -2,7 +2,8 @@
   "extends": [
     "@nuxtjs"
   ],
-    "ignoreDeps": [
-    "docus"
+  "ignoreDeps": [
+    "docus",
+    "vite"
   ]
 }
