@@ -22,5 +22,8 @@ export default {
         ssrContext.spa = true
       }
     }
+  },
+  vite: {
+    ssr: true
   }
 }
