@@ -1,7 +1,6 @@
 import { resolve } from 'path'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
-import { cacheDirPlugin } from './plugins/cache-dir'
 import { jsxPlugin } from './plugins/jsx'
 import { replace } from './plugins/replace'
 import { ViteBuildContext, ViteOptions } from './types'
@@ -21,6 +20,7 @@ export async function buildClient (ctx: ViteBuildContext) {
       global: 'window',
       'module.hot': false
     },
+    cacheDir: resolve(ctx.nuxt.options.rootDir, 'node_modules/.cache/vite/client'),
     resolve: {
       alias
     },
@@ -33,7 +33,6 @@ export async function buildClient (ctx: ViteBuildContext) {
     },
     plugins: [
       replace({ 'process.env': 'import.meta.env' }),
-      cacheDirPlugin(ctx.nuxt.options.rootDir, 'client'),
       jsxPlugin(),
       createVuePlugin(ctx.config.vue)
     ],

@@ -7,7 +7,6 @@ import debounce from 'debounce'
 import consola from 'consola'
 import { ViteBuildContext, ViteOptions } from './types'
 import { wpfs } from './utils/wpfs'
-import { cacheDirPlugin } from './plugins/cache-dir'
 import { jsxPlugin } from './plugins/jsx'
 
 const DEFAULT_APP_TEMPLATE = `
@@ -48,6 +47,7 @@ export async function buildServer (ctx: ViteBuildContext) {
       'typeof location': '"undefined"',
       'typeof XMLHttpRequest': '"undefined"'
     },
+    cacheDir: resolve(ctx.nuxt.options.rootDir, 'node_modules/.cache/vite/server'),
     resolve: {
       alias
     },
@@ -69,7 +69,6 @@ export async function buildServer (ctx: ViteBuildContext) {
       }
     },
     plugins: [
-      cacheDirPlugin(ctx.nuxt.options.rootDir, 'server'),
       jsxPlugin(),
       vuePlugin
     ]
