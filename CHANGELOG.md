@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.39](https://github.com/nuxt/vite/compare/v0.0.38...v0.0.39) (2021-05-12)
+
+
+### Bug Fixes
+
+* add explicit mjs from require.resolve ([d5798a5](https://github.com/nuxt/vite/commit/d5798a57f058b097a3b569213ac4ce44abb8884b))
+* use mjs for templates ([0cd6848](https://github.com/nuxt/vite/commit/0cd68489de61f477f911dee60aa08a28deadbe52)), closes [#137](https://github.com/nuxt/vite/issues/137)
+
+### [0.0.38](https://github.com/nuxt/vite/compare/v0.0.37...v0.0.38) (2021-05-11)
+
 ### [0.0.37](https://github.com/nuxt/vite/compare/v0.0.36...v0.0.37) (2021-04-21)
 
 ### [0.0.36](https://github.com/nuxt/vite/compare/v0.0.35...v0.0.36) (2021-03-13)
