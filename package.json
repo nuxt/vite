@@ -37,7 +37,7 @@
     "@babel/preset-typescript": "^7.13.0",
     "@nuxt/test-utils": "^0.2.2",
     "@nuxt/types": "^2.15.6",
-    "@nuxtjs/composition-api": "^0.23.4",
+    "@nuxtjs/composition-api": "^0.24.0",
     "@nuxtjs/eslint-config-typescript": "^6.0.0",
     "@types/jest": "^26.0.23",
     "eslint": "^7.26.0",
