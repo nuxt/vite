@@ -1,12 +1,8 @@
 import { withDocus } from 'docus'
 
 export default withDocus({
+  rootDir: __dirname,
   buildModules: ['vue-plausible'],
-  docus: {
-    colors: {
-      primary: '#ffcb23'
-    }
-  },
   plausible: {
     domain: 'vite.nuxtjs.org'
   }
