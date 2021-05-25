@@ -30,7 +30,7 @@
     "semver": "^7.3.5",
     "ufo": "^0.7.5",
     "upath": "^2.0.1",
-    "vite": "~2.2.1",
+    "vite": "^2.3.4",
     "vite-plugin-vue2": "^1.5.1"
   },
   "devDependencies": {

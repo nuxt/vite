@@ -39,6 +39,11 @@ async function bundle (nuxt: Nuxt, builder: any) {
           }
         },
         vue: {},
+        server: {
+          fsServe: {
+            strict: false
+          }
+        },
         css: resolveCSSOptions(nuxt),
         optimizeDeps: {
           exclude: [

@@ -5292,11 +5292,6 @@ esbuild@^0.11.23, esbuild@^0.11.6:
   resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.11.23.tgz#c42534f632e165120671d64db67883634333b4b8"
   integrity sha512-iaiZZ9vUF5wJV8ob1tl+5aJTrwDczlvGP0JoMmnpC2B0ppiMCu8n8gmy5ZTGl5bcG081XBVn+U+jP+mPFm5T5Q==
 
-esbuild@^0.9.3:
-  version "0.9.7"
-  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.9.7.tgz#ea0d639cbe4b88ec25fbed4d6ff00c8d788ef70b"
-  integrity sha512-VtUf6aQ89VTmMLKrWHYG50uByMF4JQlVysb8dmg6cOgW8JnFCipmz7p+HNBl+RR3LLCuBxFGVauAe2wfnF9bLg==
-
 escalade@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/escalade/-/escalade-3.1.1.tgz#d8cfdc7000965c5a0174b4a82eaa5c0552742e40"
@@ -10023,7 +10018,7 @@ postcss@7.x.x, postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.14, postcss@^7.0.17,
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-postcss@^8.2.1:
+postcss@^8.2.10:
   version "8.3.0"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.0.tgz#b1a713f6172ca427e3f05ef1303de8b65683325f"
   integrity sha512-+ogXpdAjWGa+fdYY5BQ96V/6tAo+TdSSIMP5huJBIygdWwKtVoB5JWZ7yUd4xZ8r+8Kvvx4nyg/PQ071H4UtcQ==
@@ -12326,13 +12321,13 @@ vite-plugin-vue2@^1.5.1:
     vue-template-compiler "^2.6.11"
     vue-template-es2015-compiler "^1.9.1"
 
-vite@~2.2.1:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-2.2.4.tgz#8f9cc85aacab04c850085894b086c8717f12ed16"
-  integrity sha512-vnIwSNci+phFMp6krhy+FbYzKL0R67Sdt9mVZ96S27AewrApSJjTqncJcalk8sf60BgcbW4+1C6DFIWkxquO9g==
+vite@^2.3.4:
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-2.3.4.tgz#370118e0334725b898ff754ea43d5db4c5e120e3"
+  integrity sha512-7orxrF65+Q5n/sMCnO91S8OS0gkPJ7g+y3bLlc7CPCXVswK8to1T8YycCk9SZh+AcIc0TuN6YajWTBFS5atMNA==
   dependencies:
-    esbuild "^0.9.3"
-    postcss "^8.2.1"
+    esbuild "^0.11.23"
+    postcss "^8.2.10"
     resolve "^1.19.0"
     rollup "^2.38.5"
   optionalDependencies:
