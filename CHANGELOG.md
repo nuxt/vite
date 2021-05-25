@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/nuxt/vite/compare/v0.1.0...v0.1.1) (2021-05-25)
+
+
+### Features
+
+* vite 2.3 ([#138](https://github.com/nuxt/vite/issues/138)) ([3a045d9](https://github.com/nuxt/vite/commit/3a045d986ffc674f8077115a77b667b759dbfb76))
+
 ## [0.1.0](https://github.com/nuxt/vite/compare/v0.0.39...v0.1.0) (2021-05-12)
 
 
