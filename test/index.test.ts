@@ -14,11 +14,6 @@ describe('browser', () => {
     testIndex(html)
   })
 
-  it.skip('Composition API works (SSR)', async () => {
-    const html = (await get('/capi')).body as string
-    testCompositionAPI(html)
-  })
-
   it('SPA works', async () => {
     const page = await createPage('/?spa')
     await page.waitForLoadState('networkidle')
@@ -26,14 +21,19 @@ describe('browser', () => {
     testIndex(html)
   }, 15000)
 
-  it.skip('Composition API works (SPA)', async () => {
+  it('Composition API works (SSR)', async () => {
+    const html = (await get('/capi')).body as string
+    testCompositionAPI(html)
+  })
+
+  it('Composition API works (SPA)', async () => {
     const page = await createPage('/capi?spa')
     await page.waitForLoadState('networkidle')
     const html = await page.innerHTML('body')
     testCompositionAPI(html, 'client')
   }, 15000)
 
-  it.skip('Composition API works (SSR client-load)', async () => {
+  it('Composition API works (SSR client-load)', async () => {
     const page = await createPage('/capi')
     await page.waitForLoadState('networkidle')
     const html = await page.innerHTML('body')

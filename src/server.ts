@@ -54,6 +54,9 @@ export async function buildServer (ctx: ViteBuildContext) {
     ssr: {
       external: [
         'axios'
+      ],
+      noExternal: [
+        ...ctx.nuxt.options.build.transpile.filter(i => typeof i === 'string')
       ]
     },
     build: {
