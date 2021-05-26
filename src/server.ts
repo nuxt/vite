@@ -115,6 +115,16 @@ export async function buildServer (ctx: ViteBuildContext) {
   const onBuild = () => ctx.nuxt.callHook('build:resources', wpfs)
 
   if (!ctx.nuxt.options.ssr) {
+    await writeFile(resolve(serverDist, 'server.js'), `
+module.exports = (ssrContext) => {
+  ssrContext.nuxt = {}
+  ssrContext.head = () => ({
+    headTags: '<script type="module" src="/@vite/client"></script><script type="module" src="/client.js"></script>'
+  })
+  const Vue = require('vue')
+  const app = new Vue({ template: '<div id="__nuxt"></div>' })
+  return app
+}`)
     await onBuild()
     return
   }

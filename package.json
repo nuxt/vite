@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.13.0",
+    "@nuxt/nitro": "^0.7.1",
     "@nuxt/test-utils": "^0.2.2",
     "@nuxt/types": "^2.15.6",
     "@nuxtjs/composition-api": "^0.24.0",

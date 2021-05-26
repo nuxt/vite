@@ -4,6 +4,7 @@ export default {
   components: true,
   buildModules: [
     '@nuxtjs/composition-api/module',
+    '@nuxt/nitro/compat',
     viteModule
   ],
   serverMiddleware: {
@@ -24,6 +25,6 @@ export default {
     }
   },
   vite: {
-    ssr: true
+    ssr: !true
   }
 }
