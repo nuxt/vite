@@ -4,6 +4,7 @@
   ],
   "ignoreDeps": [
     "docus",
-    "vite"
+    "vite",
+    "p-debounce"
   ]
 }

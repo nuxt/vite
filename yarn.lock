@@ -5196,11 +5196,6 @@ de-indent@^1.0.2:
   resolved "https://registry.yarnpkg.com/de-indent/-/de-indent-1.0.2.tgz#b2038e846dc33baa5796128d0804b455b8c1e21d"
   integrity sha1-sgOOhG3DO6pXlhKNCAS0VbjB4h0=
 
-debounce@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/debounce/-/debounce-1.2.1.tgz#38881d8f4166a5c5848020c11827b834bcb3e0a5"
-  integrity sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==
-
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
@@ -5667,12 +5662,7 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
-esbuild@^0.11.23:
-  version "0.11.23"
-  resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.11.23.tgz#c42534f632e165120671d64db67883634333b4b8"
-  integrity sha512-iaiZZ9vUF5wJV8ob1tl+5aJTrwDczlvGP0JoMmnpC2B0ppiMCu8n8gmy5ZTGl5bcG081XBVn+U+jP+mPFm5T5Q==
-
-esbuild@^0.12.18, esbuild@^0.12.9:
+esbuild@^0.12.18, esbuild@^0.12.8, esbuild@^0.12.9:
   version "0.12.19"
   resolved "https://registry.yarnpkg.com/esbuild/-/esbuild-0.12.19.tgz#ab849766705a5093df5acd8ec2f6ba2159a38a6c"
   integrity sha512-5NuT1G6THW7l3fsSCDkcPepn24R0XtyPjKoqKHD8LfhqMXzCdz0mrS9HgO6hIhzVT7zt0T+JGbzCqF5AH8hS9w==
@@ -9260,6 +9250,11 @@ p-cancelable@^2.0.0:
   resolved "https://registry.yarnpkg.com/p-cancelable/-/p-cancelable-2.1.1.tgz#aab7fbd416582fa32a3db49859c122487c5ed2cf"
   integrity sha512-BZOr3nRQHOntUjTrH8+Lh54smKHoHyur8We1V8DSMVrl5A2malOOwuJRnKRDjSnkoeBh4at6BwEnb5I7Jl31wg==
 
+p-debounce@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/p-debounce/-/p-debounce-2.1.0.tgz#e79f70c6e325cbb9bddbcbec0b81025084671ad3"
+  integrity sha512-M9bMt62TTnozdZhqFgs+V7XD2MnuKCaz+7fZdlu2/T7xruI3uIE5CicQ0vx1hV7HIUYF0jF+4/R1AgfOkl74Qw==
+
 p-defer@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/p-defer/-/p-defer-1.0.0.tgz#9f6eb182f6c9aa8cd743004a7d4f96b196b0fb0c"
@@ -10321,10 +10316,10 @@ postcss@7.x.x, postcss@^7.0.0, postcss@^7.0.1, postcss@^7.0.14, postcss@^7.0.17,
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-postcss@^8.2.10:
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.0.tgz#b1a713f6172ca427e3f05ef1303de8b65683325f"
-  integrity sha512-+ogXpdAjWGa+fdYY5BQ96V/6tAo+TdSSIMP5huJBIygdWwKtVoB5JWZ7yUd4xZ8r+8Kvvx4nyg/PQ071H4UtcQ==
+postcss@^8.3.6:
+  version "8.3.6"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.3.6.tgz#2730dd76a97969f37f53b9a6096197be311cc4ea"
+  integrity sha512-wG1cc/JhRgdqB6WHEuyLTedf3KIRuD0hG6ldkFEZNCjRxiC+3i6kkWUUbiJQayP28iwG35cEmAbe98585BYV0A==
   dependencies:
     colorette "^1.2.2"
     nanoid "^3.1.23"
@@ -12510,17 +12505,17 @@ vite-plugin-vue2@^1.8.0:
     source-map "^0.7.3"
     vue-template-es2015-compiler "^1.9.1"
 
-vite@^2.3.4:
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-2.3.4.tgz#370118e0334725b898ff754ea43d5db4c5e120e3"
-  integrity sha512-7orxrF65+Q5n/sMCnO91S8OS0gkPJ7g+y3bLlc7CPCXVswK8to1T8YycCk9SZh+AcIc0TuN6YajWTBFS5atMNA==
+vite@^2.4.4:
+  version "2.4.4"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-2.4.4.tgz#8c402a07ad45f168f6eb5428bead38f3e4363e47"
+  integrity sha512-m1wK6pFJKmaYA6AeZIUXyiAgUAAJzVXhIMYCdZUpCaFMGps0v0IlNJtbmPvkUhVEyautalajmnW5X6NboUPsnw==
   dependencies:
-    esbuild "^0.11.23"
-    postcss "^8.2.10"
-    resolve "^1.19.0"
+    esbuild "^0.12.8"
+    postcss "^8.3.6"
+    resolve "^1.20.0"
     rollup "^2.38.5"
   optionalDependencies:
-    fsevents "~2.3.1"
+    fsevents "~2.3.2"
 
 vm-browserify@^1.0.1:
   version "1.1.2"
