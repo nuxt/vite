@@ -15,7 +15,7 @@
     "prepublishOnly": "yarn build",
     "dev": "nuxt dev test/fixture",
     "lint": "eslint --ext .ts .",
-    "release": "yarn test && standard-version && git push --follow-tags && npm publish",
+    "release": "yarn test && standard-version && git push --follow-tags && yarn publish --non-interactive",
     "test": "yarn lint && yarn jest"
   },
   "dependencies": {
