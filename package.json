@@ -1,6 +1,6 @@
 {
   "name": "nuxt-vite",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Vite Experience with Nuxt 2",
   "repository": "nuxt/vite",
   "license": "MIT",
