@@ -40,7 +40,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
         },
         vue: {},
         server: {
-          fsServe: {
+          fs: {
             strict: false
           }
         },

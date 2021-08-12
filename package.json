@@ -13,7 +13,10 @@
     "build": "siroc build && mkdist --src src/runtime --dist dist/runtime",
     "stub": "siroc dev",
     "prepublishOnly": "yarn build",
-    "dev": "nuxt dev test/fixture",
+    "play": "yarn play:dev",
+    "play:dev": "nuxt dev test/fixture",
+    "play:build": "nuxt build test/fixture",
+    "play:start": "nuxt start test/fixture",
     "lint": "eslint --ext .ts .",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish",
     "test": "yarn lint && yarn jest"
