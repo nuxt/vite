@@ -8,6 +8,6 @@
   },
   "devDependencies": {
     "docus": "^0.5.6",
-    "vue-plausible": "^1.1.4"
+    "vue-plausible": "^1.2.1"
   }
 }
