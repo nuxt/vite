@@ -39,7 +39,7 @@
     "@nuxt/types": "^2.15.8",
     "@nuxtjs/composition-api": "^0.26.0",
     "@nuxtjs/eslint-config-typescript": "^6.0.1",
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^27.0.0",
     "eslint": "^7.32.0",
     "jest": "^27.0.6",
     "mkdist": "^0.3.3",
