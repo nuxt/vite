@@ -11,6 +11,7 @@
   ],
   "scripts": {
     "build": "siroc build && mkdist --src src/runtime --dist dist/runtime",
+    "stub": "siroc dev",
     "prepublishOnly": "yarn build",
     "dev": "nuxt dev test/fixture",
     "lint": "eslint --ext .ts .",
