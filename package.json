@@ -11,11 +11,10 @@
   ],
   "scripts": {
     "build": "siroc build && mkdist --src src/runtime --dist dist/runtime",
-    "stub": "siroc dev",
     "prepublishOnly": "yarn build",
     "dev": "nuxt dev test/fixture",
     "lint": "eslint --ext .ts .",
-    "release": "yarn test && standard-version && git push --follow-tags && yarn publish --non-interactive",
+    "release": "yarn test && standard-version && git push --follow-tags && npm publish",
     "test": "yarn lint && yarn jest"
   },
   "dependencies": {
