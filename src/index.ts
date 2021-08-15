@@ -14,10 +14,10 @@ function nuxtVite () {
 
   // Check nuxt version
   const minVersion = '2.15.2'
-  const currentVersion = nuxt.constructor.version || '0.0.0'
-  if (lt(nuxt.constructor.version, minVersion)) {
+  const currentVersion = (nuxt.constructor.version || '0.0.0').split('-')[0]
+  if (lt(currentVersion, minVersion)) {
     // eslint-disable-next-line no-console
-    consola.warn(`disabling nuxt-vite since nuxt >= ${minVersion} is required (curret version: ${currentVersion})`)
+    consola.warn(`Disabling nuxt-vite since nuxt >= ${minVersion} is required (current version: ${currentVersion})`)
     return
   }
 
