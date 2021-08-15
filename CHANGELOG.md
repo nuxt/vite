@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/nuxt/vite/compare/v0.1.2...v0.1.3) (2021-08-15)
+
+
+### Bug Fixes
+
+* hide warm-up errors ([#168](https://github.com/nuxt/vite/issues/168)) ([864f156](https://github.com/nuxt/vite/commit/864f15617a313e78bbc2604fa95677f5411dcaa2))
+* invalid version when containing a - ([#177](https://github.com/nuxt/vite/issues/177)) ([b650320](https://github.com/nuxt/vite/commit/b650320e2bf75615d9ec40a46eb3b7f133c41038))
+
 ### [0.1.2](https://github.com/nuxt/vite/compare/v0.1.1...v0.1.2) (2021-08-12)
 
 
