@@ -2,7 +2,7 @@ import { resolve } from 'path'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { watch } from 'chokidar'
-import { existsSync, readFile, mkdirp, writeFile, readJSON, writeJSON } from 'fs-extra'
+import { existsSync, readFile, mkdirp, writeFile, readJSON, writeJSON, readdir } from 'fs-extra'
 import debounce from 'p-debounce'
 import consola from 'consola'
 import { join } from 'upath'
@@ -83,9 +83,14 @@ export async function buildServer (ctx: ViteBuildContext) {
   const clientDist = resolve(ctx.nuxt.options.buildDir, 'dist/client')
   await mkdirp(serverDist)
 
+  const clientFiles = existsSync(clientDist) ? await readdir(clientDist) : []
+  const polyfillName = clientFiles.find(i => i.startsWith('polyfills-legacy.'))
+
   const r = (...args: string[]): string => resolve(serverDist, ...args)
 
-  const viteClientManifest = await readJSON(join(clientDist, 'manifest.json'))
+  const viteClientManifest = existsSync(clientDist)
+    ? await readJSON(join(clientDist, 'manifest.json'))
+    : {}
 
   const customAppTemplateFile = resolve(ctx.nuxt.options.srcDir, 'app.html')
   const APP_TEMPLATE = existsSync(customAppTemplateFile)
@@ -104,12 +109,29 @@ export async function buildServer (ctx: ViteBuildContext) {
   await writeFile(r('index.ssr.html'), SSR_TEMPLATE)
   await writeFile(r('index.spa.html'), SPA_TEMPLATE)
 
+  function getModuleIds ([key, value]: [string, any]) {
+    return [value.file, ...value.css || []]
+      .filter(i => !i.endsWith('.js') || i.match(/-legacy\./)) // only use legacy build
+  }
+
   const clientManifest = {
     publicPath: '/_nuxt/',
-    all: Object.values(viteClientManifest).map((i: any) => i.file),
-    initial: Object.entries(viteClientManifest).filter((i: any) => !i[1].isDynamicEntry).map((i:any) => i[1].file),
-    async: Object.entries(viteClientManifest).filter((i: any) => i[1].isDynamicEntry).map((i:any) => i[1].file),
-    // TODO: do we need support this?
+    all: uniq([
+      polyfillName,
+      ...Object.entries(viteClientManifest)
+        .flatMap(getModuleIds)
+    ]).filter(i => i),
+    initial: uniq([
+      polyfillName,
+      ...Object.entries(viteClientManifest)
+        .filter((i: any) => !i[1].isDynamicEntry)
+        .flatMap(getModuleIds)
+    ]).filter(i => i),
+    async: uniq(
+      Object.entries(viteClientManifest)
+        .filter((i: any) => i[1].isDynamicEntry)
+        .flatMap(getModuleIds)
+    ).filter(i => i),
     modules: {},
     assetsMapping: {}
   }
@@ -123,7 +145,6 @@ export async function buildServer (ctx: ViteBuildContext) {
   }
 
   await writeJSON(r('client.manifest.json'), clientManifest, { spaces: 2 })
-  await writeJSON(r('modern.manifest.json'), clientManifest, { spaces: 2 })
   await writeJSON(r('server.manifest.json'), serverManifest, { spaces: 2 })
 
   const onBuild = () => ctx.nuxt.callHook('build:resources', wpfs)
@@ -155,4 +176,8 @@ export async function buildServer (ctx: ViteBuildContext) {
       await watcher.close()
     })
   }
+}
+
+function uniq<T> (arr:T[]): T[] {
+  return Array.from(new Set(arr))
 }

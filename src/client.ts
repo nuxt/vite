@@ -1,6 +1,7 @@
 import { resolve } from 'path'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
+import PluginLegacy from '@vitejs/plugin-legacy'
 import { jsxPlugin } from './plugins/jsx'
 import { replace } from './plugins/replace'
 import { ViteBuildContext, ViteOptions } from './types'
@@ -36,7 +37,8 @@ export async function buildClient (ctx: ViteBuildContext) {
     plugins: [
       replace({ 'process.env': 'import.meta.env' }),
       jsxPlugin(),
-      createVuePlugin(ctx.config.vue)
+      createVuePlugin(ctx.config.vue),
+      PluginLegacy()
     ],
     server: {
       middlewareMode: true
