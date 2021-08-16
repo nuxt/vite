@@ -2,7 +2,7 @@ import { resolve } from 'path'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { watch } from 'chokidar'
-import { existsSync, readFile, mkdirp, writeFile, readJSON } from 'fs-extra'
+import { existsSync, readFile, mkdirp, writeFile, readJSON, writeJSON } from 'fs-extra'
 import debounce from 'p-debounce'
 import consola from 'consola'
 import { join } from 'upath'
@@ -17,9 +17,7 @@ const DEFAULT_APP_TEMPLATE = `
   {{ HEAD }}
 </head>
 <body {{ BODY_ATTRS }}>
-  <div id="__nuxt">{{ APP }}</div>
-  <script type="module" src="/@vite/client"></script>
-  <script type="module" src="/client.js"></script>
+  {{ APP }}
 </body>
 </html>
 `
@@ -85,46 +83,58 @@ export async function buildServer (ctx: ViteBuildContext) {
   const clientDist = resolve(ctx.nuxt.options.buildDir, 'dist/client')
   await mkdirp(serverDist)
 
+  const r = (...args: string[]): string => resolve(serverDist, ...args)
+
   const viteClientManifest = await readJSON(join(clientDist, 'manifest.json'))
 
   const customAppTemplateFile = resolve(ctx.nuxt.options.srcDir, 'app.html')
   const APP_TEMPLATE = existsSync(customAppTemplateFile)
     ? (await readFile(customAppTemplateFile, 'utf-8'))
-        .replace('{{ APP }}', '<div id="__nuxt">{{ APP }}</div>')
-        .replace(
-          '</body>',
-          '<script type="module" src="/@vite/client"></script><script type="module" src="/client.js"></script></body>'
-        )
     : DEFAULT_APP_TEMPLATE
 
-  await writeFile(resolve(serverDist, 'index.ssr.html'), APP_TEMPLATE)
-  await writeFile(resolve(serverDist, 'index.spa.html'), APP_TEMPLATE)
-  await writeFile(resolve(serverDist, 'client.manifest.json'), JSON.stringify({
-    publicPath: '',
+  const SPA_TEMPLATE = APP_TEMPLATE
+    .replace('{{ APP }}', '<div id="__nuxt">{{ APP }}</div>')
+    .replace(
+      '</body>',
+      '<script type="module" src="/@vite/client"></script><script type="module" src="/client.js"></script></body>'
+    )
+  const SSR_TEMPLATE = APP_TEMPLATE
+    .replace('{{ APP }}', '<div id="__nuxt">{{ APP }}</div>')
+
+  await writeFile(r('index.ssr.html'), SSR_TEMPLATE)
+  await writeFile(r('index.spa.html'), SPA_TEMPLATE)
+
+  const clientManifest = {
+    publicPath: '/_nuxt/',
     all: Object.values(viteClientManifest).map((i: any) => i.file),
     initial: Object.entries(viteClientManifest).filter((i: any) => !i[1].isDynamicEntry).map((i:any) => i[1].file),
     async: Object.entries(viteClientManifest).filter((i: any) => i[1].isDynamicEntry).map((i:any) => i[1].file),
     // TODO: do we need support this?
     modules: {},
     assetsMapping: {}
-  }, null, 2))
-  await writeFile(resolve(serverDist, 'server.manifest.json'), JSON.stringify({
+  }
+  const serverManifest = {
     entry: 'server.js',
     files: {
       'server.js': 'server.js',
       ...Object.fromEntries(Object.entries(viteClientManifest).map((i: any) => [i[0], i[1].file]))
     },
     maps: {}
-  }, null, 2))
+  }
+
+  await writeJSON(r('client.manifest.json'), clientManifest, { spaces: 2 })
+  await writeJSON(r('modern.manifest.json'), clientManifest, { spaces: 2 })
+  await writeJSON(r('server.manifest.json'), serverManifest, { spaces: 2 })
 
   const onBuild = () => ctx.nuxt.callHook('build:resources', wpfs)
-
-  const build = debounce(async () => {
+  const build = async () => {
     const start = Date.now()
     await vite.build(serverConfig)
     await onBuild()
     consola.info(`Server built in ${Date.now() - start}ms`)
-  }, 300)
+  }
+
+  const debouncedBuild = debounce(build, 300)
 
   await build()
 
@@ -139,7 +149,7 @@ export async function buildServer (ctx: ViteBuildContext) {
       ]
     })
 
-    watcher.on('change', () => build())
+    watcher.on('change', () => debouncedBuild())
 
     ctx.nuxt.hook('close', async () => {
       await watcher.close()
