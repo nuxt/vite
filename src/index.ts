@@ -8,6 +8,10 @@ import type { ViteOptions } from './types'
 function nuxtVite () {
   const { nuxt } = this
 
+  // if (!nuxt.options.dev) {
+  //   return
+  // }
+
   // Check nuxt version
   const minVersion = '2.15.2'
   const currentVersion = nuxt.constructor.version || '0.0.0'

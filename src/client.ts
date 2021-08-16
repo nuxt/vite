@@ -29,7 +29,9 @@ export async function buildClient (ctx: ViteBuildContext) {
       assetsDir: '.',
       rollupOptions: {
         input: resolve(ctx.nuxt.options.buildDir, 'client.js')
-      }
+      },
+      manifest: true,
+      ssrManifest: true
     },
     plugins: [
       replace({ 'process.env': 'import.meta.env' }),
@@ -43,23 +45,27 @@ export async function buildClient (ctx: ViteBuildContext) {
 
   await ctx.nuxt.callHook('vite:extendConfig', clientConfig, { isClient: true, isServer: false })
 
-  const viteServer = await vite.createServer(clientConfig)
-  await ctx.nuxt.callHook('vite:serverCreated', viteServer)
+  if (ctx.nuxt.options.dev) {
+    const viteServer = await vite.createServer(clientConfig)
+    await ctx.nuxt.callHook('vite:serverCreated', viteServer)
 
-  const viteMiddleware = (req, res, next) => {
+    const viteMiddleware = (req, res, next) => {
     // Workaround: vite devmiddleware modifies req.url
-    const originalURL = req.url
-    if (req.url === '/_nuxt/client.js') {
-      return res.end('')
+      const originalURL = req.url
+      if (req.url === '/_nuxt/client.js') {
+        return res.end('')
+      }
+      viteServer.middlewares.handle(req, res, (err) => {
+        req.url = originalURL
+        next(err)
+      })
     }
-    viteServer.middlewares.handle(req, res, (err) => {
-      req.url = originalURL
-      next(err)
-    })
-  }
-  await ctx.nuxt.callHook('server:devMiddleware', viteMiddleware)
+    await ctx.nuxt.callHook('server:devMiddleware', viteMiddleware)
 
-  ctx.nuxt.hook('close', async () => {
-    await viteServer.close()
-  })
+    ctx.nuxt.hook('close', async () => {
+      await viteServer.close()
+    })
+  } else {
+    await vite.build(clientConfig)
+  }
 }

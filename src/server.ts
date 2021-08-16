@@ -2,9 +2,10 @@ import { resolve } from 'path'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { watch } from 'chokidar'
-import { exists, readFile, mkdirp, writeFile } from 'fs-extra'
+import { existsSync, readFile, mkdirp, writeFile, readJSON } from 'fs-extra'
 import debounce from 'p-debounce'
 import consola from 'consola'
+import { join } from 'upath'
 import { ViteBuildContext, ViteOptions } from './types'
 import { wpfs } from './utils/wpfs'
 import { jsxPlugin } from './plugins/jsx'
@@ -61,6 +62,7 @@ export async function buildServer (ctx: ViteBuildContext) {
     },
     build: {
       outDir: 'dist/server',
+      assetsDir: '_nuxt',
       ssr: true,
       rollupOptions: {
         input: resolve(ctx.nuxt.options.buildDir, 'server.js'),
@@ -80,10 +82,13 @@ export async function buildServer (ctx: ViteBuildContext) {
   await ctx.nuxt.callHook('vite:extendConfig', serverConfig, { isClient: false, isServer: true })
 
   const serverDist = resolve(ctx.nuxt.options.buildDir, 'dist/server')
+  const clientDist = resolve(ctx.nuxt.options.buildDir, 'dist/client')
   await mkdirp(serverDist)
 
+  const viteClientManifest = await readJSON(join(clientDist, 'manifest.json'))
+
   const customAppTemplateFile = resolve(ctx.nuxt.options.srcDir, 'app.html')
-  const APP_TEMPLATE = await exists(customAppTemplateFile)
+  const APP_TEMPLATE = existsSync(customAppTemplateFile)
     ? (await readFile(customAppTemplateFile, 'utf-8'))
         .replace('{{ APP }}', '<div id="__nuxt">{{ APP }}</div>')
         .replace(
@@ -96,28 +101,23 @@ export async function buildServer (ctx: ViteBuildContext) {
   await writeFile(resolve(serverDist, 'index.spa.html'), APP_TEMPLATE)
   await writeFile(resolve(serverDist, 'client.manifest.json'), JSON.stringify({
     publicPath: '',
-    all: [],
-    initial: [
-      'client.js'
-    ],
-    async: [],
+    all: Object.values(viteClientManifest).map((i: any) => i.file),
+    initial: Object.entries(viteClientManifest).filter((i: any) => !i[1].isDynamicEntry).map((i:any) => i[1].file),
+    async: Object.entries(viteClientManifest).filter((i: any) => i[1].isDynamicEntry).map((i:any) => i[1].file),
+    // TODO: do we need support this?
     modules: {},
     assetsMapping: {}
   }, null, 2))
   await writeFile(resolve(serverDist, 'server.manifest.json'), JSON.stringify({
     entry: 'server.js',
     files: {
-      'server.js': 'server.js'
+      'server.js': 'server.js',
+      ...Object.fromEntries(Object.entries(viteClientManifest).map((i: any) => [i[0], i[1].file]))
     },
     maps: {}
   }, null, 2))
 
   const onBuild = () => ctx.nuxt.callHook('build:resources', wpfs)
-
-  if (!ctx.nuxt.options.ssr) {
-    await onBuild()
-    return
-  }
 
   const build = debounce(async () => {
     const start = Date.now()
@@ -128,19 +128,21 @@ export async function buildServer (ctx: ViteBuildContext) {
 
   await build()
 
-  const watcher = watch([
-    ctx.nuxt.options.buildDir,
-    ctx.nuxt.options.srcDir,
-    ctx.nuxt.options.rootDir
-  ], {
-    ignored: [
-      '**/dist/server/**'
-    ]
-  })
+  if (ctx.nuxt.options.dev) {
+    const watcher = watch([
+      ctx.nuxt.options.buildDir,
+      ctx.nuxt.options.srcDir,
+      ctx.nuxt.options.rootDir
+    ], {
+      ignored: [
+        '**/dist/server/**'
+      ]
+    })
 
-  watcher.on('change', () => build())
+    watcher.on('change', () => build())
 
-  ctx.nuxt.hook('close', async () => {
-    await watcher.close()
-  })
+    ctx.nuxt.hook('close', async () => {
+      await watcher.close()
+    })
+  }
 }
