@@ -82,7 +82,6 @@ export async function buildServer (ctx: ViteBuildContext) {
   await ctx.nuxt.callHook('vite:extendConfig', serverConfig, { isClient: false, isServer: true })
 
   const serverDist = resolve(ctx.nuxt.options.buildDir, 'dist/server')
-  const clientDist = resolve(ctx.nuxt.options.buildDir, 'dist/client')
   await mkdirp(serverDist)
   const r = (...args: string[]): string => resolve(serverDist, ...args)
 
@@ -97,106 +96,15 @@ export async function buildServer (ctx: ViteBuildContext) {
       '</body>',
       '<script type="module" src="/@vite/client"></script><script type="module" src="/client.js"></script></body>'
     )
-  const SSR_TEMPLATE = APP_TEMPLATE
+  const SSR_TEMPLATE = ctx.nuxt.options.dev ? SPA_TEMPLATE : APP_TEMPLATE
 
   await writeFile(r('index.ssr.html'), SSR_TEMPLATE)
   await writeFile(r('index.spa.html'), SPA_TEMPLATE)
 
   if (ctx.nuxt.options.dev) {
-    // mock manifest on dev
-    await writeJSON(r('client.manifest.json'), {
-      publicPath: '',
-      all: [
-        'client.js'
-      ],
-      initial: [
-        'client.js'
-      ],
-      async: [],
-      modules: {},
-      assetsMapping: {}
-    }, { spaces: 2 })
-    await writeJSON(r('server.manifest.json'), {
-      entry: 'server.js',
-      files: {
-        'server.js': 'server.js'
-      },
-      maps: {}
-    }, { spaces: 2 })
+    await stubManifest(ctx)
   } else {
-    // convert vite's manifest to webpack's
-
-    const publicPath = '/_nuxt/'
-    const viteClientManifest = await readJSON(join(clientDist, 'manifest.json'))
-
-    function getModuleIds ([, value]: [string, any]) {
-      if (!value) {
-        return []
-      }
-      return [value.file, ...value.css || []]
-        .filter(i => !i.endsWith('.js') || i.match(/-legacy\./)) // only use legacy build
-    }
-
-    const asyncEntries = uniq(
-      Object.entries(viteClientManifest)
-        .filter((i: any) => i[1].isDynamicEntry)
-        .flatMap(getModuleIds)
-    ).filter(i => i)
-    const initialEntries = uniq(
-      Object.entries(viteClientManifest)
-        .filter((i: any) => !i[1].isDynamicEntry)
-        .flatMap(getModuleIds)
-    ).filter(i => i)
-    const initialJs = initialEntries.filter(i => i.endsWith('.js'))
-    const initialAssets = initialEntries.filter(i => !i.endsWith('.js'))
-
-    // search for polyfill file, we don't include it in the client entry
-    const polyfillName = initialEntries.find(i => i.startsWith('polyfills-legacy.'))
-
-    // @vitejs/plugin-legacy uses SystemJS which need to call `System.import` to load modules
-    const clientEntryCode = initialJs
-      .filter(i => !i.startsWith('polyfills-legacy.'))
-      .map(i => `System.import("${publicPath}${i}");`)
-      .join('\n')
-    const clientEntryHash = createHash('sha256')
-      .update(clientEntryCode)
-      .digest('hex')
-      .substr(0, 8)
-    const clientEntryName = 'entry.' + clientEntryHash + '.js'
-
-    const clientManifest = {
-      publicPath,
-      all: uniq([
-        polyfillName,
-        clientEntryName,
-        ...Object.entries(viteClientManifest)
-          .flatMap(getModuleIds)
-      ]).filter(i => i),
-      initial: [
-        polyfillName,
-        clientEntryName,
-        ...initialAssets
-      ],
-      async: [
-        // we move initial entries to the client entry
-        ...initialJs,
-        ...asyncEntries
-      ],
-      modules: {},
-      assetsMapping: {}
-    }
-    const serverManifest = {
-      entry: 'server.js',
-      files: {
-        'server.js': 'server.js',
-        ...Object.fromEntries(Object.entries(viteClientManifest).map((i: any) => [i[0], i[1].file]))
-      },
-      maps: {}
-    }
-
-    await writeFile(join(clientDist, clientEntryName), clientEntryCode, 'utf-8')
-    await writeJSON(r('client.manifest.json'), clientManifest, { spaces: 2 })
-    await writeJSON(r('server.manifest.json'), serverManifest, { spaces: 2 })
+    await generateBuildManifest(ctx)
   }
 
   const onBuild = () => ctx.nuxt.callHook('build:resources', wpfs)
@@ -228,6 +136,111 @@ export async function buildServer (ctx: ViteBuildContext) {
       await watcher.close()
     })
   }
+}
+
+// convert vite's manifest to webpack style
+async function generateBuildManifest (ctx: ViteBuildContext) {
+  const serverDist = resolve(ctx.nuxt.options.buildDir, 'dist/server')
+  const clientDist = resolve(ctx.nuxt.options.buildDir, 'dist/client')
+  const r = (...args: string[]): string => resolve(serverDist, ...args)
+
+  const publicPath = '/_nuxt/'
+  const viteClientManifest = await readJSON(join(clientDist, 'manifest.json'))
+
+  function getModuleIds ([, value]: [string, any]) {
+    if (!value) {
+      return []
+    }
+    return [value.file, ...value.css || []]
+      .filter(i => !i.endsWith('.js') || i.match(/-legacy\./)) // only use legacy build
+  }
+
+  const asyncEntries = uniq(
+    Object.entries(viteClientManifest)
+      .filter((i: any) => i[1].isDynamicEntry)
+      .flatMap(getModuleIds)
+  ).filter(i => i)
+  const initialEntries = uniq(
+    Object.entries(viteClientManifest)
+      .filter((i: any) => !i[1].isDynamicEntry)
+      .flatMap(getModuleIds)
+  ).filter(i => i)
+  const initialJs = initialEntries.filter(i => i.endsWith('.js'))
+  const initialAssets = initialEntries.filter(i => !i.endsWith('.js'))
+
+  // search for polyfill file, we don't include it in the client entry
+  const polyfillName = initialEntries.find(i => i.startsWith('polyfills-legacy.'))
+
+  // @vitejs/plugin-legacy uses SystemJS which need to call `System.import` to load modules
+  const clientEntryCode = initialJs
+    .filter(i => !i.startsWith('polyfills-legacy.'))
+    .map(i => `System.import("${publicPath}${i}");`)
+    .join('\n')
+  const clientEntryHash = createHash('sha256')
+    .update(clientEntryCode)
+    .digest('hex')
+    .substr(0, 8)
+  const clientEntryName = 'entry.' + clientEntryHash + '.js'
+
+  const clientManifest = {
+    publicPath,
+    all: uniq([
+      polyfillName,
+      clientEntryName,
+      ...Object.entries(viteClientManifest)
+        .flatMap(getModuleIds)
+    ]).filter(i => i),
+    initial: [
+      polyfillName,
+      clientEntryName,
+      ...initialAssets
+    ],
+    async: [
+      // we move initial entries to the client entry
+      ...initialJs,
+      ...asyncEntries
+    ],
+    modules: {},
+    assetsMapping: {}
+  }
+  const serverManifest = {
+    entry: 'server.js',
+    files: {
+      'server.js': 'server.js',
+      ...Object.fromEntries(Object.entries(viteClientManifest).map((i: any) => [i[0], i[1].file]))
+    },
+    maps: {}
+  }
+
+  await writeFile(join(clientDist, clientEntryName), clientEntryCode, 'utf-8')
+  await writeJSON(r('client.manifest.json'), clientManifest, { spaces: 2 })
+  await writeJSON(r('server.manifest.json'), serverManifest, { spaces: 2 })
+}
+
+// stub manifest on dev
+async function stubManifest (ctx: ViteBuildContext) {
+  const serverDist = resolve(ctx.nuxt.options.buildDir, 'dist/server')
+  const r = (...args: string[]): string => resolve(serverDist, ...args)
+
+  await writeJSON(r('client.manifest.json'), {
+    publicPath: '',
+    all: [
+      'client.js'
+    ],
+    initial: [
+      'client.js'
+    ],
+    async: [],
+    modules: {},
+    assetsMapping: {}
+  }, { spaces: 2 })
+  await writeJSON(r('server.manifest.json'), {
+    entry: 'server.js',
+    files: {
+      'server.js': 'server.js'
+    },
+    maps: {}
+  }, { spaces: 2 })
 }
 
 function uniq<T> (arr:T[]): T[] {
