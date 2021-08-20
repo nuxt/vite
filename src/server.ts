@@ -61,7 +61,7 @@ export async function buildServer (ctx: ViteBuildContext) {
       ]
     },
     build: {
-      outDir: 'dist/server',
+      outDir: resolve(ctx.nuxt.options.buildDir, 'dist/server'),
       assetsDir: '_nuxt',
       ssr: true,
       rollupOptions: {
@@ -91,10 +91,9 @@ export async function buildServer (ctx: ViteBuildContext) {
     : DEFAULT_APP_TEMPLATE
 
   const SPA_TEMPLATE = APP_TEMPLATE
-    .replace('{{ APP }}', '<div id="__nuxt">{{ APP }}</div>')
     .replace(
       '</body>',
-      '<script type="module" src="/@vite/client"></script><script type="module" src="/client.js"></script></body>'
+      '<script type="module" src="/@vite/client"></script><script type="module" src="/_nuxt/client.js"></script></body>'
     )
   const SSR_TEMPLATE = ctx.nuxt.options.dev ? SPA_TEMPLATE : APP_TEMPLATE
 
@@ -144,7 +143,7 @@ async function generateBuildManifest (ctx: ViteBuildContext) {
   const clientDist = resolve(ctx.nuxt.options.buildDir, 'dist/client')
   const r = (...args: string[]): string => resolve(serverDist, ...args)
 
-  const publicPath = '/_nuxt/'
+  const publicPath = ctx.nuxt.options.build.publicPath
   const viteClientManifest = await readJSON(join(clientDist, 'manifest.json'))
 
   function getModuleIds ([, value]: [string, any]) {
@@ -225,10 +224,10 @@ async function stubManifest (ctx: ViteBuildContext) {
   await writeJSON(r('client.manifest.json'), {
     publicPath: '',
     all: [
-      'client.js'
+      'empty.js'
     ],
     initial: [
-      'client.js'
+      'empty.js'
     ],
     async: [],
     modules: {},
