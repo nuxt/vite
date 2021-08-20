@@ -18,6 +18,7 @@ export async function buildClient (ctx: ViteBuildContext) {
     define: {
       'process.server': false,
       'process.client': true,
+      'process.static': false,
       global: 'window',
       'module.hot': false
     },

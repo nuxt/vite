@@ -1,4 +1,5 @@
 import { resolve } from 'path'
+import { createHash } from 'crypto'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { watch } from 'chokidar'
@@ -40,6 +41,7 @@ export async function buildServer (ctx: ViteBuildContext) {
     define: {
       'process.server': true,
       'process.client': false,
+      'process.static': false,
       'typeof window': '"undefined"',
       'typeof document': '"undefined"',
       'typeof navigator': '"undefined"',
@@ -96,7 +98,6 @@ export async function buildServer (ctx: ViteBuildContext) {
       '<script type="module" src="/@vite/client"></script><script type="module" src="/client.js"></script></body>'
     )
   const SSR_TEMPLATE = APP_TEMPLATE
-    .replace('{{ APP }}', '<div id="__nuxt">{{ APP }}</div>')
 
   await writeFile(r('index.ssr.html'), SSR_TEMPLATE)
   await writeFile(r('index.spa.html'), SPA_TEMPLATE)
@@ -125,11 +126,8 @@ export async function buildServer (ctx: ViteBuildContext) {
   } else {
     // convert vite's manifest to webpack's
 
+    const publicPath = '/_nuxt/'
     const viteClientManifest = await readJSON(join(clientDist, 'manifest.json'))
-
-    // search for polyfill file, which does not included in the client manifest
-    const clientFiles = await readdir(clientDist)
-    const polyfillName = clientFiles.find(i => i.startsWith('polyfills-legacy.'))
 
     function getModuleIds ([, value]: [string, any]) {
       if (!value) {
@@ -139,24 +137,51 @@ export async function buildServer (ctx: ViteBuildContext) {
         .filter(i => !i.endsWith('.js') || i.match(/-legacy\./)) // only use legacy build
     }
 
+    const asyncEntries = uniq(
+      Object.entries(viteClientManifest)
+        .filter((i: any) => i[1].isDynamicEntry)
+        .flatMap(getModuleIds)
+    ).filter(i => i)
+    const initialEntries = uniq(
+      Object.entries(viteClientManifest)
+        .filter((i: any) => !i[1].isDynamicEntry)
+        .flatMap(getModuleIds)
+    ).filter(i => i)
+    const initialJs = initialEntries.filter(i => i.endsWith('.js'))
+    const initialAssets = initialEntries.filter(i => !i.endsWith('.js'))
+
+    // search for polyfill file, we don't include it in the client entry
+    const polyfillName = initialEntries.find(i => i.startsWith('polyfills-legacy.'))
+
+    // @vitejs/plugin-legacy uses SystemJS which need to call `System.import` to load modules
+    const clientEntryCode = initialJs
+      .filter(i => !i.startsWith('polyfills-legacy.'))
+      .map(i => `System.import("${publicPath}${i}");`)
+      .join('\n')
+    const clientEntryHash = createHash('sha256')
+      .update(clientEntryCode)
+      .digest('hex')
+      .substr(0, 8)
+    const clientEntryName = 'entry.' + clientEntryHash + '.js'
+
     const clientManifest = {
-      publicPath: '/_nuxt/',
+      publicPath,
       all: uniq([
         polyfillName,
+        clientEntryName,
         ...Object.entries(viteClientManifest)
           .flatMap(getModuleIds)
       ]).filter(i => i),
-      initial: uniq([
+      initial: [
         polyfillName,
-        ...Object.entries(viteClientManifest)
-          .filter((i: any) => !i[1].isDynamicEntry)
-          .flatMap(getModuleIds)
-      ]).filter(i => i),
-      async: uniq(
-        Object.entries(viteClientManifest)
-          .filter((i: any) => i[1].isDynamicEntry)
-          .flatMap(getModuleIds)
-      ).filter(i => i),
+        clientEntryName,
+        ...initialAssets
+      ],
+      async: [
+        // we move initial entries to the client entry
+        ...initialJs,
+        ...asyncEntries
+      ],
       modules: {},
       assetsMapping: {}
     }
@@ -169,6 +194,7 @@ export async function buildServer (ctx: ViteBuildContext) {
       maps: {}
     }
 
+    await writeFile(join(clientDist, clientEntryName), clientEntryCode, 'utf-8')
     await writeJSON(r('client.manifest.json'), clientManifest, { spaces: 2 })
     await writeJSON(r('server.manifest.json'), serverManifest, { spaces: 2 })
   }
