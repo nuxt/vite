@@ -212,8 +212,10 @@ async function generateBuildManifest (ctx: ViteBuildContext) {
     maps: {}
   }
 
+  const clientManifestJSON = JSON.stringify(clientManifest, null, 2)
   await writeFile(join(clientDist, clientEntryName), clientEntryCode, 'utf-8')
-  await writeJSON(r('client.manifest.json'), clientManifest, { spaces: 2 })
+  await writeFile(r('client.manifest.json'), clientManifestJSON, 'utf-8')
+  await writeFile(r('client.manifest.mjs'), `export default ${clientManifestJSON}`, 'utf-8')
   await writeJSON(r('server.manifest.json'), serverManifest, { spaces: 2 })
 }
 
@@ -222,7 +224,7 @@ async function stubManifest (ctx: ViteBuildContext) {
   const serverDist = resolve(ctx.nuxt.options.buildDir, 'dist/server')
   const r = (...args: string[]): string => resolve(serverDist, ...args)
 
-  await writeJSON(r('client.manifest.json'), {
+  const clientManifest = {
     publicPath: '',
     all: [
       'client.js'
@@ -233,14 +235,19 @@ async function stubManifest (ctx: ViteBuildContext) {
     async: [],
     modules: {},
     assetsMapping: {}
-  }, { spaces: 2 })
-  await writeJSON(r('server.manifest.json'), {
+  }
+  const serverManifest = {
     entry: 'server.js',
     files: {
       'server.js': 'server.js'
     },
     maps: {}
-  }, { spaces: 2 })
+  }
+
+  const clientManifestJSON = JSON.stringify(clientManifest, null, 2)
+  await writeFile(r('client.manifest.json'), clientManifestJSON, 'utf-8')
+  await writeFile(r('client.manifest.mjs'), `export default ${clientManifestJSON}`, 'utf-8')
+  await writeJSON(r('server.manifest.json'), serverManifest, { spaces: 2 })
 }
 
 function uniq<T> (arr:T[]): T[] {
