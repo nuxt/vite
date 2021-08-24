@@ -206,8 +206,7 @@ async function generateBuildManifest (ctx: ViteBuildContext) {
 
 // stub manifest on dev
 async function stubManifest (ctx: ViteBuildContext) {
-  const serverDist = resolve(ctx.nuxt.options.buildDir, 'dist/server')
-  const r = (...args: string[]): string => resolve(serverDist, ...args)
+  const rDist = (...args: string[]): string => resolve(ctx.nuxt.options.buildDir, 'dist', ...args)
 
   const clientManifest = {
     publicPath: '',
@@ -230,9 +229,12 @@ async function stubManifest (ctx: ViteBuildContext) {
   }
 
   const clientManifestJSON = JSON.stringify(clientManifest, null, 2)
-  await writeFile(r('client.manifest.json'), clientManifestJSON, 'utf-8')
-  await writeFile(r('client.manifest.mjs'), `export default ${clientManifestJSON}`, 'utf-8')
-  await writeJSON(r('server.manifest.json'), serverManifest, { spaces: 2 })
+  await writeFile(rDist('server/client.manifest.json'), clientManifestJSON, 'utf-8')
+  await writeFile(rDist('server/client.manifest.mjs'), `export default ${clientManifestJSON}`, 'utf-8')
+
+  const serverManifestJSON = JSON.stringify(serverManifest, null, 2)
+  await writeFile(rDist('server/server.manifest.json'), serverManifestJSON)
+  await writeFile(rDist('server/server.manifest.mjs'), serverManifestJSON)
 }
 
 function hash (input: string, length = 8) {
