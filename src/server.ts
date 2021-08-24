@@ -174,10 +174,7 @@ async function generateBuildManifest (ctx: ViteBuildContext) {
   // @vitejs/plugin-legacy uses SystemJS which need to call `System.import` to load modules
   const clientImports = initialJs.filter(id => !id.startsWith('polyfills-legacy.')).map(id => publicPath + id)
   const clientEntryCode = `var imports = ${JSON.stringify(clientImports)}\nimports.reduce((p, id) => p.then(() => System.import(id)), Promise.resolve())`
-  const clientEntryHash = createHash('sha256')
-    .update(clientEntryCode)
-    .digest('hex')
-    .substr(0, 8)
+  const clientEntryHash = hash(clientEntryCode)
   const clientEntryName = 'entry.' + clientEntryHash + '.js'
 
   const clientManifest = {
@@ -251,6 +248,13 @@ async function stubManifest (ctx: ViteBuildContext) {
   await writeFile(r('client.manifest.json'), clientManifestJSON, 'utf-8')
   await writeFile(r('client.manifest.mjs'), `export default ${clientManifestJSON}`, 'utf-8')
   await writeJSON(r('server.manifest.json'), serverManifest, { spaces: 2 })
+}
+
+function hash (input: string, length = 8) {
+  return createHash('sha256')
+    .update(input)
+    .digest('hex')
+    .substr(0, length)
 }
 
 function uniq<T> (arr:T[]): T[] {
