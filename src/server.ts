@@ -61,7 +61,7 @@ export async function buildServer (ctx: ViteBuildContext) {
     },
     build: {
       outDir: 'dist/server',
-      assetsDir: '_nuxt',
+      assetsDir: ctx.nuxt.options.app.assetsPath.replace(/^\/|\/$/, ''),
       ssr: true,
       rollupOptions: {
         input: resolve(ctx.nuxt.options.buildDir, 'server.js'),
