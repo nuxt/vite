@@ -78,12 +78,14 @@ async function bundle (nuxt: Nuxt, builder: any) {
   }
   await ctx.nuxt.callHook('vite:extend', ctx)
 
-  ctx.nuxt.hook('vite:serverCreated', (server: vite.ViteDevServer) => {
-    const start = Date.now()
-    warmupViteServer(server, ['/client.js']).then(() => {
-      consola.info(`Vite warmed up in ${Date.now() - start}ms`)
-    }).catch(consola.error)
-  })
+  if (nuxt.options.dev) {
+    ctx.nuxt.hook('vite:serverCreated', (server: vite.ViteDevServer) => {
+      const start = Date.now()
+      warmupViteServer(server, ['/client.js']).then(() => {
+        consola.info(`Vite warmed up in ${Date.now() - start}ms`)
+      }).catch(consola.error)
+    })
+  }
 
   await buildClient(ctx)
   await buildServer(ctx)

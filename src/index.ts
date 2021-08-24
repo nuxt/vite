@@ -7,8 +7,10 @@ import type { ViteOptions } from './types'
 
 function nuxtVite () {
   const { nuxt } = this
+  const viteOptions = nuxt.options.vite || {}
 
-  if (!nuxt.options.dev) {
+  // Only enable for development or production if `build: true` is set
+  if (!nuxt.options.dev && !viteOptions.build) {
     return
   }
 
@@ -92,6 +94,7 @@ declare module '@nuxt/types/config/index' {
      */
     vite?: ViteOptions & {
       ssr: false | ViteOptions['ssr'],
+      build: boolean | ViteOptions['build'],
       experimentWarning: boolean
     }
   }

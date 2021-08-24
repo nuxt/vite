@@ -14,7 +14,8 @@ export default {
     '~/plugins/capi',
     '~/plugins/plugin.client',
     '~/plugins/plugin.server',
-    '~/plugins/no-export.js'
+    '~/plugins/no-export.js',
+    '~/plugins/style'
   ],
   hooks: {
     'vue-renderer:context' (ssrContext) {
@@ -25,6 +26,7 @@ export default {
   },
   vite: {
     ssr: true,
+    build: true,
     server: {
       fs: {
         strict: false

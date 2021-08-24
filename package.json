@@ -12,13 +12,17 @@
   "scripts": {
     "build": "siroc build && mkdist --src src/runtime --dist dist/runtime",
     "prepublishOnly": "yarn build",
-    "dev": "nuxt dev test/fixture",
+    "dev": "yarn fixture:dev",
+    "fixture:dev": "nuxt dev test/fixture",
+    "fixture:build": "nuxt build test/fixture",
+    "fixture:start": "nuxt start test/fixture",
     "lint": "eslint --ext .ts .",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish",
     "test": "yarn lint && yarn jest"
   },
   "dependencies": {
     "@nuxt/http": "^0.6.4",
+    "@vitejs/plugin-legacy": "^1.5.1",
     "chokidar": "^3.5.2",
     "consola": "^2.15.3",
     "fs-extra": "^10.0.0",
@@ -39,6 +43,7 @@
     "@nuxt/types": "^2.15.8",
     "@nuxtjs/composition-api": "^0.26.0",
     "@nuxtjs/eslint-config-typescript": "^6.0.1",
+    "@types/fs-extra": "^9.0.12",
     "@types/jest": "^27.0.0",
     "eslint": "^7.32.0",
     "jest": "^27.0.6",
