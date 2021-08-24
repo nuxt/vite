@@ -172,10 +172,8 @@ async function generateBuildManifest (ctx: ViteBuildContext) {
   const polyfillName = initialEntries.find(i => i.startsWith('polyfills-legacy.'))
 
   // @vitejs/plugin-legacy uses SystemJS which need to call `System.import` to load modules
-  const clientEntryCode = initialJs
-    .filter(i => !i.startsWith('polyfills-legacy.'))
-    .map(i => `System.import("${publicPath}${i}");`)
-    .join('\n')
+  const clientImports = initialJs.filter(id => !id.startsWith('polyfills-legacy.')).map(id => publicPath + id)
+  const clientEntryCode = `var imports = ${JSON.stringify(clientImports)}\nimports.reduce((p, id) => p.then(() => System.import(id)), Promise.resolve())`
   const clientEntryHash = createHash('sha256')
     .update(clientEntryCode)
     .digest('hex')
