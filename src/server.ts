@@ -3,7 +3,7 @@ import { createHash } from 'crypto'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { watch } from 'chokidar'
-import { existsSync, readFile, mkdirp, writeFile, readJSON, writeJSON } from 'fs-extra'
+import { existsSync, readFile, mkdirp, writeFile, readJSON, writeJSON, remove } from 'fs-extra'
 import debounce from 'p-debounce'
 import consola from 'consola'
 import { join } from 'upath'
@@ -140,12 +140,10 @@ export async function buildServer (ctx: ViteBuildContext) {
 
 // convert vite's manifest to webpack style
 async function generateBuildManifest (ctx: ViteBuildContext) {
-  const serverDist = resolve(ctx.nuxt.options.buildDir, 'dist/server')
-  const clientDist = resolve(ctx.nuxt.options.buildDir, 'dist/client')
-  const r = (...args: string[]): string => resolve(serverDist, ...args)
+  const rDist = (...args: string[]): string => resolve(ctx.nuxt.options.buildDir, 'dist', ...args)
 
   const publicPath = ctx.nuxt.options.app.assetsPath // Default: /nuxt/
-  const viteClientManifest = await readJSON(join(clientDist, 'manifest.json'))
+  const viteClientManifest = await readJSON(rDist('client/manifest.json'))
   const clientEntries = Object.entries(viteClientManifest)
 
   const asyncEntries = uniq(clientEntries.filter((id: any) => id[1].isDynamicEntry).flatMap(getModuleIds)).filter(Boolean)
@@ -191,15 +189,19 @@ async function generateBuildManifest (ctx: ViteBuildContext) {
     maps: {}
   }
 
-  await writeFile(join(clientDist, clientEntryName), clientEntryCode, 'utf-8')
+  await writeFile(rDist('client', clientEntryName), clientEntryCode, 'utf-8')
 
   const clientManifestJSON = JSON.stringify(clientManifest, null, 2)
-  await writeFile(r('client.manifest.json'), clientManifestJSON, 'utf-8')
-  await writeFile(r('client.manifest.mjs'), `export default ${clientManifestJSON}`, 'utf-8')
+  await writeFile(rDist('server/client.manifest.json'), clientManifestJSON, 'utf-8')
+  await writeFile(rDist('server/client.manifest.mjs'), `export default ${clientManifestJSON}`, 'utf-8')
 
   const serverManifestJSON = JSON.stringify(serverManifest, null, 2)
-  await writeFile(r('server.manifest.json'), serverManifestJSON, 'utf-8')
-  await writeFile(r('server.manifest.mjs'), `export default ${serverManifestJSON}`, 'utf-8')
+  await writeFile(rDist('server/server.manifest.json'), serverManifestJSON, 'utf-8')
+  await writeFile(rDist('server/server.manifest.mjs'), `export default ${serverManifestJSON}`, 'utf-8')
+
+  // Remove SSR manifest from public client dir
+  await remove(rDist('client/manifest.json'))
+  await remove(rDist('client/ssr-manifest.json'))
 }
 
 // stub manifest on dev
