@@ -56,7 +56,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
           jsxFactory: 'h',
           jsxFragment: 'Fragment'
         },
-        publicDir: resolve(nuxt.options.rootDir, nuxt.options.dir.assets),
+        publicDir: resolve(nuxt.options.rootDir, nuxt.options.dir.static),
         clearScreen: false,
         build: {
           emptyOutDir: false
