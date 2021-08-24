@@ -203,6 +203,7 @@ async function generateBuildManifest (ctx: ViteBuildContext) {
     modules: {},
     assetsMapping: {}
   }
+
   const serverManifest = {
     entry: 'server.js',
     files: {
@@ -212,11 +213,15 @@ async function generateBuildManifest (ctx: ViteBuildContext) {
     maps: {}
   }
 
-  const clientManifestJSON = JSON.stringify(clientManifest, null, 2)
   await writeFile(join(clientDist, clientEntryName), clientEntryCode, 'utf-8')
+
+  const clientManifestJSON = JSON.stringify(clientManifest, null, 2)
   await writeFile(r('client.manifest.json'), clientManifestJSON, 'utf-8')
   await writeFile(r('client.manifest.mjs'), `export default ${clientManifestJSON}`, 'utf-8')
-  await writeJSON(r('server.manifest.json'), serverManifest, { spaces: 2 })
+
+  const serverManifestJSON = JSON.stringify(serverManifest, null, 2)
+  await writeFile(r('server.manifest.json'), serverManifestJSON, 'utf-8')
+  await writeFile(r('server.manifest.mjs'), `export default ${serverManifestJSON}`, 'utf-8')
 }
 
 // stub manifest on dev
