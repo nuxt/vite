@@ -146,52 +146,35 @@ async function generateBuildManifest (ctx: ViteBuildContext) {
 
   const publicPath = ctx.nuxt.options.app.assetsPath // Default: /nuxt/
   const viteClientManifest = await readJSON(join(clientDist, 'manifest.json'))
+  const clientEntries = Object.entries(viteClientManifest)
 
-  function getModuleIds ([, value]: [string, any]) {
-    if (!value) {
-      return []
-    }
-    return [value.file, ...value.css || []]
-      .filter(id => !isJS(id) || id.match(/-legacy\./)) // only use legacy build
-  }
-
-  const asyncEntries = uniq(
-    Object.entries(viteClientManifest)
-      .filter((id: any) => id[1].isDynamicEntry)
-      .flatMap(getModuleIds)
-  ).filter(Boolean)
-  const initialEntries = uniq(
-    Object.entries(viteClientManifest)
-      .filter((i: any) => !i[1].isDynamicEntry)
-      .flatMap(getModuleIds)
-  ).filter(Boolean)
+  const asyncEntries = uniq(clientEntries.filter((id: any) => id[1].isDynamicEntry).flatMap(getModuleIds)).filter(Boolean)
+  const initialEntries = uniq(clientEntries.filter((id: any) => !id[1].isDynamicEntry).flatMap(getModuleIds)).filter(Boolean)
   const initialJs = initialEntries.filter(isJS)
   const initialAssets = initialEntries.filter(isCSS)
 
-  // search for polyfill file, we don't include it in the client entry
-  const polyfillName = initialEntries.find(i => i.startsWith('polyfills-legacy.'))
+  // Search for polyfill file, we don't include it in the client entry
+  const polyfillName = initialEntries.find(id => id.startsWith('polyfills-legacy.'))
 
   // @vitejs/plugin-legacy uses SystemJS which need to call `System.import` to load modules
-  const clientImports = initialJs.filter(id => !id.startsWith('polyfills-legacy.')).map(id => publicPath + id)
+  const clientImports = initialJs.filter(id => id !== polyfillName).map(id => publicPath + id)
   const clientEntryCode = `var imports = ${JSON.stringify(clientImports)}\nimports.reduce((p, id) => p.then(() => System.import(id)), Promise.resolve())`
-  const clientEntryHash = hash(clientEntryCode)
-  const clientEntryName = 'entry.' + clientEntryHash + '.js'
+  const clientEntryName = 'entry-legacy.' + hash(clientEntryCode) + '.js'
 
   const clientManifest = {
     publicPath,
     all: uniq([
       polyfillName,
       clientEntryName,
-      ...Object.entries(viteClientManifest)
-        .flatMap(getModuleIds)
-    ]).filter(i => i),
+      ...clientEntries.flatMap(getModuleIds)
+    ]).filter(Boolean),
     initial: [
       polyfillName,
       clientEntryName,
       ...initialAssets
     ],
     async: [
-      // we move initial entries to the client entry
+      // We move initial entries to the client entry
       ...initialJs,
       ...asyncEntries
     ],
@@ -203,7 +186,7 @@ async function generateBuildManifest (ctx: ViteBuildContext) {
     entry: 'server.js',
     files: {
       'server.js': 'server.js',
-      ...Object.fromEntries(Object.entries(viteClientManifest).map((i: any) => [i[0], i[1].file]))
+      ...Object.fromEntries(clientEntries.map(([id, entry]) => [id, (entry as any).file]))
     },
     maps: {}
   }
@@ -277,4 +260,10 @@ export function isModule (file: string) {
 
 export function isCSS (file: string) {
   return IS_CSS_RE.test(file)
+}
+
+function getModuleIds ([, value]: [string, any]) {
+  if (!value) { return [] }
+  // Only include legacy and css ids
+  return [value.file, ...value.css || []].filter(id => isCSS(id) || id.match(/-legacy\./))
 }
