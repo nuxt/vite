@@ -144,7 +144,7 @@ async function generateBuildManifest (ctx: ViteBuildContext) {
   const clientDist = resolve(ctx.nuxt.options.buildDir, 'dist/client')
   const r = (...args: string[]): string => resolve(serverDist, ...args)
 
-  const publicPath = '/_nuxt/'
+  const publicPath = ctx.nuxt.options.app.assetsPath // Default: /nuxt/
   const viteClientManifest = await readJSON(join(clientDist, 'manifest.json'))
 
   function getModuleIds ([, value]: [string, any]) {
