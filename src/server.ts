@@ -80,9 +80,8 @@ export async function buildServer (ctx: ViteBuildContext) {
 
   await ctx.nuxt.callHook('vite:extendConfig', serverConfig, { isClient: false, isServer: true })
 
-  const serverDist = resolve(ctx.nuxt.options.buildDir, 'dist/server')
-  await mkdirp(serverDist)
-  const r = (...args: string[]): string => resolve(serverDist, ...args)
+  const rDist = (...args: string[]): string => resolve(ctx.nuxt.options.buildDir, 'dist', ...args)
+  await mkdirp(rDist('server'))
 
   const customAppTemplateFile = resolve(ctx.nuxt.options.srcDir, 'app.html')
   const APP_TEMPLATE = existsSync(customAppTemplateFile)
@@ -97,8 +96,8 @@ export async function buildServer (ctx: ViteBuildContext) {
     )
   const SSR_TEMPLATE = ctx.nuxt.options.dev ? SPA_TEMPLATE : APP_TEMPLATE
 
-  await writeFile(r('index.ssr.html'), SSR_TEMPLATE)
-  await writeFile(r('index.spa.html'), SPA_TEMPLATE)
+  await writeFile(rDist('server/index.ssr.html'), SSR_TEMPLATE)
+  await writeFile(rDist('server/index.spa.html'), SPA_TEMPLATE)
 
   if (ctx.nuxt.options.dev) {
     await stubManifest(ctx)
