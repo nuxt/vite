@@ -152,21 +152,21 @@ async function generateBuildManifest (ctx: ViteBuildContext) {
       return []
     }
     return [value.file, ...value.css || []]
-      .filter(i => !i.endsWith('.js') || i.match(/-legacy\./)) // only use legacy build
+      .filter(id => !isJS(id) || id.match(/-legacy\./)) // only use legacy build
   }
 
   const asyncEntries = uniq(
     Object.entries(viteClientManifest)
-      .filter((i: any) => i[1].isDynamicEntry)
+      .filter((id: any) => id[1].isDynamicEntry)
       .flatMap(getModuleIds)
-  ).filter(i => i)
+  ).filter(Boolean)
   const initialEntries = uniq(
     Object.entries(viteClientManifest)
       .filter((i: any) => !i[1].isDynamicEntry)
       .flatMap(getModuleIds)
-  ).filter(i => i)
-  const initialJs = initialEntries.filter(i => i.endsWith('.js'))
-  const initialAssets = initialEntries.filter(i => !i.endsWith('.js'))
+  ).filter(Boolean)
+  const initialJs = initialEntries.filter(isJS)
+  const initialAssets = initialEntries.filter(isCSS)
 
   // search for polyfill file, we don't include it in the client entry
   const polyfillName = initialEntries.find(i => i.startsWith('polyfills-legacy.'))
@@ -259,4 +259,22 @@ function hash (input: string, length = 8) {
 
 function uniq<T> (arr:T[]): T[] {
   return Array.from(new Set(arr))
+}
+
+// Copied from vue-bundle-renderer utils
+const IS_JS_RE = /\.[cm]?js(\?[^.]+)?$/
+const IS_MODULE_RE = /\.mjs(\?[^.]+)?$/
+const HAS_EXT_RE = /[^./]+\.[^./]+$/
+const IS_CSS_RE = /\.css(\?[^.]+)?$/
+
+export function isJS (file: string) {
+  return IS_JS_RE.test(file) || !HAS_EXT_RE.test(file)
+}
+
+export function isModule (file: string) {
+  return IS_MODULE_RE.test(file) || !HAS_EXT_RE.test(file)
+}
+
+export function isCSS (file: string) {
+  return IS_CSS_RE.test(file)
 }
