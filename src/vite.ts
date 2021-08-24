@@ -56,6 +56,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
           jsxFactory: 'h',
           jsxFragment: 'Fragment'
         },
+        publicDir: resolve(nuxt.options.srcDir, nuxt.options.dir.static),
         clearScreen: false,
         build: {
           emptyOutDir: false
@@ -81,7 +82,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
   if (nuxt.options.dev) {
     ctx.nuxt.hook('vite:serverCreated', (server: vite.ViteDevServer) => {
       const start = Date.now()
-      warmupViteServer(server, ['/_nuxt/client.js']).then(() => {
+      warmupViteServer(server, ['/client.js']).then(() => {
         consola.info(`Vite warmed up in ${Date.now() - start}ms`)
       }).catch(consola.error)
     })

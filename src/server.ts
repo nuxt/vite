@@ -3,10 +3,9 @@ import { createHash } from 'crypto'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import { watch } from 'chokidar'
-import { existsSync, readFile, mkdirp, writeFile, readJSON, writeJSON } from 'fs-extra'
+import { existsSync, readFile, mkdirp, writeFile, readJSON, remove } from 'fs-extra'
 import debounce from 'p-debounce'
 import consola from 'consola'
-import { join } from 'upath'
 import { ViteBuildContext, ViteOptions } from './types'
 import { wpfs } from './utils/wpfs'
 import { jsxPlugin } from './plugins/jsx'
@@ -61,8 +60,8 @@ export async function buildServer (ctx: ViteBuildContext) {
       ]
     },
     build: {
-      outDir: resolve(ctx.nuxt.options.buildDir, 'dist/server'),
-      assetsDir: '_nuxt',
+      outDir: 'dist/server',
+      assetsDir: ctx.nuxt.options.app.assetsPath.replace(/^\/|\/$/, ''),
       ssr: true,
       rollupOptions: {
         input: resolve(ctx.nuxt.options.buildDir, 'server.js'),
@@ -81,9 +80,8 @@ export async function buildServer (ctx: ViteBuildContext) {
 
   await ctx.nuxt.callHook('vite:extendConfig', serverConfig, { isClient: false, isServer: true })
 
-  const serverDist = resolve(ctx.nuxt.options.buildDir, 'dist/server')
-  await mkdirp(serverDist)
-  const r = (...args: string[]): string => resolve(serverDist, ...args)
+  const rDist = (...args: string[]): string => resolve(ctx.nuxt.options.buildDir, 'dist', ...args)
+  await mkdirp(rDist('server'))
 
   const customAppTemplateFile = resolve(ctx.nuxt.options.srcDir, 'app.html')
   const APP_TEMPLATE = existsSync(customAppTemplateFile)
@@ -91,14 +89,15 @@ export async function buildServer (ctx: ViteBuildContext) {
     : DEFAULT_APP_TEMPLATE
 
   const SPA_TEMPLATE = APP_TEMPLATE
+    .replace('{{ APP }}', '<div id="__nuxt">{{ APP }}</div>')
     .replace(
       '</body>',
-      '<script type="module" src="/@vite/client"></script><script type="module" src="/_nuxt/client.js"></script></body>'
+      '<script type="module" src="/@vite/client"></script><script type="module" src="/client.js"></script></body>'
     )
   const SSR_TEMPLATE = ctx.nuxt.options.dev ? SPA_TEMPLATE : APP_TEMPLATE
 
-  await writeFile(r('index.ssr.html'), SSR_TEMPLATE)
-  await writeFile(r('index.spa.html'), SPA_TEMPLATE)
+  await writeFile(rDist('server/index.ssr.html'), SSR_TEMPLATE)
+  await writeFile(rDist('server/index.spa.html'), SPA_TEMPLATE)
 
   if (ctx.nuxt.options.dev) {
     await stubManifest(ctx)
@@ -139,109 +138,134 @@ export async function buildServer (ctx: ViteBuildContext) {
 
 // convert vite's manifest to webpack style
 async function generateBuildManifest (ctx: ViteBuildContext) {
-  const serverDist = resolve(ctx.nuxt.options.buildDir, 'dist/server')
-  const clientDist = resolve(ctx.nuxt.options.buildDir, 'dist/client')
-  const r = (...args: string[]): string => resolve(serverDist, ...args)
+  const rDist = (...args: string[]): string => resolve(ctx.nuxt.options.buildDir, 'dist', ...args)
 
-  const publicPath = ctx.nuxt.options.build.publicPath
-  const viteClientManifest = await readJSON(join(clientDist, 'manifest.json'))
+  const publicPath = ctx.nuxt.options.app.assetsPath // Default: /nuxt/
+  const viteClientManifest = await readJSON(rDist('client/manifest.json'))
+  const clientEntries = Object.entries(viteClientManifest)
 
-  function getModuleIds ([, value]: [string, any]) {
-    if (!value) {
-      return []
-    }
-    return [value.file, ...value.css || []]
-      .filter(i => !i.endsWith('.js') || i.match(/-legacy\./)) // only use legacy build
-  }
+  const asyncEntries = uniq(clientEntries.filter((id: any) => id[1].isDynamicEntry).flatMap(getModuleIds)).filter(Boolean)
+  const initialEntries = uniq(clientEntries.filter((id: any) => !id[1].isDynamicEntry).flatMap(getModuleIds)).filter(Boolean)
+  const initialJs = initialEntries.filter(isJS)
+  const initialAssets = initialEntries.filter(isCSS)
 
-  const asyncEntries = uniq(
-    Object.entries(viteClientManifest)
-      .filter((i: any) => i[1].isDynamicEntry)
-      .flatMap(getModuleIds)
-  ).filter(i => i)
-  const initialEntries = uniq(
-    Object.entries(viteClientManifest)
-      .filter((i: any) => !i[1].isDynamicEntry)
-      .flatMap(getModuleIds)
-  ).filter(i => i)
-  const initialJs = initialEntries.filter(i => i.endsWith('.js'))
-  const initialAssets = initialEntries.filter(i => !i.endsWith('.js'))
-
-  // search for polyfill file, we don't include it in the client entry
-  const polyfillName = initialEntries.find(i => i.startsWith('polyfills-legacy.'))
+  // Search for polyfill file, we don't include it in the client entry
+  const polyfillName = initialEntries.find(id => id.startsWith('polyfills-legacy.'))
 
   // @vitejs/plugin-legacy uses SystemJS which need to call `System.import` to load modules
-  const clientEntryCode = initialJs
-    .filter(i => !i.startsWith('polyfills-legacy.'))
-    .map(i => `System.import("${publicPath}${i}");`)
-    .join('\n')
-  const clientEntryHash = createHash('sha256')
-    .update(clientEntryCode)
-    .digest('hex')
-    .substr(0, 8)
-  const clientEntryName = 'entry.' + clientEntryHash + '.js'
+  const clientImports = initialJs.filter(id => id !== polyfillName).map(id => publicPath + id)
+  const clientEntryCode = `var imports = ${JSON.stringify(clientImports)}\nimports.reduce((p, id) => p.then(() => System.import(id)), Promise.resolve())`
+  const clientEntryName = 'entry-legacy.' + hash(clientEntryCode) + '.js'
 
   const clientManifest = {
     publicPath,
     all: uniq([
       polyfillName,
       clientEntryName,
-      ...Object.entries(viteClientManifest)
-        .flatMap(getModuleIds)
-    ]).filter(i => i),
+      ...clientEntries.flatMap(getModuleIds)
+    ]).filter(Boolean),
     initial: [
       polyfillName,
       clientEntryName,
       ...initialAssets
     ],
     async: [
-      // we move initial entries to the client entry
+      // We move initial entries to the client entry
       ...initialJs,
       ...asyncEntries
     ],
     modules: {},
     assetsMapping: {}
   }
+
   const serverManifest = {
     entry: 'server.js',
     files: {
       'server.js': 'server.js',
-      ...Object.fromEntries(Object.entries(viteClientManifest).map((i: any) => [i[0], i[1].file]))
+      ...Object.fromEntries(clientEntries.map(([id, entry]) => [id, (entry as any).file]))
     },
     maps: {}
   }
 
-  await writeFile(join(clientDist, clientEntryName), clientEntryCode, 'utf-8')
-  await writeJSON(r('client.manifest.json'), clientManifest, { spaces: 2 })
-  await writeJSON(r('server.manifest.json'), serverManifest, { spaces: 2 })
+  await writeFile(rDist('client', clientEntryName), clientEntryCode, 'utf-8')
+
+  const clientManifestJSON = JSON.stringify(clientManifest, null, 2)
+  await writeFile(rDist('server/client.manifest.json'), clientManifestJSON, 'utf-8')
+  await writeFile(rDist('server/client.manifest.mjs'), `export default ${clientManifestJSON}`, 'utf-8')
+
+  const serverManifestJSON = JSON.stringify(serverManifest, null, 2)
+  await writeFile(rDist('server/server.manifest.json'), serverManifestJSON, 'utf-8')
+  await writeFile(rDist('server/server.manifest.mjs'), `export default ${serverManifestJSON}`, 'utf-8')
+
+  // Remove SSR manifest from public client dir
+  await remove(rDist('client/manifest.json'))
+  await remove(rDist('client/ssr-manifest.json'))
 }
 
 // stub manifest on dev
 async function stubManifest (ctx: ViteBuildContext) {
-  const serverDist = resolve(ctx.nuxt.options.buildDir, 'dist/server')
-  const r = (...args: string[]): string => resolve(serverDist, ...args)
+  const rDist = (...args: string[]): string => resolve(ctx.nuxt.options.buildDir, 'dist', ...args)
 
-  await writeJSON(r('client.manifest.json'), {
+  const clientManifest = {
     publicPath: '',
     all: [
-      'empty.js'
+      'client.js'
     ],
     initial: [
-      'empty.js'
+      'client.js'
     ],
     async: [],
     modules: {},
     assetsMapping: {}
-  }, { spaces: 2 })
-  await writeJSON(r('server.manifest.json'), {
+  }
+  const serverManifest = {
     entry: 'server.js',
     files: {
       'server.js': 'server.js'
     },
     maps: {}
-  }, { spaces: 2 })
+  }
+
+  const clientManifestJSON = JSON.stringify(clientManifest, null, 2)
+  await writeFile(rDist('server/client.manifest.json'), clientManifestJSON, 'utf-8')
+  await writeFile(rDist('server/client.manifest.mjs'), `export default ${clientManifestJSON}`, 'utf-8')
+
+  const serverManifestJSON = JSON.stringify(serverManifest, null, 2)
+  await writeFile(rDist('server/server.manifest.json'), serverManifestJSON)
+  await writeFile(rDist('server/server.manifest.mjs'), serverManifestJSON)
+}
+
+function hash (input: string, length = 8) {
+  return createHash('sha256')
+    .update(input)
+    .digest('hex')
+    .substr(0, length)
 }
 
 function uniq<T> (arr:T[]): T[] {
   return Array.from(new Set(arr))
+}
+
+// Copied from vue-bundle-renderer utils
+const IS_JS_RE = /\.[cm]?js(\?[^.]+)?$/
+const IS_MODULE_RE = /\.mjs(\?[^.]+)?$/
+const HAS_EXT_RE = /[^./]+\.[^./]+$/
+const IS_CSS_RE = /\.css(\?[^.]+)?$/
+
+export function isJS (file: string) {
+  return IS_JS_RE.test(file) || !HAS_EXT_RE.test(file)
+}
+
+export function isModule (file: string) {
+  return IS_MODULE_RE.test(file) || !HAS_EXT_RE.test(file)
+}
+
+export function isCSS (file: string) {
+  return IS_CSS_RE.test(file)
+}
+
+function getModuleIds ([, value]: [string, any]) {
+  if (!value) { return [] }
+  // Only include legacy and css ids
+  return [value.file, ...value.css || []].filter(id => isCSS(id) || id.match(/-legacy\./))
 }

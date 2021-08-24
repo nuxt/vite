@@ -2,7 +2,6 @@ import { resolve } from 'path'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import PluginLegacy from '@vitejs/plugin-legacy'
-import consola from 'consola'
 import { jsxPlugin } from './plugins/jsx'
 import { replace } from './plugins/replace'
 import { ViteBuildContext, ViteOptions } from './types'
@@ -54,9 +53,15 @@ export async function buildClient (ctx: ViteBuildContext) {
 
   await ctx.nuxt.callHook('vite:extendConfig', clientConfig, { isClient: true, isServer: false })
 
-  if (ctx.nuxt.options.dev) {
-    const viteServer = await vite.createServer(clientConfig)
-    await ctx.nuxt.callHook('vite:serverCreated', viteServer)
+  // Production build
+  if (!ctx.nuxt.options.dev) {
+    await vite.build(clientConfig)
+    return
+  }
+
+  // Create development server
+  const viteServer = await vite.createServer(clientConfig)
+  await ctx.nuxt.callHook('vite:serverCreated', viteServer)
 
     const viteMiddleware = (req, res, next) => {
     // Workaround: vite devmiddleware modifies req.url
