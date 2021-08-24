@@ -48,27 +48,30 @@ export async function buildClient (ctx: ViteBuildContext) {
 
   await ctx.nuxt.callHook('vite:extendConfig', clientConfig, { isClient: true, isServer: false })
 
-  if (ctx.nuxt.options.dev) {
-    const viteServer = await vite.createServer(clientConfig)
-    await ctx.nuxt.callHook('vite:serverCreated', viteServer)
-
-    const viteMiddleware = (req, res, next) => {
-    // Workaround: vite devmiddleware modifies req.url
-      const originalURL = req.url
-      if (req.url === '/_nuxt/client.js') {
-        return res.end('')
-      }
-      viteServer.middlewares.handle(req, res, (err) => {
-        req.url = originalURL
-        next(err)
-      })
-    }
-    await ctx.nuxt.callHook('server:devMiddleware', viteMiddleware)
-
-    ctx.nuxt.hook('close', async () => {
-      await viteServer.close()
-    })
-  } else {
+  // Production build
+  if (!ctx.nuxt.options.dev) {
     await vite.build(clientConfig)
+    return
   }
+
+  // Create development server
+  const viteServer = await vite.createServer(clientConfig)
+  await ctx.nuxt.callHook('vite:serverCreated', viteServer)
+
+  const viteMiddleware = (req, res, next) => {
+    // Workaround: vite devmiddleware modifies req.url
+    const originalURL = req.url
+    if (req.url === '/_nuxt/client.js') {
+      return res.end('')
+    }
+    viteServer.middlewares.handle(req, res, (err) => {
+      req.url = originalURL
+      next(err)
+    })
+  }
+  await ctx.nuxt.callHook('server:devMiddleware', viteMiddleware)
+
+  ctx.nuxt.hook('close', async () => {
+    await viteServer.close()
+  })
 }
