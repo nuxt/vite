@@ -4,13 +4,17 @@
   "description": "Vite Experience with Nuxt 2",
   "repository": "nuxt/vite",
   "license": "MIT",
+  "exports": {
+    ".": "./dist/nuxt-vite.js",
+    "./dist/runtime": "./dist/runtime/*"
+  },
   "main": "./dist/nuxt-vite.js",
   "types": "./dist/nuxt-vite.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "siroc build && mkdist --src src/runtime --dist dist/runtime",
+    "build": "siroc build",
     "prepublishOnly": "yarn build",
     "dev": "yarn fixture:dev",
     "fixture:dev": "nuxt dev test/fixture",
