@@ -70,9 +70,10 @@ export async function buildServer (ctx: ViteBuildContext) {
 
   if (!ctx.nuxt.options.dev) {
     const start = Date.now()
+    consola.info('Building server...')
     await vite.build(serverConfig)
     await onBuild()
-    consola.info(`Server built in ${Date.now() - start}ms`)
+    consola.success(`Server built in ${Date.now() - start}ms`)
   } else {
     const watcher = await vite.build({
       ...serverConfig,
