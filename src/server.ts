@@ -2,10 +2,10 @@ import { resolve } from 'path'
 import { createHash } from 'crypto'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
-import { watch } from 'chokidar'
-import { existsSync, readFile, mkdirp, writeFile, readJSON, remove } from 'fs-extra'
-import debounce from 'p-debounce'
+import { existsSync, readFile, mkdirp, writeFile, readJSON } from 'fs-extra'
 import consola from 'consola'
+import { join } from 'upath'
+import type { RollupWatcher } from 'rollup'
 import { ViteBuildContext, ViteOptions } from './types'
 import { wpfs } from './utils/wpfs'
 import { jsxPlugin } from './plugins/jsx'
@@ -106,33 +106,43 @@ export async function buildServer (ctx: ViteBuildContext) {
   }
 
   const onBuild = () => ctx.nuxt.callHook('build:resources', wpfs)
-  const build = async () => {
+
+  if (!ctx.nuxt.options.dev) {
     const start = Date.now()
     await vite.build(serverConfig)
     await onBuild()
     consola.info(`Server built in ${Date.now() - start}ms`)
-  }
+  } else {
+    const watcher = await vite.build({
+      ...serverConfig,
+      build: {
+        ...serverConfig.build,
+        watch: {
+          include: [
+            join(ctx.nuxt.options.buildDir, '**/*'),
+            join(ctx.nuxt.options.srcDir, '**/*'),
+            join(ctx.nuxt.options.rootDir, '**/*')
+          ],
+          exclude: [
+            '**/dist/server/**'
+          ]
+        }
+      }
+    }) as RollupWatcher
 
-  const debouncedBuild = debounce(build, 300)
-
-  await build()
-
-  if (ctx.nuxt.options.dev) {
-    const watcher = watch([
-      ctx.nuxt.options.buildDir,
-      ctx.nuxt.options.srcDir,
-      ctx.nuxt.options.rootDir
-    ], {
-      ignored: [
-        '**/dist/server/**'
-      ]
+    let start = Date.now()
+    watcher.on('event', async (event) => {
+      if (event.code === 'BUNDLE_START') {
+        start = Date.now()
+      } else if (event.code === 'BUNDLE_END') {
+        await onBuild()
+        consola.info(`Server rebuilt in ${Date.now() - start}ms`)
+      } else if (event.code === 'ERROR') {
+        consola.error(event.error)
+      }
     })
 
-    watcher.on('change', () => debouncedBuild())
-
-    ctx.nuxt.hook('close', async () => {
-      await watcher.close()
-    })
+    ctx.nuxt.hook('close', () => watcher.close())
   }
 }
 

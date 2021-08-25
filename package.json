@@ -23,10 +23,8 @@
   "dependencies": {
     "@nuxt/http": "^0.6.4",
     "@vitejs/plugin-legacy": "^1.5.1",
-    "chokidar": "^3.5.2",
     "consola": "^2.15.3",
     "fs-extra": "^10.0.0",
-    "p-debounce": "^2.1.0",
     "postcss-import": "^14.0.2",
     "postcss-import-resolver": "^2.0.0",
     "postcss-preset-env": "^6.7.0",
