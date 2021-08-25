@@ -14,6 +14,11 @@ export async function buildClient (ctx: ViteBuildContext) {
       : `defaultexport:${p.src}`
   }
 
+  // redirect '/_nuxt' to buildDir for dev
+  if (ctx.nuxt.options.dev) {
+    alias['/_nuxt'] = ctx.nuxt.options.buildDir
+  }
+
   const clientConfig: vite.InlineConfig = vite.mergeConfig(ctx.config, {
     define: {
       'process.server': false,
@@ -27,7 +32,7 @@ export async function buildClient (ctx: ViteBuildContext) {
       alias
     },
     build: {
-      outDir: 'dist/client',
+      outDir: resolve(ctx.nuxt.options.buildDir, 'dist/client'),
       assetsDir: '.',
       rollupOptions: {
         input: resolve(ctx.nuxt.options.buildDir, 'client.js')
@@ -61,9 +66,6 @@ export async function buildClient (ctx: ViteBuildContext) {
   const viteMiddleware = (req, res, next) => {
     // Workaround: vite devmiddleware modifies req.url
     const originalURL = req.url
-    if (req.url === '/_nuxt/client.js') {
-      return res.end('')
-    }
     viteServer.middlewares.handle(req, res, (err) => {
       req.url = originalURL
       next(err)
