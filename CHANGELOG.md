@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/nuxt/vite/compare/v0.1.3...v0.2.0) (2021-08-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* change vite root to `rootDir` from `buildDir` (#184)
+
+### Features
+
+* production build with vite ([#179](https://github.com/nuxt/vite/issues/179)) ([19bf4b2](https://github.com/nuxt/vite/commit/19bf4b2540557a62f0ec5fcc26db922915bc748f))
+* use vite watcher for server bundle ([#180](https://github.com/nuxt/vite/issues/180)) ([b933033](https://github.com/nuxt/vite/commit/b9330338fd4ef64c94cf28bfec828d091c13bbed))
+
+
+### Bug Fixes
+
+* change vite root to `rootDir` from `buildDir` ([#184](https://github.com/nuxt/vite/issues/184)) ([6e14fbb](https://github.com/nuxt/vite/commit/6e14fbb008ad89427da2344c97120cd00b875001))
+* use `static` as publicDir for vite ([#183](https://github.com/nuxt/vite/issues/183)) ([1d91ed5](https://github.com/nuxt/vite/commit/1d91ed5f1bbc467e483821db0ad9dc129809d1b3))
+
 ### [0.1.3](https://github.com/nuxt/vite/compare/v0.1.2...v0.1.3) (2021-08-15)
 
 
