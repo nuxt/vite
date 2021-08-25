@@ -6,7 +6,7 @@
   "license": "MIT",
   "exports": {
     ".": "./dist/nuxt-vite.js",
-    "./dist/runtime": "./dist/runtime/*"
+    "./dist/runtime/*": "./dist/runtime/*"
   },
   "main": "./dist/nuxt-vite.js",
   "types": "./dist/nuxt-vite.d.ts",
