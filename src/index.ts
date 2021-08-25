@@ -9,11 +9,9 @@ function nuxtVite () {
   const { nuxt } = this
   const viteOptions = nuxt.options.vite || {}
 
-  if (!nuxt.options.dev) {
-    // default false
-    if (!viteOptions.build) {
-      return
-    }
+  // Only enable for development or production if `build: true` is set
+  if (!nuxt.options.dev && !viteOptions.build) {
+    return
   }
 
   // Check nuxt version
