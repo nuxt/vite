@@ -2,7 +2,7 @@ import { resolve } from 'path'
 import { createHash } from 'crypto'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
-import { existsSync, readFile, mkdirp, writeFile, readJSON, writeJSON } from 'fs-extra'
+import { existsSync, readFile, mkdirp, writeFile, readJSON } from 'fs-extra'
 import consola from 'consola'
 import { join } from 'upath'
 import type { RollupWatcher } from 'rollup'
@@ -146,10 +146,6 @@ export async function buildServer (ctx: ViteBuildContext) {
   }
 }
 
-function uniq<T> (arr:T[]): T[] {
-  return Array.from(new Set(arr))
-}
-
 // convert vite's manifest to webpack style
 async function generateBuildManifest (ctx: ViteBuildContext) {
   const rDist = (...args: string[]): string => resolve(ctx.nuxt.options.buildDir, 'dist', ...args)
@@ -249,6 +245,17 @@ async function stubManifest (ctx: ViteBuildContext) {
   await writeFile(rDist('server/server.manifest.mjs'), serverManifestJSON)
 }
 
+function hash (input: string, length = 8) {
+  return createHash('sha256')
+    .update(input)
+    .digest('hex')
+    .substr(0, length)
+}
+
+function uniq<T> (arr:T[]): T[] {
+  return Array.from(new Set(arr))
+}
+
 // Copied from vue-bundle-renderer utils
 const IS_JS_RE = /\.[cm]?js(\?[^.]+)?$/
 const IS_MODULE_RE = /\.mjs(\?[^.]+)?$/
@@ -265,4 +272,10 @@ export function isModule (file: string) {
 
 export function isCSS (file: string) {
   return IS_CSS_RE.test(file)
+}
+
+function getModuleIds ([, value]: [string, any]) {
+  if (!value) { return [] }
+  // Only include legacy and css ids
+  return [value.file, ...value.css || []].filter(id => isCSS(id) || id.match(/-legacy\./))
 }
