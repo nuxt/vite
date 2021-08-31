@@ -3,6 +3,7 @@
     <h2>Hello Vite from Composition API!</h2>
     <pre v-text="injected" />
     <pre v-text="ssrRef" />
+    <nuxt-link to="/">/index</nuxt-link>
   </div>
 </template>
 
