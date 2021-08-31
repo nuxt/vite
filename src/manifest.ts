@@ -24,13 +24,13 @@ export async function prepareManifests (ctx: ViteBuildContext) {
     ? (await readFile(customAppTemplateFile, 'utf-8'))
     : DEFAULT_APP_TEMPLATE
 
-  const SPA_TEMPLATE = APP_TEMPLATE
-    .replace('{{ APP }}', '<div id="__nuxt">{{ APP }}</div>')
+  const DEV_TEMPLATE = APP_TEMPLATE
     .replace(
       '</body>',
       '<script type="module" src="/@vite/client"></script><script type="module" src="/_nuxt/client.js"></script></body>'
     )
-  const SSR_TEMPLATE = ctx.nuxt.options.dev ? SPA_TEMPLATE : APP_TEMPLATE
+  const SPA_TEMPLATE = ctx.nuxt.options.dev ? DEV_TEMPLATE : APP_TEMPLATE
+  const SSR_TEMPLATE = ctx.nuxt.options.dev ? DEV_TEMPLATE : APP_TEMPLATE
 
   await writeFile(rDist('server/index.ssr.html'), SSR_TEMPLATE)
   await writeFile(rDist('server/index.spa.html'), SPA_TEMPLATE)
