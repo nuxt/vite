@@ -26,7 +26,7 @@
     "test": "yarn lint && yarn jest"
   },
   "dependencies": {
-    "@vitejs/plugin-legacy": "^1.5.1",
+    "@vitejs/plugin-legacy": "^1.5.2",
     "consola": "^2.15.3",
     "fs-extra": "^10.0.0",
     "postcss-import": "^14.0.2",
@@ -48,7 +48,7 @@
     "@types/fs-extra": "^9.0.12",
     "@types/jest": "^27.0.1",
     "eslint": "^7.32.0",
-    "jest": "^27.0.6",
+    "jest": "^27.1.0",
     "mkdist": "^0.3.3",
     "nuxt": "^2.15.8",
     "playwright": "^1.14.1",
