@@ -2,6 +2,7 @@ import { resolve } from 'path'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import PluginLegacy from '@vitejs/plugin-legacy'
+import consola from 'consola'
 import { jsxPlugin } from './plugins/jsx'
 import { replace } from './plugins/replace'
 import { ViteBuildContext, ViteOptions } from './types'
@@ -55,7 +56,10 @@ export async function buildClient (ctx: ViteBuildContext) {
 
   // Production build
   if (!ctx.nuxt.options.dev) {
+    const start = Date.now()
+    consola.info('Building client...')
     await vite.build(clientConfig)
+    consola.success(`Client built in ${Date.now() - start}ms`)
     return
   }
 

@@ -9,6 +9,7 @@ import { replace } from './plugins/replace'
 import { resolveCSSOptions } from './css'
 import { warmupViteServer } from './utils/warmup'
 import type { Nuxt, ViteBuildContext, ViteOptions } from './types'
+import { prepareManifests } from './manifest'
 
 async function bundle (nuxt: Nuxt, builder: any) {
   for (const p of builder.plugins) {
@@ -89,6 +90,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
   }
 
   await buildClient(ctx)
+  await prepareManifests(ctx)
   await buildServer(ctx)
 }
 
