@@ -93,7 +93,7 @@ declare module '@nuxt/types/config/index' {
      * @link https://vitejs.dev/config/
      */
     vite?: ViteOptions & {
-      ssr: false | ViteOptions['ssr'],
+      ssr: boolean | ViteOptions['ssr'],
       build: boolean | ViteOptions['build'],
       experimentWarning: boolean
     }
