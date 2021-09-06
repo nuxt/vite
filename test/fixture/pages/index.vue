@@ -28,3 +28,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+body {
+  h2 {
+    font-family: monospace;
+  }
+}
+</style>

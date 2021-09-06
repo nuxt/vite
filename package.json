@@ -52,6 +52,7 @@
     "mkdist": "^0.3.3",
     "nuxt": "^2.15.8",
     "playwright": "^1.14.1",
+    "sass": "^1.39.0",
     "siroc": "^0.16.0",
     "standard-version": "^9.3.1"
   }
