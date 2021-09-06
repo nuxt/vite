@@ -43,7 +43,7 @@
     "@babel/preset-typescript": "^7.15.0",
     "@nuxt/test-utils": "^0.2.2",
     "@nuxt/types": "^2.15.8",
-    "@nuxtjs/composition-api": "^0.27.0",
+    "@nuxtjs/composition-api": "^0.28.0",
     "@nuxtjs/eslint-config-typescript": "^6.0.1",
     "@types/fs-extra": "^9.0.12",
     "@types/jest": "^27.0.1",
