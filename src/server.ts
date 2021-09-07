@@ -7,7 +7,7 @@ import type { RollupWatcher } from 'rollup'
 import { ViteBuildContext, ViteOptions } from './types'
 import { wpfs } from './utils/wpfs'
 import { jsxPlugin } from './plugins/jsx'
-import { generateDevSsrManifest } from './manifest'
+import { generateDevSSRManifest } from './manifest'
 
 export async function buildServer (ctx: ViteBuildContext) {
   // Workaround to disable HMR
@@ -99,7 +99,7 @@ export async function buildServer (ctx: ViteBuildContext) {
       if (event.code === 'BUNDLE_START') {
         start = Date.now()
       } else if (event.code === 'BUNDLE_END') {
-        await generateDevSsrManifest(ctx)
+        await generateDevSSRManifest(ctx)
         await onBuild()
         consola.info(`Server rebuilt in ${Date.now() - start}ms`)
       } else if (event.code === 'ERROR') {

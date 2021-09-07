@@ -129,7 +129,7 @@ export async function stubManifest (ctx: ViteBuildContext) {
   await writeServerManifest(serverManifest, ctx.nuxt.options.buildDir)
 }
 
-export async function generateDevSsrManifest (ctx: ViteBuildContext) {
+export async function generateDevSSRManifest (ctx: ViteBuildContext) {
   const rDist = (...args: string[]): string => resolve(ctx.nuxt.options.buildDir, 'dist', ...args)
 
   const ssrManifest = await readJSON(rDist('server/ssr-manifest.json'))
