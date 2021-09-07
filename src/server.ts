@@ -7,6 +7,7 @@ import type { RollupWatcher } from 'rollup'
 import { ViteBuildContext, ViteOptions } from './types'
 import { wpfs } from './utils/wpfs'
 import { jsxPlugin } from './plugins/jsx'
+import { generateDevSSRManifest } from './manifest'
 
 export async function buildServer (ctx: ViteBuildContext) {
   // Workaround to disable HMR
@@ -49,6 +50,7 @@ export async function buildServer (ctx: ViteBuildContext) {
       outDir: resolve(ctx.nuxt.options.buildDir, 'dist/server'),
       assetsDir: ctx.nuxt.options.app.assetsPath.replace(/^\/|\/$/, ''),
       ssr: true,
+      ssrManifest: true,
       rollupOptions: {
         input: resolve(ctx.nuxt.options.buildDir, 'server.js'),
         onwarn (warning, rollupWarn) {
@@ -97,6 +99,7 @@ export async function buildServer (ctx: ViteBuildContext) {
       if (event.code === 'BUNDLE_START') {
         start = Date.now()
       } else if (event.code === 'BUNDLE_END') {
+        await generateDevSSRManifest(ctx)
         await onBuild()
         consola.info(`Server rebuilt in ${Date.now() - start}ms`)
       } else if (event.code === 'ERROR') {
