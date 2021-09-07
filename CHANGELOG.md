@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.3](https://github.com/nuxt/vite/compare/v0.2.2...v0.2.3) (2021-09-07)
+
+
+### Bug Fixes
+
+* dev ssr style fouc ([#195](https://github.com/nuxt/vite/issues/195)) ([8219dab](https://github.com/nuxt/vite/commit/8219dab808bf8ec36dd97641274c0f92b149d6d9))
+* **types:** allow `vite.ssr` to be true ([b6d3824](https://github.com/nuxt/vite/commit/b6d3824a38311aff903c945402baf1448670e0ae))
+
 ### [0.2.2](https://github.com/nuxt/vite/compare/v0.2.1...v0.2.2) (2021-09-01)
 
 ### [0.2.1](https://github.com/nuxt/vite/compare/v0.2.0...v0.2.1) (2021-08-25)
