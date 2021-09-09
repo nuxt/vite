@@ -9,6 +9,7 @@ import { ViteBuildContext, ViteOptions } from './types'
 import { wpfs } from './utils/wpfs'
 import { jsxPlugin } from './plugins/jsx'
 import { generateDevSSRManifest } from './manifest'
+import { uniq } from './utils'
 
 export async function buildServer (ctx: ViteBuildContext) {
   // Workaround to disable HMR
@@ -157,19 +158,27 @@ return __vite_ssr_exports__;
   return { code, deps: res.deps || [] }
 }
 
+function scanDynamicDeps (code: string) {
+  return Array.from(code.matchAll(/__vite_ssr_dynamic_import__\(['"](.+?)['"]\)/g)).map(m => m[1])
+}
+
 async function transformRequestRecursive (viteServer: vite.ViteDevServer, id, parent = '<entry>', chunks: Record<string, TransformChunk> = {}) {
   if (chunks[id]) {
     chunks[id].parents.push(parent)
     return
   }
   const res = await transformRequest(viteServer, id)
+  // Vite does not include dynamic deps in `res.deps`, we manually scan for it
+  const dynamicDeps = scanDynamicDeps(res.code)
+  const deps = uniq([...res.deps, ...dynamicDeps])
+
   chunks[id] = {
     id,
     code: res.code,
-    deps: res.deps,
+    deps,
     parents: [parent]
   } as TransformChunk
-  for (const dep of res.deps) {
+  for (const dep of deps) {
     await transformRequestRecursive(viteServer, dep, id, chunks)
   }
   return Object.values(chunks)
@@ -213,8 +222,14 @@ const __vite_ssr_import_meta__ = {
 }
 `
 
+  // TODO: What's this?
+  const exportAllPolyfill = `
+const __vite_ssr_exportAll__ = () => {}
+`
+
   const code = [
     metaPolyfill,
+    exportAllPolyfill,
     chunksCode,
     manifestCode,
     dynamicImportCode,
