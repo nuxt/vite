@@ -90,8 +90,8 @@ export async function buildServer (ctx: ViteBuildContext) {
 
   await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/server.js'), `
   module.exports = async (ctx) => {
-    // const server = await import('${resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs')}')
-    const server = require('jiti')()('${resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs')}')
+    const server = await import('${resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs')}')
+    // const server = require('jiti')()('${resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs')}')
     return server.default(ctx)
   }`, 'utf-8')
 
