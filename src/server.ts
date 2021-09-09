@@ -1,9 +1,10 @@
 import { resolve } from 'path'
+import { builtinModules } from 'module'
+import { createHash } from 'crypto'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import consola from 'consola'
-import { join } from 'upath'
-import type { RollupWatcher } from 'rollup'
+import { writeFile } from 'fs-extra'
 import { ViteBuildContext, ViteOptions } from './types'
 import { wpfs } from './utils/wpfs'
 import { jsxPlugin } from './plugins/jsx'
@@ -70,43 +71,139 @@ export async function buildServer (ctx: ViteBuildContext) {
 
   const onBuild = () => ctx.nuxt.callHook('build:resources', wpfs)
 
+  // Production build
   if (!ctx.nuxt.options.dev) {
     const start = Date.now()
     consola.info('Building server...')
     await vite.build(serverConfig)
     await onBuild()
     consola.success(`Server built in ${Date.now() - start}ms`)
-  } else {
-    const watcher = await vite.build({
-      ...serverConfig,
-      build: {
-        ...serverConfig.build,
-        watch: {
-          include: [
-            join(ctx.nuxt.options.buildDir, '**/*'),
-            join(ctx.nuxt.options.srcDir, '**/*'),
-            join(ctx.nuxt.options.rootDir, '**/*')
-          ],
-          exclude: [
-            '**/dist/server/**'
-          ]
-        }
-      }
-    }) as RollupWatcher
-
-    let start = Date.now()
-    watcher.on('event', async (event) => {
-      if (event.code === 'BUNDLE_START') {
-        start = Date.now()
-      } else if (event.code === 'BUNDLE_END') {
-        await generateDevSSRManifest(ctx)
-        await onBuild()
-        consola.info(`Server rebuilt in ${Date.now() - start}ms`)
-      } else if (event.code === 'ERROR') {
-        consola.error(event.error)
-      }
-    })
-
-    ctx.nuxt.hook('close', () => watcher.close())
+    return
   }
+
+  // Start development server
+  const viteServer = await vite.createServer(serverConfig)
+
+  const { code } = await bundleRequest(viteServer, '/.nuxt/server.js')
+
+  await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs'), code, 'utf-8')
+
+  await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/server.js'), `
+  module.exports = async (ctx) => {
+    // const server = await import('${resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs')}')
+    const server = require('jiti')()('${resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs')}')
+    return server.default(ctx)
+  }`, 'utf-8')
+
+  await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/ssr-manifest.json'), JSON.stringify({}, null, 2), 'utf-8')
+
+  await generateDevSSRManifest(ctx)
+  await onBuild()
+  ctx.nuxt.hook('close', () => viteServer.close())
+}
+
+// ---- Vite Dev Bundler POC ----
+
+interface TransformChunk {
+  id: string,
+  code: string,
+  deps: string[],
+  parents: string[]
+}
+
+interface SSRTransformResult {
+  code: string,
+  map: object,
+  deps: string[]
+}
+
+async function transformRequest (viteServer: vite.ViteDevServer, id) {
+  // Externals
+  if (builtinModules.includes(id) || (id.includes('node_modules') && !id.endsWith('.esm.js'))) {
+    if (id.startsWith('/@fs')) {
+      id = id.substr(4)
+    } else if (id.startsWith('/')) {
+      id = '.' + id // TODO
+    }
+    return {
+      code: `() => import('${id}')`,
+      deps: []
+    }
+  }
+
+  // Transform
+  const res: SSRTransformResult = await viteServer.transformRequest(id, { ssr: true }).catch((err) => {
+    // eslint-disable-next-line no-console
+    console.warn(`[SSR] Error transforming ${id}: ${err}`)
+    // console.error(err)
+  }) as SSRTransformResult || { code: '', map: {}, deps: [] }
+
+  // Wrap into a vite module
+  const code = `async function () {
+const __vite_ssr_exports__ = {};
+${res.code || '/* empty */'};
+return __vite_ssr_exports__;
+}`
+  return { code, deps: res.deps || [] }
+}
+
+async function transformRequestRecursive (viteServer: vite.ViteDevServer, id, parent = '<entry>', chunks: Record<string, TransformChunk> = {}) {
+  if (chunks[id]) {
+    chunks[id].parents.push(parent)
+    return
+  }
+  const res = await transformRequest(viteServer, id)
+  chunks[id] = {
+    id,
+    code: res.code,
+    deps: res.deps,
+    parents: [parent]
+  } as TransformChunk
+  for (const dep of res.deps) {
+    await transformRequestRecursive(viteServer, dep, id, chunks)
+  }
+  return Object.values(chunks)
+}
+
+async function bundleRequest (viteServer: vite.ViteDevServer, id) {
+  const chunks = await transformRequestRecursive(viteServer, id)
+
+  const listIds = ids => ids.map(id => `// - ${id} (${hashId(id)})`).join('\n')
+  const chunksCode = chunks.map(chunk => `
+// --------------------
+// Request: ${chunk.id}
+// Parents: \n${listIds(chunk.parents)}
+// Dependencies: \n${listIds(chunk.deps)}
+// --------------------
+const ${hashId(chunk.id)} = ${chunk.code}
+`).join('\n')
+
+  const menifestCode = 'const $chunks = {\n' +
+   chunks.map(chunk => ` '${chunk.id}': ${hashId(chunk.id)}`).join(',\n') + '\n}'
+
+  const dynamicImportCode = `
+function __vite_ssr_import__ (id) {
+  return Promise.resolve($chunks[id]())
+}
+  `
+
+  const code = [
+    chunksCode,
+    menifestCode,
+    dynamicImportCode,
+    `export default ${hashId(id)}`
+  ].join('\n\n')
+
+  return { code }
+}
+
+function hashId (id: string) {
+  return '$id_' + hash(id)
+}
+
+function hash (input: string, length = 8) {
+  return createHash('sha256')
+    .update(input)
+    .digest('hex')
+    .substr(0, length)
 }
