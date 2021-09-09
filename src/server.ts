@@ -152,6 +152,7 @@ async function transformRequest (viteServer: vite.ViteDevServer, id) {
   // Wrap into a vite module
   const code = `async function () {
 const __vite_ssr_exports__ = {};
+const __vite_ssr_exportAll__ = __createViteSSRExportAll__(__vite_ssr_exports__)
 ${res.code || '/* empty */'};
 return __vite_ssr_exports__;
 }`
@@ -213,6 +214,25 @@ function __vite_ssr_dynamic_import__(id) {
 }
 `
 
+  // https://github.com/vitejs/vite/blob/fb406ce4c0fe6da3333c9d1c00477b2880d46352/packages/vite/src/node/ssr/ssrModuleLoader.ts#L121-L133
+  const helpers = `
+function __createViteSSRExportAll__(ssrModule) {
+  return (sourceModule) => {
+    for (const key in sourceModule) {
+      if (key !== 'default') {
+        Object.defineProperty(sourceModule, key, {
+          enumerable: true,
+          configurable: true,
+          get() {
+            return sourceModule[key]
+          }
+        })
+      }
+    }
+  }
+}
+`
+
   // TODO: implement real HMR
   const metaPolyfill = `
 const __vite_ssr_import_meta__ = {
@@ -222,17 +242,12 @@ const __vite_ssr_import_meta__ = {
 }
 `
 
-  // TODO: What's this?
-  const exportAllPolyfill = `
-const __vite_ssr_exportAll__ = () => {}
-`
-
   const code = [
     metaPolyfill,
-    exportAllPolyfill,
     chunksCode,
     manifestCode,
     dynamicImportCode,
+    helpers,
     `export default ${hashId(id)}`
   ].join('\n\n')
 
