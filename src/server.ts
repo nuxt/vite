@@ -86,16 +86,19 @@ export async function buildServer (ctx: ViteBuildContext) {
   // Initialize plugins
   await viteServer.pluginContainer.buildStart({})
 
-  const { code } = await bundleRequest(viteServer, '/.nuxt/server.js')
+  const { code: esm } = await bundleRequest(viteServer, '/.nuxt/server.js')
 
-  await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs'), code, 'utf-8')
-
-  await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/server.js'), `
+  // FIXME: vue-bundle-renderer does not support ESM
+  const cjs = `
   module.exports = async (ctx) => {
-    const server = await import('${resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs')}')
-    // const server = require('jiti')()('${resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs')}')
-    return server.default(ctx)
-  }`, 'utf-8')
+  // const server = await import('${resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs')}')
+  const server = require('jiti')()('${resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs')}')
+  const result = await server.default().then(i => i.default(ctx))
+  return result
+}`
+
+  await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs'), esm, 'utf-8')
+  await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/server.js'), cjs, 'utf-8')
 
   await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/ssr-manifest.json'), JSON.stringify({}, null, 2), 'utf-8')
 
