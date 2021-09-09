@@ -90,7 +90,7 @@ export async function buildServer (ctx: ViteBuildContext) {
 
   // FIXME: vue-bundle-renderer does not support ESM
   const cjs = `
-  module.exports = async (ctx) => {
+module.exports = async (ctx) => {
   // const server = await import('${resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs')}')
   const server = require('jiti')()('${resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs')}')
   const result = await server.default().then(i => i.default(ctx))
@@ -188,11 +188,21 @@ async function bundleRequest (viteServer: vite.ViteDevServer, id) {
 const ${hashId(chunk.id)} = ${chunk.code}
 `).join('\n')
 
-  const menifestCode = 'const $chunks = {\n' +
+  const manifestCode = 'const $chunks = {\n' +
    chunks.map(chunk => ` '${chunk.id}': ${hashId(chunk.id)}`).join(',\n') + '\n}'
 
   const dynamicImportCode = `
 function __vite_ssr_import__ (id) {
+  return Promise.resolve($chunks[id]()).then(mod => {
+    if (mod && !('default' in mod))
+      mod.default = mod
+    return mod
+  })
+}
+function __vite_ssr_dynamic_import__(id) {
+  return __vite_ssr_import__(id)
+}
+`
 
   // TODO: implement real HMR
   const metaPolyfill = `
@@ -201,11 +211,12 @@ const __vite_ssr_import_meta__ = {
     accept() {}
   }
 }
-  `
+`
 
   const code = [
+    metaPolyfill,
     chunksCode,
-    menifestCode,
+    manifestCode,
     dynamicImportCode,
     `export default ${hashId(id)}`
   ].join('\n\n')
