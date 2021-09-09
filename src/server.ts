@@ -83,6 +83,8 @@ export async function buildServer (ctx: ViteBuildContext) {
 
   // Start development server
   const viteServer = await vite.createServer(serverConfig)
+  // Initialize plugins
+  await viteServer.pluginContainer.buildStart({})
 
   const { code } = await bundleRequest(viteServer, '/.nuxt/server.js')
 
