@@ -190,7 +190,13 @@ const ${hashId(chunk.id)} = ${chunk.code}
 
   const dynamicImportCode = `
 function __vite_ssr_import__ (id) {
-  return Promise.resolve($chunks[id]())
+
+  // TODO: implement real HMR
+  const metaPolyfill = `
+const __vite_ssr_import_meta__ = {
+  hot: {
+    accept() {}
+  }
 }
   `
 
