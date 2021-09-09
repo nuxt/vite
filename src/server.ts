@@ -118,6 +118,11 @@ interface SSRTransformResult {
 }
 
 async function transformRequest (viteServer: vite.ViteDevServer, id) {
+  // Virtual modules start with `\0`
+  if (id && id.startsWith('/@id/__x00__')) {
+    id = '\0' + id.slice('/@id/__x00__'.length)
+  }
+
   // Externals
   if (builtinModules.includes(id) || (id.includes('node_modules') && !id.endsWith('.esm.js'))) {
     if (id.startsWith('/@fs')) {
