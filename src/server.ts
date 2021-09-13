@@ -121,6 +121,7 @@ interface SSRTransformResult {
   code: string,
   map: object,
   deps: string[]
+  dynamicDeps: string[]
 }
 
 async function transformRequest (viteServer: vite.ViteDevServer, id) {
@@ -138,7 +139,8 @@ async function transformRequest (viteServer: vite.ViteDevServer, id) {
     }
     return {
       code: `() => import('${id}')`,
-      deps: []
+      deps: [],
+      dynamicDeps: []
     }
   }
 
@@ -147,7 +149,7 @@ async function transformRequest (viteServer: vite.ViteDevServer, id) {
     // eslint-disable-next-line no-console
     console.warn(`[SSR] Error transforming ${id}: ${err}`)
     // console.error(err)
-  }) as SSRTransformResult || { code: '', map: {}, deps: [] }
+  }) as SSRTransformResult || { code: '', map: {}, deps: [], dynamicDeps: [] }
 
   // Wrap into a vite module
   const code = `async function () {
@@ -156,11 +158,7 @@ const __vite_ssr_exportAll__ = __createViteSSRExportAll__(__vite_ssr_exports__)
 ${res.code || '/* empty */'};
 return __vite_ssr_exports__;
 }`
-  return { code, deps: res.deps || [] }
-}
-
-function scanDynamicDeps (code: string) {
-  return Array.from(code.matchAll(/__vite_ssr_dynamic_import__\(['"](.+?)['"]\)/g)).map(m => m[1])
+  return { code, deps: res.deps || [], dynamicDeps: res.dynamicDeps || [] }
 }
 
 async function transformRequestRecursive (viteServer: vite.ViteDevServer, id, parent = '<entry>', chunks: Record<string, TransformChunk> = {}) {
@@ -169,9 +167,7 @@ async function transformRequestRecursive (viteServer: vite.ViteDevServer, id, pa
     return
   }
   const res = await transformRequest(viteServer, id)
-  // Vite does not include dynamic deps in `res.deps`, we manually scan for it
-  const dynamicDeps = scanDynamicDeps(res.code)
-  const deps = uniq([...res.deps, ...dynamicDeps])
+  const deps = uniq([...res.deps, ...res.dynamicDeps])
 
   chunks[id] = {
     id,
