@@ -52,7 +52,7 @@ function nuxtVite () {
     .filter(m => !(Array.isArray(m) && m[0] === '@nuxt/loading-screen'))
 
   // TMP (ESM)
-  nuxt.options.render.bundleRenderer.runInNewContext = false
+  // nuxt.options.render.bundleRenderer.runInNewContext = false
 
   // Mask nuxt-vite  to avoid other modules depending on it's existence
   // TODO: Move to kit

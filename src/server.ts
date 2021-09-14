@@ -93,7 +93,7 @@ export async function buildServer (ctx: ViteBuildContext) {
   const cjs = `
 module.exports = async (ctx) => {
   // const server = await import('${resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs')}')
-  const server = require('jiti')()('${resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs')}')
+  const server = require('jiti')()('${resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs')}', { requireCache: false, cache: false, v8cache: false })
   const result = await server.default().then(i => i.default(ctx))
   return result
 }`
