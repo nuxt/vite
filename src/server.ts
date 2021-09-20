@@ -87,23 +87,12 @@ export async function buildServer (ctx: ViteBuildContext) {
   // Initialize plugins
   await viteServer.pluginContainer.buildStart({})
 
-  const { code: esm } = await bundleRequest(viteServer, '/.nuxt/server.js')
-
-  // FIXME: vue-bundle-renderer does not support ESM
-  const cjs = `
-module.exports = async (ctx) => {
-  // const server = await import('${resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs')}')
-  const server = require('jiti')()('${resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs')}', { requireCache: false, cache: false, v8cache: false })
-  const result = await server.default().then(i => i.default(ctx))
-  return result
-}`
-
-  await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/server.mjs'), esm, 'utf-8')
-  await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/server.js'), cjs, 'utf-8')
+  const { code } = await bundleRequest(viteServer, '/.nuxt/server.js')
+  await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/server.js'), code, 'utf-8')
 
   await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/ssr-manifest.json'), JSON.stringify({}, null, 2), 'utf-8')
-
   await generateDevSSRManifest(ctx)
+
   await onBuild()
   ctx.nuxt.hook('close', () => viteServer.close())
 }
@@ -131,14 +120,9 @@ async function transformRequest (viteServer: vite.ViteDevServer, id) {
   }
 
   // Externals
-  if (builtinModules.includes(id) || (id.includes('node_modules') && !id.endsWith('.esm.js'))) {
-    if (id.startsWith('/@fs')) {
-      id = id.substr(4)
-    } else if (id.startsWith('/')) {
-      id = '.' + id // TODO
-    }
+  if (builtinModules.includes(id)) {
     return {
-      code: `() => import('${id}')`,
+      code: `() => require('${id}')`,
       deps: [],
       dynamicDeps: []
     }
@@ -153,10 +137,12 @@ async function transformRequest (viteServer: vite.ViteDevServer, id) {
 
   // Wrap into a vite module
   const code = `async function () {
-const __vite_ssr_exports__ = {};
+const exports = {}
+const module = { exports }
+const __vite_ssr_exports__ = exports;
 const __vite_ssr_exportAll__ = __createViteSSRExportAll__(__vite_ssr_exports__)
 ${res.code || '/* empty */'};
-return __vite_ssr_exports__;
+return module.exports;
 }`
   return { code, deps: res.deps || [], dynamicDeps: res.dynamicDeps || [] }
 }
@@ -198,12 +184,17 @@ const ${hashId(chunk.id)} = ${chunk.code}
    chunks.map(chunk => ` '${chunk.id}': ${hashId(chunk.id)}`).join(',\n') + '\n}'
 
   const dynamicImportCode = `
-function __vite_ssr_import__ (id) {
-  return Promise.resolve($chunks[id]()).then(mod => {
-    if (mod && !('default' in mod))
-      mod.default = mod
-    return mod
-  })
+const __vite_import_cache__ = Object.create({})
+async function __vite_ssr_import__ (id) {
+  if (__vite_import_cache__[id]) {
+    return __vite_import_cache__[id]
+  }
+  const mod = await $chunks[id]()
+  if (mod && !('default' in mod)) {
+    mod.default = mod
+  }
+  __vite_import_cache__[id] = mod
+  return mod
 }
 function __vite_ssr_dynamic_import__(id) {
   return __vite_ssr_import__(id)
@@ -244,7 +235,7 @@ const __vite_ssr_import_meta__ = {
     manifestCode,
     dynamicImportCode,
     helpers,
-    `export default ${hashId(id)}`
+    `module.exports = function (...args) { return ${hashId(id)}().then(r => r.default(...args)) }`
   ].join('\n\n')
 
   return { code }
