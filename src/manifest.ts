@@ -1,8 +1,7 @@
 import { resolve } from 'path'
-import { createHash } from 'crypto'
 import { readJSON, remove, existsSync, readFile, writeFile, mkdirp } from 'fs-extra'
 import { ViteBuildContext } from './types'
-import { uniq, isJS, isCSS } from './utils'
+import { uniq, isJS, isCSS, hash } from './utils'
 
 const DEFAULT_APP_TEMPLATE = `
 <!DOCTYPE html>
@@ -168,13 +167,6 @@ async function writeClientManifest (clientManifest: any, buildDir: string) {
   const clientManifestJSON = JSON.stringify(clientManifest, null, 2)
   await writeFile(resolve(buildDir, 'dist/server/client.manifest.json'), clientManifestJSON, 'utf-8')
   await writeFile(resolve(buildDir, 'dist/server/client.manifest.mjs'), `export default ${clientManifestJSON}`, 'utf-8')
-}
-
-function hash (input: string, length = 8) {
-  return createHash('sha256')
-    .update(input)
-    .digest('hex')
-    .substr(0, length)
 }
 
 function getModuleIds ([, value]: [string, any]) {

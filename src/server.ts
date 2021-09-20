@@ -1,6 +1,5 @@
 import { resolve } from 'path'
 import { builtinModules } from 'module'
-import { createHash } from 'crypto'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import consola from 'consola'
@@ -9,7 +8,7 @@ import { ViteBuildContext, ViteOptions } from './types'
 import { wpfs } from './utils/wpfs'
 import { jsxPlugin } from './plugins/jsx'
 import { generateDevSSRManifest } from './manifest'
-import { uniq } from './utils'
+import { uniq, hashId } from './utils'
 
 export async function buildServer (ctx: ViteBuildContext) {
   // Workaround to disable HMR
@@ -239,15 +238,4 @@ const __vite_ssr_import_meta__ = {
   ].join('\n\n')
 
   return { code }
-}
-
-function hashId (id: string) {
-  return '$id_' + hash(id)
-}
-
-function hash (input: string, length = 8) {
-  return createHash('sha256')
-    .update(input)
-    .digest('hex')
-    .substr(0, length)
 }
