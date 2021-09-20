@@ -15,11 +15,6 @@ export async function buildClient (ctx: ViteBuildContext) {
       : `defaultexport:${p.src}`
   }
 
-  // redirect '/_nuxt' to buildDir for dev
-  if (ctx.nuxt.options.dev) {
-    alias['/_nuxt'] = ctx.nuxt.options.buildDir
-  }
-
   const clientConfig: vite.InlineConfig = vite.mergeConfig(ctx.config, {
     define: {
       'process.server': false,
