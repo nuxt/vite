@@ -36,6 +36,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
             '~': nuxt.options.srcDir,
             '@': nuxt.options.srcDir,
             'web-streams-polyfill/ponyfill/es2018': require.resolve('./runtime/mock/web-streams-polyfill.mjs'),
+            'whatwg-url': require.resolve('./runtime/mock/whatwg-url.mjs'),
             // Cannot destructure property 'AbortController' of ..
             'abort-controller': require.resolve('./runtime/mock/abort-controller.mjs')
           }
