@@ -8,7 +8,7 @@
     "strict": false,
     "types": [
       "node",
-      "jest"
+      "mocha"
     ]
   }
 }
