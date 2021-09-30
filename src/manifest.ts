@@ -1,7 +1,7 @@
 import { resolve } from 'path'
-import { createHash } from 'crypto'
 import { readJSON, remove, existsSync, readFile, writeFile, mkdirp } from 'fs-extra'
 import { ViteBuildContext } from './types'
+import { uniq, isJS, isCSS, hash } from './utils'
 
 const DEFAULT_APP_TEMPLATE = `
 <!DOCTYPE html>
@@ -27,7 +27,7 @@ export async function prepareManifests (ctx: ViteBuildContext) {
   const DEV_TEMPLATE = APP_TEMPLATE
     .replace(
       '</body>',
-      '<script type="module" src="/@vite/client"></script><script type="module" src="/_nuxt/client.js"></script></body>'
+      '<script type="module" src="/@vite/client"></script><script type="module" src="/.nuxt/client.js"></script></body>'
     )
   const SPA_TEMPLATE = ctx.nuxt.options.dev ? DEV_TEMPLATE : APP_TEMPLATE
   const SSR_TEMPLATE = ctx.nuxt.options.dev ? DEV_TEMPLATE : APP_TEMPLATE
@@ -169,34 +169,6 @@ async function writeClientManifest (clientManifest: any, buildDir: string) {
   await writeFile(resolve(buildDir, 'dist/server/client.manifest.mjs'), `export default ${clientManifestJSON}`, 'utf-8')
 }
 
-function hash (input: string, length = 8) {
-  return createHash('sha256')
-    .update(input)
-    .digest('hex')
-    .substr(0, length)
-}
-
-function uniq<T> (arr: T[]): T[] {
-  return Array.from(new Set(arr))
-}
-
-// Copied from vue-bundle-renderer utils
-const IS_JS_RE = /\.[cm]?js(\?[^.]+)?$/
-const IS_MODULE_RE = /\.mjs(\?[^.]+)?$/
-const HAS_EXT_RE = /[^./]+\.[^./]+$/
-const IS_CSS_RE = /\.css(\?[^.]+)?$/
-
-export function isJS (file: string) {
-  return IS_JS_RE.test(file) || !HAS_EXT_RE.test(file)
-}
-
-export function isModule (file: string) {
-  return IS_MODULE_RE.test(file) || !HAS_EXT_RE.test(file)
-}
-
-export function isCSS (file: string) {
-  return IS_CSS_RE.test(file)
-}
 function getModuleIds ([, value]: [string, any]) {
   if (!value) { return [] }
   // Only include legacy and css ids

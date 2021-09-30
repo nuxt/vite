@@ -23,25 +23,12 @@ function nuxtVite () {
     return
   }
 
-  // Disable SSR by default
-  const ssrEnabled = nuxt.options.ssr && nuxt.options.vite?.ssr
-  if (!ssrEnabled) {
-    nuxt.options.ssr = false
-    nuxt.options.render.ssr = false
-    nuxt.options.build.ssr = false
-    nuxt.options.mode = 'spa'
-  }
-
   nuxt.options.cli.badgeMessages.push(`⚡  Vite Mode Enabled (v${version})`)
   // eslint-disable-next-line no-console
   if (nuxt.options.vite?.experimentWarning !== false && !nuxt.options.test) {
     consola.log(
       '🧪  Vite mode is experimental and some nuxt modules might be incompatible\n',
-      '   If found a bug, please report via https://github.com/nuxt/vite/issues with a minimal reproduction.' + (
-        ssrEnabled
-          ? '\n    Unstable server-side rendering is enabled'
-          : '\n    You can enable unstable server-side rendering using `vite: { ssr: true }` in `nuxt.config`'
-      )
+      '   If found a bug, please report via https://github.com/nuxt/vite/issues with a minimal reproduction.'
     )
   }
 

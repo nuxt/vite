@@ -24,8 +24,8 @@ export default {
       }
     }
   },
+  ssr: true,
   vite: {
-    ssr: true,
     build: true,
     server: {
       fs: {
