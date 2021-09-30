@@ -136,6 +136,10 @@ async function transformRequest (viteServer: vite.ViteDevServer, id) {
     id = '\0' + id.slice('/@id/__x00__'.length)
   }
 
+  if (id && id.startsWith('/@id/defaultexport')) {
+    id = id.slice('/@id/'.length)
+  }
+
   // Externals
   if (builtinModules.includes(id)) {
     return {
