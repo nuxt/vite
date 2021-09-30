@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/nuxt/vite/compare/v0.2.4...v0.3.0) (2021-09-30)
+
+
+### Features
+
+* build dev server bundle using vite  ([#201](https://github.com/nuxt/vite/issues/201)) ([547ceb4](https://github.com/nuxt/vite/commit/547ceb4734fb47631783807d0f0704a1a43df72e))
+
+
+### Bug Fixes
+
+* mock whatwg-url ([c0e051f](https://github.com/nuxt/vite/commit/c0e051f371b35ef47a7f3796c04f621bde043afe))
+* remove `/@id/` from defaultexport-handled ids ([#208](https://github.com/nuxt/vite/issues/208)) ([35a7ae6](https://github.com/nuxt/vite/commit/35a7ae600d03d2dd4553be25b43752dab5267c15))
+
 ### [0.2.4](https://github.com/nuxt/vite/compare/v0.2.3...v0.2.4) (2021-09-07)
 
 ### [0.2.3](https://github.com/nuxt/vite/compare/v0.2.2...v0.2.3) (2021-09-07)
