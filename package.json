@@ -45,7 +45,6 @@
     "@nuxtjs/composition-api": "^0.28.0",
     "@nuxtjs/eslint-config-typescript": "^6.0.1",
     "@types/fs-extra": "^9.0.12",
-    "@types/jest": "^27.0.1",
     "@types/mocha": "^9.0.0",
     "chai": "^4.3.4",
     "eslint": "^7.32.0",
