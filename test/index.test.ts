@@ -35,9 +35,9 @@ describe('dev', () => {
     testIndex(await get('/'))
   }).timeout(50000)
 
-  // it('Composition API works (SSR)', async () => {
-  //   testCompositionAPI(await get('/capi'))
-  // })
+  it('Composition API works (SSR)', async () => {
+    testCompositionAPI(await get('/capi'))
+  })
 
   it('Index works (SPA)', async () => {
     const page = await browser.newPage({ baseURL: url })
