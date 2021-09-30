@@ -7800,6 +7800,11 @@ os-tmpdir@~1.0.2:
   resolved "https://registry.yarnpkg.com/os-tmpdir/-/os-tmpdir-1.0.2.tgz#bbe67406c79aa85c5cfec766fe5734555dfa1274"
   integrity sha1-u+Z0BseaqFxc/sdm/lc0VV36EnQ=
 
+p-debounce@3:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/p-debounce/-/p-debounce-3.0.2.tgz#8bc7aa524e512b8572f75c6a41858b7a2222a1ee"
+  integrity sha512-I5Tswd6ow31zGbudKRtKBlgI85n6BQrXdsuv1cN7MjNP3xCRSVsX8L57SzIegEx+b77LXzvGt5GJcXr7gBsiXA==
+
 p-defer@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/p-defer/-/p-defer-1.0.0.tgz#9f6eb182f6c9aa8cd743004a7d4f96b196b0fb0c"

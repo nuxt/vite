@@ -4,6 +4,7 @@ import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import consola from 'consola'
 import { writeFile } from 'fs-extra'
+import pDebounce from 'p-debounce'
 import { ViteBuildContext, ViteOptions } from './types'
 import { wpfs } from './utils/wpfs'
 import { jsxPlugin } from './plugins/jsx'
@@ -83,17 +84,34 @@ export async function buildServer (ctx: ViteBuildContext) {
 
   // Start development server
   const viteServer = await vite.createServer(serverConfig)
+  ctx.nuxt.hook('close', () => viteServer.close())
+
   // Initialize plugins
   await viteServer.pluginContainer.buildStart({})
 
-  const { code } = await bundleRequest(viteServer, '/.nuxt/server.js')
-  await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/server.js'), code, 'utf-8')
-
+  // Generate manifest files
   await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/ssr-manifest.json'), JSON.stringify({}, null, 2), 'utf-8')
   await generateDevSSRManifest(ctx)
 
-  await onBuild()
-  ctx.nuxt.hook('close', () => viteServer.close())
+  // Build and watch
+  const _doBuild = async () => {
+    const start = Date.now()
+    const { code } = await bundleRequest(viteServer, '/.nuxt/server.js')
+    await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/server.js'), code, 'utf-8')
+    const time = (Date.now() - start)
+    consola.info(`Server built in ${time}ms`)
+    await onBuild()
+  }
+  const doBuild = pDebounce(_doBuild, 300)
+
+  // Initial build
+  await _doBuild()
+
+  // Watch
+  viteServer.watcher.on('all', (_event, file) => {
+    if (file.indexOf(ctx.nuxt.options.buildDir) === 0) { return }
+    doBuild()
+  })
 }
 
 // ---- Vite Dev Bundler POC ----
