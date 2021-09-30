@@ -210,13 +210,7 @@ async function __vite_ssr_import__ (id) {
   if (__vite_import_cache__[id]) {
     return __vite_import_cache__[id]
   }
-  let mod = await $chunks[id]()
-  if (mod.default && typeof mod.default === 'object' && Object.keys(mod).length === 1) {
-    mod = mod.default
-  }
-  if (id.includes('.nuxt')) {
-    console.log({[id]: mod})
-  }
+  const mod = await $chunks[id]()
   if (mod && !('default' in mod)) {
     mod.default = mod
   }
