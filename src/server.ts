@@ -206,16 +206,17 @@ const ${hashId(chunk.id)} = ${chunk.code}
 
   const dynamicImportCode = `
 const __vite_import_cache__ = Object.create({})
-async function __vite_ssr_import__ (id) {
-  if (__vite_import_cache__[id]) {
-    return __vite_import_cache__[id]
+async function __vite_ssr_import__(id) {
+  if (!__vite_import_cache__[id]) {
+    __vite_import_cache__[id] = Promise.resolve($chunks[id]())
+      .then(mod => {
+        if (mod && !('default' in mod)) {
+          mod.default = mod
+        }
+        return mod
+      })
   }
-  const mod = await $chunks[id]()
-  if (mod && !('default' in mod)) {
-    mod.default = mod
-  }
-  __vite_import_cache__[id] = mod
-  return mod
+  return __vite_import_cache__[id]
 }
 function __vite_ssr_dynamic_import__(id) {
   return __vite_ssr_import__(id)
