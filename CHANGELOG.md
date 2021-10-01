@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.1](https://github.com/nuxt/vite/compare/v0.3.0...v0.3.1) (2021-10-01)
+
+
+### Bug Fixes
+
+* improve vite ssr import cache ([#210](https://github.com/nuxt/vite/issues/210)) ([e8b43dc](https://github.com/nuxt/vite/commit/e8b43dcbccc3a7293c14579e40ba1cdd5ba90c4e))
+
 ## [0.3.0](https://github.com/nuxt/vite/compare/v0.2.4...v0.3.0) (2021-09-30)
 
 
