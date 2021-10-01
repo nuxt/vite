@@ -206,7 +206,7 @@ const ${hashId(chunk.id)} = ${chunk.code}
 
   const dynamicImportCode = `
 const __vite_import_cache__ = Object.create({})
-async function __vite_ssr_import__(id) {
+function __vite_ssr_import__(id) {
   if (!__vite_import_cache__[id]) {
     __vite_import_cache__[id] = Promise.resolve($chunks[id]())
       .then(mod => {
