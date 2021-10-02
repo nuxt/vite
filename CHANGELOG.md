@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.4](https://github.com/nuxt/vite/compare/v0.3.3...v0.3.4) (2021-10-02)
+
+
+### Bug Fixes
+
+* rewrite /_nuxt/ to /.nuxt/ ([#214](https://github.com/nuxt/vite/issues/214)) ([c297551](https://github.com/nuxt/vite/commit/c297551b5e6904332fa1bdc438dcca5b2153857b))
+
 ### [0.3.3](https://github.com/nuxt/vite/compare/v0.3.2...v0.3.3) (2021-10-02)
 
 
