@@ -33,6 +33,7 @@ async function bundle (nuxt: Nuxt, builder: any) {
           alias: {
             ...nuxt.options.alias,
             '.nuxt': nuxt.options.buildDir,
+            _nuxt: nuxt.options.buildDir,
             '~': nuxt.options.srcDir,
             '@': nuxt.options.srcDir,
             'web-streams-polyfill/ponyfill/es2018': require.resolve('./runtime/mock/web-streams-polyfill.mjs'),
