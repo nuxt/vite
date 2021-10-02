@@ -65,6 +65,7 @@ export async function buildClient (ctx: ViteBuildContext) {
   const viteMiddleware = (req, res, next) => {
     // Workaround: vite devmiddleware modifies req.url
     const originalURL = req.url
+    req.url = req.url.replace('/_nuxt/', '/.nuxt/')
     viteServer.middlewares.handle(req, res, (err) => {
       req.url = originalURL
       next(err)
