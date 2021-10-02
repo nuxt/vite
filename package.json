@@ -5,10 +5,10 @@
   "repository": "nuxt/vite",
   "license": "MIT",
   "exports": {
-    ".": "./dist/nuxt-vite.js",
+    ".": "./dist/nuxt-vite.cjs",
     "./dist/runtime/*": "./dist/runtime/*"
   },
-  "main": "./dist/nuxt-vite.js",
+  "main": "./dist/nuxt-vite.cjs",
   "types": "./dist/nuxt-vite.d.ts",
   "files": [
     "dist"
