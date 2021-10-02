@@ -1,4 +1,4 @@
-import { resolve } from 'path'
+import { resolve } from 'pathe'
 import { readJSON, remove, existsSync, readFile, writeFile, mkdirp } from 'fs-extra'
 import { ViteBuildContext } from './types'
 import { uniq, isJS, isCSS, hash } from './utils'

@@ -1,5 +1,5 @@
-import { resolve } from 'path'
 import { builtinModules } from 'module'
+import { resolve } from 'pathe'
 import * as vite from 'vite'
 import { createVuePlugin } from 'vite-plugin-vue2'
 import consola from 'consola'

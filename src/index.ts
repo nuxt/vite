@@ -1,5 +1,5 @@
 import type { } from '@nuxt/types'
-import { resolve } from 'upath'
+import { resolve } from 'pathe'
 import consola from 'consola'
 import { lt } from 'semver'
 import { name, version } from '../package.json'

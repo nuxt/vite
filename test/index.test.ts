@@ -1,5 +1,5 @@
-import { dirname, resolve } from 'path'
 import { fileURLToPath } from 'url'
+import { dirname, resolve } from 'pathe'
 import { loadNuxt } from '@nuxt/core'
 import { build } from '@nuxt/builder'
 import { $fetch } from 'ohmyfetch'
