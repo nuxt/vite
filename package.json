@@ -15,13 +15,13 @@
   ],
   "scripts": {
     "build": "siroc build",
-    "prepublishOnly": "yarn build",
     "dev": "yarn fixture:dev",
-    "fixture:dev": "nuxt dev test/fixture",
     "fixture:build": "nuxt build test/fixture",
+    "fixture:dev": "nuxt dev test/fixture",
     "fixture:generate": "nuxt generate test/fixture",
     "fixture:start": "nuxt start test/fixture",
     "lint": "eslint --ext .ts .",
+    "prepublishOnly": "yarn build",
     "release": "yarn test && standard-version && git push --follow-tags && npm publish",
     "test": "mocha -b -r jiti/register ./test/*.test.*"
   },
@@ -29,7 +29,6 @@
     "@vitejs/plugin-legacy": "^1.6.0",
     "consola": "^2.15.3",
     "fs-extra": "^10.0.0",
-    "p-debounce": "3",
     "pathe": "^0.2.0",
     "postcss-import": "^14.0.2",
     "postcss-import-resolver": "^2.0.0",
