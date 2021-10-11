@@ -73,7 +73,7 @@ async function transformRequestRecursive (viteServer: vite.ViteDevServer, id, pa
 export async function bundleRequest (viteServer: vite.ViteDevServer, entryURL: string) {
   const chunks = await transformRequestRecursive(viteServer, entryURL)
 
-  const listIds = ids => ids.map(id => `// - ${id} (${hashId(id)})`).join('\n')
+  const listIds = (ids: string[]) => ids.map(id => `// - ${id} (${hashId(id)})`).join('\n')
   const chunksCode = chunks.map(chunk => `
 // --------------------
 // Request: ${chunk.id}
