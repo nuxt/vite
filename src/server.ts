@@ -9,6 +9,7 @@ import { wpfs } from './utils/wpfs'
 import { jsxPlugin } from './plugins/jsx'
 import { generateDevSSRManifest } from './manifest'
 import { bundleRequest } from './dev-bundler'
+import { isDevCSS } from './utils'
 
 export async function buildServer (ctx: ViteBuildContext) {
   // Workaround to disable HMR
@@ -90,13 +91,14 @@ export async function buildServer (ctx: ViteBuildContext) {
 
   // Generate manifest files
   await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/ssr-manifest.json'), JSON.stringify({}, null, 2), 'utf-8')
-  await generateDevSSRManifest(ctx)
+  await generateDevSSRManifest(ctx, [])
 
   // Build and watch
   const _doBuild = async () => {
     const start = Date.now()
-    const { code } = await bundleRequest(viteServer, '/.nuxt/server.js')
+    const { code, ids } = await bundleRequest(viteServer, '/.nuxt/server.js')
     await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/server.js'), code, 'utf-8')
+    await generateDevSSRManifest(ctx, ids.filter(isDevCSS))
     const time = (Date.now() - start)
     consola.info(`Server built in ${time}ms`)
     await onBuild()

@@ -185,5 +185,8 @@ async function __instantiateModule__(url, urlStack) {
     `module.exports = function (...args) { return __ssrLoadModule__('${entryURL}').then(i => i.default(...args)) }`
   ].join('\n\n')
 
-  return { code }
+  return {
+    code,
+    ids: chunks.map(i => i.id)
+  }
 }
