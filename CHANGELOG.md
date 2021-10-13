@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.5](https://github.com/nuxt/vite/compare/v0.3.4...v0.3.5) (2021-10-11)
+
+
+### Features
+
+* **dev:** align with nuxt 3's dev-bundler ([#219](https://github.com/nuxt/vite/issues/219)) ([ed102c3](https://github.com/nuxt/vite/commit/ed102c3c6ac5c252a0331fe85fcf462adc7c4f41))
+
 ### [0.3.4](https://github.com/nuxt/vite/compare/v0.3.3...v0.3.4) (2021-10-02)
 
 
