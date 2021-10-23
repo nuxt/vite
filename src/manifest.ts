@@ -27,7 +27,7 @@ export async function prepareManifests (ctx: ViteBuildContext) {
   const DEV_TEMPLATE = APP_TEMPLATE
     .replace(
       '</body>',
-      '<script type="module" src="/@vite/client"></script><script type="module" src="/.nuxt/client.js"></script></body>'
+      `<script type="module" src="/@vite/client"></script><script type="module" src="/${ctx.nuxt.options.buildDir}/client.js"></script></body>`
     )
   const SPA_TEMPLATE = ctx.nuxt.options.dev ? DEV_TEMPLATE : APP_TEMPLATE
   const SSR_TEMPLATE = ctx.nuxt.options.dev ? DEV_TEMPLATE : APP_TEMPLATE

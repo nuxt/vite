@@ -95,7 +95,7 @@ export async function buildServer (ctx: ViteBuildContext) {
   // Build and watch
   const _doBuild = async () => {
     const start = Date.now()
-    const { code } = await bundleRequest(viteServer, '/.nuxt/server.js')
+    const { code } = await bundleRequest(viteServer, `/${ctx.nuxt.options.buildDir}/server.js`)
     await writeFile(resolve(ctx.nuxt.options.buildDir, 'dist/server/server.js'), code, 'utf-8')
     const time = (Date.now() - start)
     consola.info(`Server built in ${time}ms`)
