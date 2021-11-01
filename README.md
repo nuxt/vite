@@ -1,3 +1,9 @@
+# DEPRECATED
+
+This module is now part of the [Nuxt Bridge](https://v3.nuxtjs.org/getting-started/bridge/). Please report issues to the [nuxt/framework](https://github.com/nuxt/framework) repo instead.
+
+---
+
 <p style="text-align: center">
   <img src="./docs/static/preview.svg" alt="Vite Experience with Nuxt 2. GitHub.com/nuxt/vite">
 </p>
