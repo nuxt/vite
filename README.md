@@ -1,6 +1,6 @@
 # DEPRECATED
 
-This module is now part of the [Nuxt Bridge](https://v3.nuxtjs.org/getting-started/bridge/). Please report issues to the [nuxt/framework](https://github.com/nuxt/framework) repo instead.
+This module is now part of the [Nuxt Bridge](https://nuxt.com/docs/bridge/overview). Please report issues to the [nuxt/framework](https://github.com/nuxt/framework) repo instead.
 
 ---
 
