@@ -38,7 +38,7 @@
     "semver": "^7.3.5",
     "ufo": "^0.7.9",
     "vite": "^2.5.7",
-    "vite-plugin-vue2": "^1.8.2"
+    "vite-plugin-vue2": "^2.0.2"
   },
   "devDependencies": {
     "@nuxt/types": "^2.15.8",
