@@ -23,7 +23,7 @@ This module is now part of the [Nuxt Bridge](https://nuxt.com/docs/bridge/overvi
 
 ## ⚡ Quick Start
 
-Install `nuxt-vite`: (nuxt >= 2.15.0 is required)
+Install `nuxt-vite`: (nuxt >= 2.15.2 is required)
 
 ```sh
 yarn add --dev nuxt-vite
