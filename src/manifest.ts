@@ -129,26 +129,19 @@ export async function stubManifest (ctx: ViteBuildContext) {
   await writeServerManifest(serverManifest, ctx.nuxt.options.buildDir)
 }
 
-export async function generateDevSSRManifest (ctx: ViteBuildContext) {
-  const rDist = (...args: string[]): string => resolve(ctx.nuxt.options.buildDir, 'dist', ...args)
-
-  const ssrManifest = await readJSON(rDist('server/ssr-manifest.json'))
-  const css = Object.keys(ssrManifest).filter(isCSS)
-
+export async function generateDevSSRManifest (ctx: ViteBuildContext, css:string[] = []) {
   // renderer does not respect `publicPath` and will always append `/_nuxt/`,
   // add this as an temporary workaround
-  const fixedCss = css.map(i => `../${i}`)
+  const fixedCss = css.map(i => `..${i}`)
+  const modules = [
+    'empty.js',
+    ...fixedCss
+  ]
 
   const clientManifest = {
     publicPath: '',
-    all: [
-      'empty.js',
-      ...fixedCss
-    ],
-    initial: [
-      'empty.js',
-      ...fixedCss
-    ],
+    all: modules,
+    initial: modules,
     async: [],
     modules: {},
     assetsMapping: {}
